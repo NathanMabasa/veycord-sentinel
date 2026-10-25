@@ -1,0 +1,8 @@
+{
+  "checked": "2026-10-25T06:37:13.548Z",
+  "builtDemoStatus": 200,
+  "scriptPolicy": "script-src 'self'",
+  "privateHealthStatus": 200,
+  "anonymousPrivateStatus": 401,
+  "passed": true
+}

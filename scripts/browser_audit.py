@@ -41,10 +41,12 @@ def visit(page, path):
 
 def navigate(page, name):
     nav = page.locator('.side-nav')
-    target = nav.get_by_role('button', name=name, exact=False)
+    target = nav.get_by_role('link', name=('Investigation guide' if name=='Reports' else name), exact=False)
     if not target.is_visible():
         page.get_by_role('button', name='Open navigation', exact=True).click()
+    href = target.get_attribute("href")
     target.click()
+    expect(nav.locator('a[aria-current="page"]')).to_have_attribute("href", href)
 
 def no_overflow(page, name):
     sizes = page.evaluate('({width:innerWidth,scroll:document.documentElement.scrollWidth})')
@@ -95,10 +97,19 @@ with sync_playwright() as p:
     page.reload(wait_until='networkidle')
     check('light theme survives reload',page.get_by_role('button',name='Switch to dark theme').is_visible())
     page.screenshot(path=str(SHOTS/'dashboard-light.png'),full_page=True)
-    page.get_by_role('button',name='Search sample events',exact=True).click()
-    check('header search opens one scoped event search',page.get_by_role('textbox',name='Search sample events',exact=True).count()==1)
+    page.get_by_role('button',name='Search workspace',exact=False).click()
+    page.get_by_role('dialog',name='Search workspace',exact=True).get_by_role('option').filter(has_text='Explore events').click()
+    # BrowserRouter commits the new view in a React transition after the URL changes.
+    # Assert the rendered destination, not a one-shot count between those commits.
+    expect(page.locator('.side-nav a[aria-current="page"]')).to_have_attribute('href','/demo?view=events')
+    expect(page.get_by_role('heading',name='Explore events',exact=True)).to_be_visible()
+    event_search = page.get_by_role('textbox',name='Search sample events',exact=True)
+    expect(event_search).to_have_count(1)
+    expect(event_search).to_be_visible()
+    check('workspace search opens the scoped event search page',event_search.count()==1)
     check('event search input has a 200-character bound',page.get_by_role('textbox',name='Search sample events',exact=True).get_attribute('maxlength')=='200')
     page.get_by_role('textbox',name='Search sample events',exact=True).fill('PowerShell')
+    expect(page.locator('tbody tr')).to_have_count(1)
     check('search filters fixtures',page.locator('tbody tr').count()==1)
     event_button=page.get_by_role('button',name='Inspect event',exact=False).first
     event_button.focus()
@@ -113,6 +124,7 @@ with sync_playwright() as p:
     note=page.get_by_role('textbox',name='Analyst note for CASE-2100')
     note.fill('Verified synthetic parent process; follow up with the demo account owner.')
     page.get_by_role('button',name='Close case',exact=True).click()
+    expect(page.get_by_role('button',name='Reopen case',exact=True)).to_be_visible()
     check('case closes',page.get_by_role('button',name='Reopen case',exact=True).is_visible())
     page.reload(wait_until='networkidle')
     navigate(page,'Cases')
@@ -124,6 +136,8 @@ with sync_playwright() as p:
     check('case JSON export contains note',payload.get('note','').startswith('Verified synthetic'))
     navigate(page,'Alerts')
     page.get_by_role('button',name='Create case',exact=True).first.click()
+    expect(page.get_by_role('heading',name='Investigation cases',exact=True)).to_be_visible()
+    expect(page.locator('.case-card')).to_have_count(1)
     check('duplicate case prevented',page.locator('.case-card').count()==1)
     for width in [360,768,1440]:
         page.set_viewport_size({'width':width,'height':900})

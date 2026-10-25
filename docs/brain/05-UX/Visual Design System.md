@@ -171,3 +171,9 @@ Evidence: `docs/audit/browser-results.json`, `docs/audit/bootstrap-results.json`
 Use 14px minimum ordinary console content, 16px inputs, 12px secondary metadata and 44px action targets. Light is the default for a new demo session; preserve the user's theme preference. Distinguish synthetic dataset status from live telemetry. Remove decorative green live pips, duplicate search controls and unrelated sparkline trends. Use fixture-derived source counts with exact numeric values and native event inspection buttons. Styling patterns were researched from official shadcn/ui and Watermelon UI; existing React/native CSS is retained without executing third-party registry installers. See `docs/audit/DASHBOARD-PATTERN-REVIEW.md`.
 
 The startup animation has a 1.2-second readiness deadline after module load; a stalled animation frame must not block the ready workspace. This is a maximum handover limit, not a minimum artificial wait.
+
+## Navigation refinement (batch006)
+
+Use 268px expanded and 80px collapsed desktop navigation; the phone drawer uses full labels. Keep the brand/workspace chooser fixed above a scrollable grouped body and stable resource footer. Light/dark tokens, 14px ordinary labels, 12px secondary text and 44px controls remain the baseline. Counts reflect unresolved alerts and open cases; no decorative live status or fictional user identity.
+
+New focused navigation/configuration/search modules retain React Router, Lucide and native CSS/dialog. See `docs/audit/NAVIGATION-DESIGN-PLAN.md` for primary shadcn/Atlassian/Refero references, selected design and rejected alternatives. No template code or new UI dependency was imported. Native links, query-state history, keyboard search, layout-phase destination focus, modal closure before route focus, mobile trapping/return and native accessible labels were checked. Automated coverage is evidence of a subset, not full WCAG conformance.

@@ -49,7 +49,7 @@ The token names indicate roles. Keep severity colors semantic: orange is brand/a
 
 ## Layout
 
-- Desktop console: fixed 240px navigation rail, compact top command/search bar, flexible content region.
+- Desktop console: 268px navigation rail with an optional 80px icon mode, compact top command/search bar, flexible content region.
 - Main content max width: 1600px for dashboards and full-width investigation tables; use denser layouts when evidence scanning benefits.
 - Use a 4px base spacing scale; 16px standard content gap, 24px section gap, 32px page inset on wide screens.
 - Keep borders subtle and surfaces flat. Use elevation only for menus, dialogs, and overlays.
@@ -76,3 +76,9 @@ The token names indicate roles. Keep severity colors semantic: orange is brand/a
 ## Dashboard refinement, 2026-10-25
 
 The demo defaults to light when no preference exists and retains dark mode. Follow shadcn/Watermelon composition patterns with native React/CSS: one scoped event search, readable controls, native event actions and explicit empty states. No wholesale Tailwind or registry-template import is selected. Ordinary content is at least 14px, inputs 16px, secondary metadata 12px and actionable targets 44px. Use compact summary/counts derived from fixture data; do not imply live collection or add decorative trends. Neutral synthetic/connection labels have no green glow or pulsing pip. Reserve green for an explicit completed/resolved outcome. Separate orange filled-action contrast from orange text-link contrast.
+
+## Console navigation (batch006)
+
+Group implemented destinations by task: Workspace (Overview, Explore events), Investigations (Alerts, Cases, Investigation guide), Manage (Detections, Sources, Settings). Keep groups readable in sentence case. Native page links reflect URL state, support history and refresh, and show the current page; event evidence has a validated fixture-ID link. Use a scrollable navigation body between a stable brand/workspace header and documentation/GitHub footer. Collapse is an optional saved desktop preference, never the default on a phone. The mobile drawer retains full labels.
+
+Search workspace is a native modal command/search surface for pages, bounded sample events and actions. Support Cmd/CtrlK and standard arrows/Enter/Escape. Cmd/CtrlB changes desktop collapse, but must not intercept text editing. Workspace choice routes to Demo or the separate private operator workspace; it does not authenticate users, transfer data, or select an authorized tenant. Do not reintroduce a fictional profile or label the implemented learning guide as Reports. Read `docs/audit/NAVIGATION-DESIGN-PLAN.md` for references and design rationale.

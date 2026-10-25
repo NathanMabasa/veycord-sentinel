@@ -1,0 +1,482 @@
+{
+  "completed": true,
+  "checks": [
+    {
+      "name": "three workflow groups expose eight native page links",
+      "passed": true
+    },
+    {
+      "name": "fictional user profile removed and guide named by its content",
+      "passed": true
+    },
+    {
+      "name": "page links support focus, Back, Forward and reload",
+      "passed": true
+    },
+    {
+      "name": "case count derives from open cases",
+      "passed": true
+    },
+    {
+      "name": "sidebar shortcut does not intercept text editing",
+      "passed": true
+    },
+    {
+      "name": "closing a case clears the open-case badge",
+      "passed": true
+    },
+    {
+      "name": "reopening a case restores its badge",
+      "passed": true
+    },
+    {
+      "name": "collapse shortcut persists the desktop preference",
+      "passed": true
+    },
+    {
+      "name": "collapsed links retain labels and focus hints",
+      "passed": true
+    },
+    {
+      "name": "command search opens reloadable event evidence",
+      "passed": true
+    },
+    {
+      "name": "empty search and Escape focus return work",
+      "passed": true
+    },
+    {
+      "name": "arrow keys update the selected result",
+      "passed": true
+    },
+    {
+      "name": "Enter navigates to the selected page",
+      "passed": true
+    },
+    {
+      "name": "command actions change the actual theme",
+      "passed": true
+    },
+    {
+      "name": "workspace picker exposes private mode and restores focus",
+      "passed": true
+    },
+    {
+      "name": "private workspace destination works without copying demo data",
+      "passed": true
+    },
+    {
+      "name": "unknown page and event input fail to a usable overview",
+      "passed": true
+    },
+    {
+      "name": "short desktop keeps footer reachable and body scrollable",
+      "passed": true
+    },
+    {
+      "name": "light 1440px modal fits the viewport",
+      "passed": true
+    },
+    {
+      "name": "light 768px modal fits the viewport",
+      "passed": true
+    },
+    {
+      "name": "light 390px drawer blocks background",
+      "passed": true
+    },
+    {
+      "name": "light 390px first Escape closes picker only",
+      "passed": true
+    },
+    {
+      "name": "light 390px drawer traps focus",
+      "passed": true
+    },
+    {
+      "name": "light 390px modal fits the viewport",
+      "passed": true
+    },
+    {
+      "name": "light 320px drawer blocks background",
+      "passed": true
+    },
+    {
+      "name": "light 320px first Escape closes picker only",
+      "passed": true
+    },
+    {
+      "name": "light 320px drawer traps focus",
+      "passed": true
+    },
+    {
+      "name": "light 320px modal fits the viewport",
+      "passed": true
+    },
+    {
+      "name": "dark 1440px modal fits the viewport",
+      "passed": true
+    },
+    {
+      "name": "dark 768px modal fits the viewport",
+      "passed": true
+    },
+    {
+      "name": "dark 390px drawer blocks background",
+      "passed": true
+    },
+    {
+      "name": "dark 390px first Escape closes picker only",
+      "passed": true
+    },
+    {
+      "name": "dark 390px drawer traps focus",
+      "passed": true
+    },
+    {
+      "name": "dark 390px modal fits the viewport",
+      "passed": true
+    },
+    {
+      "name": "dark 320px drawer blocks background",
+      "passed": true
+    },
+    {
+      "name": "dark 320px first Escape closes picker only",
+      "passed": true
+    },
+    {
+      "name": "dark 320px drawer traps focus",
+      "passed": true
+    },
+    {
+      "name": "dark 320px modal fits the viewport",
+      "passed": true
+    }
+  ],
+  "accessibilityStates": [
+    {
+      "theme": "light",
+      "width": 1440,
+      "state": "collapsed-rail",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "state": "workspace-picker",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "state": "workspace-search",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "state": "empty-search",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "state": "collapsed-rail",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "state": "workspace-picker",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "state": "workspace-search",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 768,
+      "state": "empty-search",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "state": "mobile-drawer",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "state": "workspace-picker",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".nav-group:nth-child(1) > h2"
+            ],
+            [
+              ".active > .nav-item-label"
+            ],
+            [
+              "a[href=\"/demo?view=events\"] > .nav-item-label"
+            ],
+            [
+              ".nav-group:nth-child(2) > h2"
+            ],
+            [
+              "a[href=\"/demo?view=alerts\"] > .nav-item-label"
+            ],
+            [
+              ".nav-count"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "state": "workspace-search",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "state": "empty-search",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "state": "mobile-drawer",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "state": "workspace-picker",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".nav-group:nth-child(1) > h2"
+            ],
+            [
+              ".active > .nav-item-label"
+            ],
+            [
+              "a[href=\"/demo?view=events\"] > .nav-item-label"
+            ],
+            [
+              ".nav-group:nth-child(2) > h2"
+            ],
+            [
+              "a[href=\"/demo?view=alerts\"] > .nav-item-label"
+            ],
+            [
+              ".nav-count"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "state": "workspace-search",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "state": "empty-search",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "state": "collapsed-rail",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "state": "workspace-picker",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "state": "workspace-search",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "state": "empty-search",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "state": "collapsed-rail",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "state": "workspace-picker",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "state": "workspace-search",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 768,
+      "state": "empty-search",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "state": "mobile-drawer",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "state": "workspace-picker",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".nav-group:nth-child(1) > h2"
+            ],
+            [
+              ".active > .nav-item-label"
+            ],
+            [
+              "a[href=\"/demo?view=events\"] > .nav-item-label"
+            ],
+            [
+              ".nav-group:nth-child(2) > h2"
+            ],
+            [
+              "a[href=\"/demo?view=alerts\"] > .nav-item-label"
+            ],
+            [
+              ".nav-count"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "state": "workspace-search",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "state": "empty-search",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "state": "mobile-drawer",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "state": "workspace-picker",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".nav-group:nth-child(1) > h2"
+            ],
+            [
+              ".active > .nav-item-label"
+            ],
+            [
+              "a[href=\"/demo?view=events\"] > .nav-item-label"
+            ],
+            [
+              ".nav-group:nth-child(2) > h2"
+            ],
+            [
+              "a[href=\"/demo?view=alerts\"] > .nav-item-label"
+            ],
+            [
+              ".nav-count"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "state": "workspace-search",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "state": "empty-search",
+      "violations": [],
+      "incomplete": []
+    }
+  ],
+  "browserErrors": [],
+  "passed": true,
+  "scope": "Synthetic local navigation; automated WCAG A/AA subset. Incomplete/manual and assistive technology review remain."
+}

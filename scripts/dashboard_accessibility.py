@@ -5,7 +5,7 @@ import json
 import os
 from pathlib import Path
 from urllib.parse import urlparse
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, expect
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = os.environ.get('VEYCORD_AUDIT_URL', 'http://127.0.0.1:5173')
@@ -18,10 +18,12 @@ completed = False
 
 
 def navigate(page, name):
-    button = page.locator('.side-nav').get_by_role('button', name=name, exact=False)
+    button = page.locator('.side-nav').get_by_role('link', name=('Investigation guide' if name=='Reports' else name), exact=False)
     if not button.is_visible():
         page.get_by_role('button', name='Open navigation', exact=True).click()
+    href = button.get_attribute("href")
     button.click()
+    expect(page.locator('.side-nav a[aria-current="page"]')).to_have_attribute("href", href)
 
 
 try:

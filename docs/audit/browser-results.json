@@ -209,7 +209,7 @@
       "detail": null
     },
     {
-      "name": "header search opens one scoped event search",
+      "name": "workspace search opens the scoped event search page",
       "passed": true,
       "detail": null
     },

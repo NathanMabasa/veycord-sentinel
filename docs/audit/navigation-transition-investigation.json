@@ -1,0 +1,120 @@
+{
+  "base": "http://127.0.0.1:5173",
+  "eventTrace": [
+    {
+      "iteration": 1,
+      "trace": [
+        {
+          "phase": "capture-click",
+          "url": "/demo",
+          "heading": "Security overview",
+          "current": "/demo",
+          "inputs": 0
+        },
+        {
+          "phase": "microtask-after-click",
+          "url": "/demo",
+          "heading": "Security overview",
+          "current": "/demo",
+          "inputs": 0
+        },
+        {
+          "phase": "next-frame",
+          "url": "/demo?view=events",
+          "heading": "Security overview",
+          "current": "/demo",
+          "inputs": 0
+        }
+      ]
+    },
+    {
+      "iteration": 2,
+      "trace": [
+        {
+          "phase": "capture-click",
+          "url": "/demo",
+          "heading": "Security overview",
+          "current": "/demo",
+          "inputs": 0
+        },
+        {
+          "phase": "microtask-after-click",
+          "url": "/demo",
+          "heading": "Security overview",
+          "current": "/demo",
+          "inputs": 0
+        },
+        {
+          "phase": "next-frame",
+          "url": "/demo?view=events",
+          "heading": "Security overview",
+          "current": "/demo",
+          "inputs": 0
+        }
+      ]
+    },
+    {
+      "iteration": 3,
+      "trace": [
+        {
+          "phase": "capture-click",
+          "url": "/demo",
+          "heading": "Security overview",
+          "current": "/demo",
+          "inputs": 0
+        },
+        {
+          "phase": "microtask-after-click",
+          "url": "/demo",
+          "heading": "Security overview",
+          "current": "/demo",
+          "inputs": 0
+        },
+        {
+          "phase": "next-frame",
+          "url": "/demo?view=events",
+          "heading": "Security overview",
+          "current": "/demo",
+          "inputs": 0
+        }
+      ]
+    }
+  ],
+  "routerEvidence": {
+    "installedFile": "node_modules/react-router/dist/development/chunk-HQO5H5CC.js:273-299",
+    "behaviour": "BrowserRouter default history listener updates location through React.startTransition; no application useTransitions override."
+  },
+  "conclusion": "Navigation eventually renders the correct events URL/current link/heading and one scoped textbox. The CI assertion read count once without waiting for the routed DOM.",
+  "baseline": {
+    "attempts": 12,
+    "immediateDomInputCounts": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "settledDomInputCounts": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "scope": "Local synthetic command-to-events navigation; no private data or credentials."
+}

@@ -1,0 +1,196 @@
+/* Console navigation owns its layout; feature panels remain in console.css. */
+.console-shell .sidebar {
+  width: 268px;
+  flex: 0 0 268px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 12px;
+  border-right: 1px solid var(--console-border);
+  background: var(--console-sidebar);
+  z-index: 8;
+}
+.console-shell .sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-shrink: 0;
+  min-height: 52px;
+  padding: 0 2px 8px;
+}
+.console-shell .sidebar .brand { gap: 4px; min-width: 0; }
+.console-shell .sidebar .brand-mark { width: 29px; transform: scale(.78) skew(-31deg); transform-origin: left center; }
+.console-shell .sidebar .brand-name b { color: var(--console-text); font-size: 23px; }
+.console-shell .sidebar .brand-name small { color: var(--console-action-text); font-size: 9px; letter-spacing: 3px; }
+.console-shell .sidebar-collapse { flex: 0 0 44px; }
+.console-shell .nav-toggle,
+.console-shell .close-nav { display: none; }
+.console-shell .workspace-picker { position: relative; flex-shrink: 0; margin: 7px 0 16px; }
+.console-shell .workspace-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 66px;
+  padding: 10px;
+  border: 1px solid var(--console-border);
+  border-radius: 9px;
+  background: var(--console-raised);
+  text-align: left;
+  cursor: pointer;
+}
+.console-shell .workspace-switch:hover,
+.console-shell .workspace-switch[aria-expanded="true"] { border-color: var(--console-subtle); }
+.console-shell .workspace-avatar {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 34px;
+  border: 1px solid color-mix(in srgb, var(--console-action-text) 20%, transparent);
+  border-radius: 8px;
+  background: var(--console-orange-soft);
+  color: var(--console-action-text);
+  font-size: 15px;
+  font-weight: 650;
+}
+.console-shell .workspace-copy { display: grid; gap: 2px; flex: 1; min-width: 0; }
+.console-shell .workspace-copy b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; font-weight: 600; color: var(--console-text); }
+.console-shell .workspace-copy small { font-size: 12px; color: var(--console-subtle); }
+.console-shell .workspace-chevron { flex-shrink: 0; color: var(--console-muted); }
+.console-shell .workspace-options {
+  position: absolute;
+  inset: calc(100% + 7px) auto auto 0;
+  z-index: 30;
+  width: 302px;
+  padding: 7px;
+  border: 1px solid var(--console-border);
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgb(0 0 0 / 14%);
+  background: var(--console-surface);
+}
+.console-shell .workspace-options > p { margin: 4px 8px 8px; color: var(--console-subtle); font-size: 12px; }
+.console-shell .workspace-options a { display: flex; align-items: center; gap: 10px; padding: 10px; min-height: 52px; border-radius: 6px; color: var(--console-muted); text-decoration: none; }
+.console-shell .workspace-options a:hover { background: var(--console-raised); }
+.console-shell .workspace-options a > svg { flex: 0 0 19px; }
+.console-shell .workspace-options a > span { flex: 1; display: grid; gap: 3px; }
+.console-shell .workspace-options b { color: var(--console-text); font-size: 14px; font-weight: 600; }
+.console-shell .workspace-options small { color: var(--console-subtle); font-size: 12px; }
+.console-shell .workspace-options .workspace-setup-link { min-height: 44px; margin-top: 6px; padding-top: 12px; border-top: 1px solid var(--console-border); border-radius: 0; font-size: 13px; }
+.console-shell .side-nav { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; padding: 0 3px 12px; margin-inline: -3px; }
+.console-shell .nav-group + .nav-group { margin-top: 22px; }
+.console-shell .nav-group h2 { margin: 0 12px 7px; color: var(--console-subtle); font-size: 12px; line-height: 1.5; font-weight: 550; letter-spacing: 0; }
+.console-shell .nav-group ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 3px; }
+.console-shell .side-nav a,
+.console-shell .sidebar-resource {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 10px 12px;
+  border-radius: 7px;
+  text-decoration: none;
+  color: var(--console-muted);
+  font-size: 14px;
+  line-height: 1.4;
+}
+.console-shell .side-nav a > svg,
+.console-shell .sidebar-resource > svg { flex-shrink: 0; color: var(--console-subtle); }
+.console-shell .side-nav a:hover,
+.console-shell .sidebar-resource:hover { background: var(--console-raised); color: var(--console-text); }
+.console-shell .side-nav a.active { background: var(--console-orange-soft); color: var(--console-text); font-weight: 600; }
+.console-shell .side-nav a.active::before { content: ''; position: absolute; inset: 10px auto 10px 0; width: 3px; background: var(--console-action-text); border-radius: 2px; }
+.console-shell .side-nav a.active > svg { color: var(--console-action-text); }
+.console-shell .nav-count { margin-left: auto; padding: 1px 6px; min-width: 23px; border: 1px solid var(--console-border); border-radius: 5px; background: var(--console-surface); color: var(--console-muted); text-align: center; font-size: 12px; font-variant-numeric: tabular-nums; font-weight: 550; }
+.console-shell .sidebar-footer { flex-shrink: 0; padding-top: 9px; margin-top: 9px; border-top: 1px solid var(--console-border); display: grid; gap: 3px; }
+.console-shell .sidebar-tooltip { position: fixed; transform: translateY(-50%); max-width: 240px; padding: 8px 11px; border: 1px solid var(--console-border); border-radius: 6px; background: var(--console-text); color: var(--console-surface); font-size: 13px; line-height: 1.4; pointer-events: none; box-shadow: 0 4px 14px rgb(0 0 0 / 12%); z-index: 40; }
+.console-shell .breadcrumbs { display: flex; align-items: center; gap: 10px; min-width: 0; font-size: 14px; color: var(--console-text); }
+.console-shell .breadcrumbs a { display: inline-flex; align-items: center; min-height: 44px; color: var(--console-subtle); text-decoration: none; }
+.console-shell .breadcrumbs a:hover { color: var(--console-text); }
+.console-shell .breadcrumbs [aria-current] { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 550; }
+.console-shell .breadcrumb-separator { color: var(--console-subtle); }
+.console-shell .global-search { display: flex; align-items: center; gap: 11px; width: min(390px, 34vw); min-height: 44px; flex-shrink: 0; padding: 9px 12px; margin-left: auto; border: 1px solid var(--console-border); border-radius: 7px; background: var(--console-raised); color: var(--console-muted); cursor: pointer; text-align: left; }
+.console-shell .global-search:hover { border-color: var(--console-subtle); }
+.console-shell .global-search span { flex: 1; font-size: 14px; white-space: nowrap; }
+.console-shell .global-search kbd { padding: 1px 5px; border: 1px solid var(--console-border); border-radius: 4px; color: var(--console-subtle); font-size: 11px; font-family: inherit; white-space: nowrap; }
+.console-shell .console-skip-link { position: fixed; top: 8px; left: 50%; transform: translate(-50%, -200%); z-index: 60; padding: 12px 18px; border-radius: 6px; background: var(--console-surface); color: var(--console-text); }
+.console-shell .console-skip-link:focus { transform: translate(-50%, 0); }
+
+/* A native modal keeps keyboard focus and blocks background interaction. */
+.console-shell .workspace-search-dialog { width: min(640px, calc(100vw - 32px)); max-height: min(720px, calc(100dvh - 48px)); margin: 9vh auto auto; padding: 0; overflow: hidden; border: 1px solid var(--console-border); border-radius: 12px; background: var(--console-surface); color: var(--console-text); box-shadow: 0 22px 80px rgb(0 0 0 / 24%); }
+.console-shell .workspace-search-dialog::backdrop { background: rgb(9 15 25 / 48%); }
+.console-shell .workspace-search-dialog[open] { display: flex; flex-direction: column; }
+.console-shell .workspace-search-heading { display: flex; align-items: center; justify-content: space-between; padding: 10px 13px 3px 22px; }
+.console-shell .workspace-search-heading h2 { margin: 0; font-size: 15px; font-weight: 600; }
+.console-shell .workspace-search-input { display: flex; align-items: center; gap: 12px; margin: 5px 20px 12px; min-height: 48px; border-bottom: 1px solid var(--console-border); color: var(--console-subtle); }
+.console-shell .workspace-search-input input { width: 100%; min-width: 0; min-height: 48px; border: 0; background: transparent; color: var(--console-text); font-size: 16px; outline-offset: -3px; }
+.console-shell .workspace-search-input input::placeholder { color: var(--console-subtle); }
+.console-shell .workspace-search-caption { margin: 0 22px 8px; color: var(--console-subtle); font-size: 12px; }
+.console-shell .workspace-search-results { min-height: 0; overflow-y: auto; overscroll-behavior: contain; list-style: none; margin: 0; padding: 4px 9px 9px; }
+.console-shell .workspace-search-results button { display: flex; gap: 13px; align-items: center; width: 100%; min-height: 65px; padding: 10px 12px; border: 1px solid transparent; border-radius: 7px; background: transparent; color: var(--console-text); text-align: left; cursor: pointer; }
+.console-shell .workspace-search-results button.is-selected { border-color: var(--console-border); background: var(--console-raised); }
+.console-shell .command-result-icon { display: grid; place-items: center; width: 30px; height: 30px; flex: 0 0 30px; color: var(--console-muted); }
+.console-shell .command-result-copy { display: grid; gap: 3px; flex: 1; min-width: 0; }
+.console-shell .command-result-copy b { font-size: 14px; font-weight: 550; overflow-wrap: anywhere; }
+.console-shell .command-result-copy small { font-size: 12px; color: var(--console-subtle); overflow-wrap: anywhere; }
+.console-shell .command-result-kind { color: var(--console-subtle); font-size: 12px; }
+.console-shell .workspace-search-empty { padding: 30px 22px; text-align: center; }
+.console-shell .workspace-search-empty b { font-size: 15px; }
+.console-shell .workspace-search-empty p { margin: 7px 0; font-size: 14px; color: var(--console-muted); }
+.console-shell .workspace-search-footer { display: flex; align-items: center; flex-shrink: 0; gap: 16px; min-height: 44px; padding: 10px 20px; border-top: 1px solid var(--console-border); color: var(--console-muted); font-size: 12px; }
+.console-shell .workspace-search-footer span { display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+.console-shell .workspace-search-footer small { margin-left: auto; font-size: 12px; }
+
+@media (min-width: 761px) {
+  .console-shell.is-sidebar-collapsed .sidebar { width: 80px; flex-basis: 80px; }
+  .console-shell.is-sidebar-collapsed .sidebar-top { flex-direction: column; padding-bottom: 0; }
+  .console-shell.is-sidebar-collapsed .sidebar .brand { width: 44px; height: 44px; justify-content: center; padding-left: 7px; }
+  .console-shell.is-sidebar-collapsed .sidebar .brand-name,
+  .console-shell.is-sidebar-collapsed .workspace-copy,
+  .console-shell.is-sidebar-collapsed .workspace-chevron,
+  .console-shell.is-sidebar-collapsed .nav-item-label,
+  .console-shell.is-sidebar-collapsed .nav-count,
+  .console-shell.is-sidebar-collapsed .sidebar-resource > span { display: none; }
+  .console-shell.is-sidebar-collapsed .workspace-picker { margin-top: 14px; }
+  .console-shell.is-sidebar-collapsed .workspace-switch { padding: 8px 0; min-height: 52px; justify-content: center; border-color: transparent; background: transparent; }
+  .console-shell.is-sidebar-collapsed .workspace-options { left: calc(100% + 10px); top: 0; }
+  .console-shell.is-sidebar-collapsed .nav-group h2 { font-size: 0; height: 1px; margin: 0 12px 12px; background: var(--console-border); }
+  .console-shell.is-sidebar-collapsed .nav-group:first-child h2 { display: none; }
+  .console-shell.is-sidebar-collapsed .nav-group + .nav-group { margin-top: 16px; }
+  .console-shell.is-sidebar-collapsed .side-nav a,
+  .console-shell.is-sidebar-collapsed .sidebar-resource { justify-content: center; padding: 12px; min-height: 46px; }
+}
+@media (max-width: 1050px) and (min-width: 761px) {
+  .console-shell .sidebar { width: 246px; flex-basis: 246px; }
+  .console-shell .global-search { width: 44px; justify-content: center; padding-inline: 10px; }
+  .console-shell .global-search span,
+  .console-shell .global-search kbd { display: none; }
+}
+@media (max-width: 760px) {
+  .console-shell .sidebar { position: fixed; z-index: 20; inset: 0 auto 0 0; width: min(310px, calc(100vw - 24px)); padding: 12px; transform: translateX(-105%); visibility: hidden; transition: transform .18s ease; box-shadow: 14px 0 35px rgb(0 0 0 / 20%); }
+  .console-shell .sidebar.sidebar-open { transform: translateX(0); visibility: visible; }
+  .console-shell .sidebar-collapse { display: none; }
+  .console-shell .close-nav { display: grid; }
+  .console-shell .nav-toggle { display: grid; flex: 0 0 44px; }
+  .console-shell .workspace-options { width: 100%; }
+  .console-shell .nav-group + .nav-group { margin-top: 17px; }
+  .console-shell .breadcrumbs { flex: 1; gap: 5px; font-size: 13px; }
+  .console-shell .breadcrumbs a,
+  .console-shell .breadcrumb-separator { display: none; }
+  .console-shell .global-search { width: 44px; min-height: 44px; padding: 10px; justify-content: center; }
+  .console-shell .global-search span,
+  .console-shell .global-search kbd { display: none; }
+  .console-shell .workspace-search-dialog { margin-top: 16px; width: calc(100vw - 20px); max-height: calc(100dvh - 32px); }
+  .console-shell .workspace-search-heading { padding-left: 16px; }
+  .console-shell .workspace-search-input { margin-inline: 14px; }
+  .console-shell .workspace-search-results button { padding-inline: 7px; gap: 6px; }
+  .console-shell .command-result-icon { width: 24px; flex-basis: 24px; }
+  .console-shell .command-result-kind { font-size: 11px; }
+  .console-shell .workspace-search-footer { padding-inline: 16px; gap: 12px; }
+  .console-shell .workspace-search-footer small { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .console-shell .sidebar { transition: none; }
+}
