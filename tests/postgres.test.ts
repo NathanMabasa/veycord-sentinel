@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { randomBytes, randomUUID } from 'node:crypto'
-import { mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { promisify } from 'node:util'
@@ -11,6 +11,29 @@ import { Pool } from 'pg'
 import { PostgresStore, StoreNotFoundError, StoreQuotaError } from '../server/storage/postgres-store.js'
 
 const execFile = promisify(execFileCallback)
+
+function runningInCi(): boolean {
+  return /^(1|true)$/i.test(process.env.CI ?? '') || process.env.GITHUB_ACTIONS === 'true'
+}
+
+async function startPostgres(dataDir: string, logFile: string, port: number): Promise<void> {
+  try {
+    await execFile('pg_ctl', [
+      '-D', dataDir, '-l', logFile,
+      '-o', `-h 127.0.0.1 -p ${port} -c listen_addresses=127.0.0.1 -c unix_socket_directories=''`,
+      '-w', 'start',
+    ])
+  } catch (error) {
+    const code = (error as NodeJS.ErrnoException).code
+    let serverLog = '(PostgreSQL log unavailable)'
+    try {
+      serverLog = (await readFile(logFile, 'utf8')).slice(-12_000)
+    } catch {
+      // Preserve the startup failure if the log could not be read.
+    }
+    throw new Error(`Disposable PostgreSQL startup failed (${code ?? 'unknown error'}). Last server log output, capped at 12000 characters:\n${serverLog}`)
+  }
+}
 
 test('database connections require verified TLS remotely or an explicit loopback-only override', async () => {
   const workspaceId = randomUUID()
@@ -48,6 +71,21 @@ function connectionString(user: string, password: string, port: number): string 
 }
 
 test('PostgresStore isolates workspaces and persists bounded event, finding, and case operations', async (context) => {
+  const missingBinaries: string[] = []
+  for (const binary of ['initdb', 'pg_ctl']) {
+    try {
+      await execFile(binary, ['--version'])
+    } catch {
+      missingBinaries.push(binary)
+    }
+  }
+  if (missingBinaries.length > 0) {
+    const message = `PostgreSQL test binaries are unavailable: ${missingBinaries.join(', ')}`
+    if (runningInCi()) throw new Error(message)
+    context.skip(`${message}; local PostgreSQL integration was not exercised`)
+    return
+  }
+
   const temp = await mkdtemp(join(tmpdir(), 'veycord-pg-test-'))
   const dataDir = join(temp, 'data')
   const logFile = join(temp, 'postgres.log')
@@ -61,16 +99,8 @@ test('PostgresStore isolates workspaces and persists bounded event, finding, and
 
   try {
     await writeFile(passwordFile, `${adminPassword}\n`, { mode: 0o600 })
-    try {
-      await execFile('initdb', ['--username=postgres', '--auth-host=scram-sha-256', '--auth-local=scram-sha-256', `--pwfile=${passwordFile}`, dataDir])
-    } catch (error) {
-      if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
-        context.skip('PostgreSQL initdb is not installed; local integration test skipped')
-        return
-      }
-      throw error
-    }
-    await execFile('pg_ctl', ['-D', dataDir, '-l', logFile, '-o', `-h 127.0.0.1 -p ${port} -c listen_addresses=127.0.0.1`, '-w', 'start'])
+    await execFile('initdb', ['--username=postgres', '--auth-host=scram-sha-256', '--auth-local=scram-sha-256', `--pwfile=${passwordFile}`, dataDir])
+    await startPostgres(dataDir, logFile, port)
     started = true
     const adminUrl = connectionString('postgres', adminPassword, port)
     const admin = new Pool({ connectionString: adminUrl, ssl: false, max: 1, connectionTimeoutMillis: 3000 })

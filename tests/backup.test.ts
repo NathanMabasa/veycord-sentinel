@@ -14,6 +14,29 @@ import { PostgresStore } from '../server/storage/postgres-store.js';
 
 const execFile = promisify(execFileCallback);
 
+function runningInCi(): boolean {
+  return /^(1|true)$/i.test(process.env.CI ?? '') || process.env.GITHUB_ACTIONS === 'true';
+}
+
+async function startPostgres(dataDir: string, logFile: string, port: number): Promise<void> {
+  try {
+    await execFile('pg_ctl', [
+      '-D', dataDir, '-l', logFile,
+      '-o', `-h 127.0.0.1 -p ${port} -c listen_addresses=127.0.0.1 -c unix_socket_directories=''`,
+      '-w', 'start',
+    ]);
+  } catch (error) {
+    const code = (error as NodeJS.ErrnoException).code;
+    let serverLog = '(PostgreSQL log unavailable)';
+    try {
+      serverLog = (await readFile(logFile, 'utf8')).slice(-12_000);
+    } catch {
+      // Preserve the startup failure if the log could not be read.
+    }
+    throw new Error(`Disposable PostgreSQL startup failed (${code ?? 'unknown error'}). Last server log output, capped at 12000 characters:\n${serverLog}`);
+  }
+}
+
 function localUrl(user: string, password: string, port: number, database: string): string {
   const url = new URL(`postgresql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@127.0.0.1:${port}/${database}`);
   url.searchParams.set('sslmode', 'disable');
@@ -80,7 +103,9 @@ test('backup key, local admin connection, and AES-GCM envelope reject unsafe or 
 test('PostgreSQL backup restores a synthetic Sentinel workspace and restricted runtime access', async (context) => {
   const binaryChecks = await Promise.all(['initdb', 'pg_ctl', 'pg_dump', 'pg_restore', 'psql'].map((name) => execFile(name, ['--version']).then(() => true).catch(() => false)));
   if (binaryChecks.some((present) => !present)) {
-    context.skip('PostgreSQL test binaries are unavailable; backup recovery was not exercised');
+    const message = 'PostgreSQL test binaries are unavailable; backup recovery was not exercised';
+    if (runningInCi()) throw new Error(message);
+    context.skip(`${message} locally`);
     return;
   }
 
@@ -111,9 +136,7 @@ test('PostgreSQL backup restores a synthetic Sentinel workspace and restricted r
       '--username=postgres', '--auth-host=scram-sha-256', '--auth-local=scram-sha-256',
       `--pwfile=${passwordFile}`, dataDir,
     ]);
-    await execFile('pg_ctl', [
-      '-D', dataDir, '-l', logFile, '-o', `-h 127.0.0.1 -p ${port} -c listen_addresses=127.0.0.1`, '-w', 'start',
-    ]);
+    await startPostgres(dataDir, logFile, port);
     started = true;
 
     const adminUrl = localUrl('postgres', adminPassword, port, 'postgres');
