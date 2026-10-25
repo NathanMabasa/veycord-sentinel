@@ -30,7 +30,9 @@ def go(page, name):
 
 def audit(page, theme, width, name):
     if not page.evaluate('typeof axe !== "undefined"'):
-        page.add_script_tag(path=str(ROOT/'node_modules/axe-core/axe.min.js'))
+        # Debugger evaluation works with the built server's script-src self policy.
+        # Do not add inline allowances or disable CSP on the application.
+        page.evaluate("() => {\n" + (ROOT/'node_modules/axe-core/axe.min.js').read_text() + "\n}")
     value = page.evaluate("""async () => {
       const r = await axe.run(document, {runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']}});
       return {violations:r.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})),
