@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { constants } from 'node:fs'
-import { open } from 'node:fs/promises'
+import { open, lstat } from 'node:fs/promises'
 import test from 'node:test'
 import { assertRuntimeEnvironment } from '../server/runtime-environment.js'
 
@@ -42,17 +42,14 @@ test('runtime file contains only allowed settings and never overwrites an existi
       assert.ok(!content.includes('synthetic-administrator-secret'))
       assert.ok(!content.includes('synthetic-encryption-secret'))
       await assert.rejects(execute(process.execPath,[script],{cwd:directory,env}))
-      // Reopen the path after the refused write: the old descriptor alone could hide replacement.
-      const current=await open(file,READ_NOFOLLOW)
-      try {
-        // Open both descriptors before metadata assertions; no check-then-open access decision.
-        const fileStat=await handle.stat()
-        assert.equal(fileStat.mode&0o777,0o600)
-        const currentStat=await current.stat()
-        assert.equal(currentStat.dev,fileStat.dev)
-        assert.equal(currentStat.ino,fileStat.ino)
-        assert.equal(await readAt(current,currentStat.size),content)
-      } finally { await current.close() }
+      // Inspect the directory entry after refusal; this is an assertion, not a check before access.
+      const fileStat=await handle.stat()
+      const pathStat=await lstat(file)
+      assert.ok(pathStat.isFile())
+      assert.equal(fileStat.mode&0o777,0o600)
+      assert.equal(pathStat.dev,fileStat.dev)
+      assert.equal(pathStat.ino,fileStat.ino)
+      assert.equal(await readAt(handle,fileStat.size),content)
     } finally { await handle.close() }
   } finally {await rm(directory,{recursive:true,force:true})}
 })

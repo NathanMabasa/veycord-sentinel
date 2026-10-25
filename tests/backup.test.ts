@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { randomBytes, randomUUID } from 'node:crypto';
-import { mkdtemp, open, readFile, rm, symlink, truncate, writeFile } from 'node:fs/promises';
+import { lstat, mkdtemp, open, readFile, rm, symlink, truncate, writeFile } from 'node:fs/promises';
 import { constants } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -254,16 +254,14 @@ test('PostgreSQL backup restores a synthetic Sentinel workspace and restricted r
       await assert.rejects(createDatabaseBackup({
         connectionString: sourceUrl, allowLocalInsecure: true, backupKey, outputPath,
       }), /already exists/);
-      // Verify the pathname still resolves to the original file, not only a retained descriptor.
-      const currentOutput = await open(outputPath, READ_NOFOLLOW);
-      try {
-        const outputStat = await outputHandle.stat();
-        assert.equal(outputStat.mode & 0o777, 0o600);
-        const currentStat = await currentOutput.stat();
-        assert.equal(currentStat.dev, outputStat.dev);
-        assert.equal(currentStat.ino, outputStat.ino);
-        assert.deepEqual(await readAt(currentOutput, currentStat.size), archiveBefore);
-      } finally { await currentOutput.close(); }
+      // Assert path identity after refusal without using a check to decide a new path open.
+      const outputStat = await outputHandle.stat();
+      const pathStat = await lstat(outputPath);
+      assert.ok(pathStat.isFile());
+      assert.equal(outputStat.mode & 0o777, 0o600);
+      assert.equal(pathStat.dev, outputStat.dev);
+      assert.equal(pathStat.ino, outputStat.ino);
+      assert.deepEqual(await readAt(outputHandle, outputStat.size), archiveBefore);
     } finally {
       await outputHandle.close();
     }
