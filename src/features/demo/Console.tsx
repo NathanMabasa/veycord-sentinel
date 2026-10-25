@@ -1261,7 +1261,7 @@ function CasesPage(p: ContentProps) {
         title="Investigation cases"
         subtitle="Case notes and status are saved in this browser."
       >
-        <span className="queue-count">{p.cases.length} cases</span>
+        <span className="queue-count">{p.cases.length} {p.cases.length === 1 ? "case" : "cases"}</span>
       </Heading>
       {p.cases.length ? (
         <div className="case-list">
@@ -1334,7 +1334,7 @@ function SourcesPage(p: ContentProps) {
       <Heading
         kicker="Workspace / Sources"
         title="Sample sources"
-        subtitle="These records are bundled fixtures. Connection and ingestion are not implemented yet."
+        subtitle="These are bundled fixtures. Automatic source collection is not available in this demo."
       >
         <span className="sample-label">
           Synthetic fixtures · no connections
@@ -1343,9 +1343,9 @@ function SourcesPage(p: ContentProps) {
       <div className="source-callout">
         <LockKeyhole size={17} />
         <p>
-          <b>Real telemetry is not accepted by this demo.</b> Before ingestion,
-          the project needs authentication, tenant authorization, input limits,
-          retention and deletion controls, and operational review.
+          <b>Real telemetry is not accepted by this demo.</b> Hosted collection
+          requires individual identity, workspace roles, privacy lifecycle controls
+          and operational review. The separate private workspace is a local prototype.
         </p>
       </div>
       <div className="source-list">
