@@ -21,6 +21,7 @@ Open the printed localhost URL. The Vite development server serves the console a
 npm run test:api
 python3 scripts/browser_audit.py
 python3 scripts/bootstrap_audit.py
+python3 scripts/navigation_audit.py
 ```
 
 The browser audits need Python Playwright/Chromium and an already running Vite server. The startup audit specifically intercepts Vite development module requests, so run it against the development server. It uses a separate temporary browser context, never the user's browser profile.
@@ -29,6 +30,7 @@ The browser audits need Python Playwright/Chromium and an already running Vite s
 
 - Search and inspect eight deterministic synthetic events and four starter detections.
 - Resolve/reopen demo alerts; create linked cases, edit notes, close/reopen and export cases.
+- Navigate grouped pages with native history/deep links, collapse the desktop rail, switch workspace routes and use Cmd/CtrlK to find a page or sample event.
 - Save browser preferences/searches and choose light/dark theme. Browser storage is demo persistence, not secure data storage.
 - Try the actual read-only API via `/docs/api`; see [API contract](docs/API-v1.md).
 
@@ -42,13 +44,13 @@ The private workspace also has real 24-hour activity analytics, event time range
 
 ## Dashboard quality checks
 
-The demo starts in light mode, retains a dark-mode preference, and uses one event search with explicit inspection controls. Source counts come from the labeled fixtures. Run `npm run test:a11y` against a local Vite server for automated axe-core A/AA checks across eight dashboard pages, both themes and three widths. This complements functional, keyboard and screenshot review; it does not establish WCAG conformance.
+The demo starts in light mode, retains a dark-mode preference, and uses one scoped event search with explicit inspection controls plus a workspace command dialog. Source counts come from the labeled fixtures. Run `npm run test:a11y` against a local Vite server for automated axe-core A/AA checks across eight dashboard pages, both themes and three widths. `python3 scripts/navigation_audit.py` adds keyboard/history checks and 32 overlay/rail accessibility states. This complements functional, keyboard and screenshot review; it does not establish WCAG conformance.
 
 `npm run licenses:inventory` regenerates dependency notices after a reviewed lockfile change. `npm sbom --sbom-format cyclonedx` generates the dependency inventory.
 
 ## Project records
 
-- [Current batch tickets](docs/tickets/BUILD-BATCH-004.md)
+- [Current batch tickets](docs/tickets/BUILD-BATCH-006.md)
 - [Integration audit and evidence](docs/audit/INTEGRATION-AUDIT.md)
 - [Audit research and library choices](docs/audit/RESEARCH-AND-SELECTION.md)
 - [Product brain](docs/brain/README.md)

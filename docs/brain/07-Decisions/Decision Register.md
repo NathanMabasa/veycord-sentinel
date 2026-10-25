@@ -26,6 +26,8 @@
 | D-020 | Source assurance gate | SHA-pinned CodeQL JS/TS security-extended analysis with a fail-closed high/critical SARIF gate and required branch checks | Make static findings reviewable and prevent a successful scan job from silently accepting high findings | GitHub scan at 6821b0d passed with zero open alerts; protected main requires verify and CodeQL job checks. This is not certification. |
 | D-021 | Detection revision evidence | Per-rule semantic versions, explicit authored/license/experimental metadata, protected read-only catalog, nullable stored revision for historical findings | Preserve the evaluated version without fabricating legacy provenance; no runtime rule execution or new dependency | Implemented in batch005; correlation/suppression and historical registry remain open. See `docs/DETECTION-RULES.md`. |
 
+| D-022 | Console navigation | Workflow groups, native URL view/event links, optional saved icon rail, native bounded command search and honest workspace routing | Improve discoverability, history and keyboard use while extracting navigation from the large console | Implemented in batch006; no new runtime dependency, authentication or reporting-engine claim. See navigation design plan and tickets. |
+
 ## Decision gates
 
 Remaining decisions and gates: benchmark the data plane; select first event format; verify public repository configuration and release provenance. The local synthetic API remains a demonstrator. D-017 selects PostgreSQL for the private bounded-event/control-store foundation; it does not resolve D-011 high-volume search or commit a hosted runtime. Before government-facing claims: independent security review and requirements mapping.

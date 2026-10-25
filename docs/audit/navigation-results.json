@@ -1,0 +1,81 @@
+{
+  "completed": false,
+  "checks": [
+    {
+      "name": "three workflow groups expose eight native page links",
+      "passed": true
+    },
+    {
+      "name": "fictional user profile removed and guide named by its content",
+      "passed": true
+    },
+    {
+      "name": "page links support focus, Back, Forward and reload",
+      "passed": true
+    },
+    {
+      "name": "case count derives from open cases",
+      "passed": true
+    },
+    {
+      "name": "sidebar shortcut does not intercept text editing",
+      "passed": true
+    },
+    {
+      "name": "closing a case clears the open-case badge",
+      "passed": true
+    },
+    {
+      "name": "reopening a case restores its badge",
+      "passed": true
+    },
+    {
+      "name": "collapse shortcut persists the desktop preference",
+      "passed": true
+    },
+    {
+      "name": "collapsed links retain labels and focus hints",
+      "passed": true
+    },
+    {
+      "name": "command search opens reloadable event evidence",
+      "passed": true
+    },
+    {
+      "name": "empty search and Escape focus return work",
+      "passed": true
+    },
+    {
+      "name": "arrow keys update the selected result",
+      "passed": true
+    },
+    {
+      "name": "Enter navigates to the selected page",
+      "passed": true
+    },
+    {
+      "name": "command actions change the actual theme",
+      "passed": true
+    },
+    {
+      "name": "workspace picker exposes private mode and restores focus",
+      "passed": true
+    },
+    {
+      "name": "private workspace destination works without copying demo data",
+      "passed": true
+    },
+    {
+      "name": "unknown page and event input fail to a usable overview",
+      "passed": true
+    },
+    {
+      "name": "short desktop keeps footer reachable and body scrollable",
+      "passed": true
+    }
+  ],
+  "accessibilityStates": [],
+  "browserErrors": [],
+  "passed": false,
+  "scope": "Synthetic local navigation; automated WCAG A/AA subset. Incomplete/manual and assistive technology review remain."
+}

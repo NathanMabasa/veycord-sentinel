@@ -1,30 +1,29 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import React from "react";
 import {
   Activity,
   AlertTriangle,
   ArrowRight,
-  Bell,
-  BookOpen,
   Check,
   CircleHelp,
   Download,
   FileSearch,
   HardDrive,
-  LayoutDashboard,
   LockKeyhole,
   Menu,
   Moon,
   Plus,
   Search,
-  Settings2,
   Shield,
   ShieldAlert,
   Sun,
-  X,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import ConsoleSidebar from "./ConsoleSidebar";
+import WorkspaceSearch from "./WorkspaceSearch";
+import { pageFromQuery, pageInfo, type Page } from "./navigation";
 import "./console.css";
+import "./navigation.css";
 import {
   demoEvents,
   detections,
@@ -32,16 +31,6 @@ import {
   type DemoEvent,
   type Severity,
 } from "../../data/demo";
-import Brand from "../../components/Brand";
-type Page =
-  | "Overview"
-  | "Explore"
-  | "Detections"
-  | "Alerts"
-  | "Cases"
-  | "Sources"
-  | "Reports"
-  | "Settings";
 type AlertItem = {
   id: string;
   detectionId: string;
@@ -144,16 +133,6 @@ function writeDemoState(key: string, value: unknown) {
     return false;
   }
 }
-const navItems: { label: Page; icon: typeof LayoutDashboard }[] = [
-  { label: "Overview", icon: LayoutDashboard },
-  { label: "Explore", icon: Search },
-  { label: "Detections", icon: ShieldAlert },
-  { label: "Alerts", icon: Bell },
-  { label: "Cases", icon: FileSearch },
-  { label: "Sources", icon: HardDrive },
-  { label: "Reports", icon: BookOpen },
-  { label: "Settings", icon: Settings2 },
-];
 function Chart({ events }: { events: DemoEvent[] }) {
   const sourceCounts = useMemo(() => {
     const counts = new Map<string, number>();
@@ -187,27 +166,37 @@ function Chart({ events }: { events: DemoEvent[] }) {
   );
 }
 export default function Console() {
-  const storedTheme =
-    readDemoState(
-      "theme",
-      "light",
-      (value): value is string => value === "dark" || value === "light",
-    ) === "light"
-      ? "light"
-      : "dark";
-  const [theme, setTheme] = useState<"light" | "dark">(storedTheme);
+  const [params, setParams] = useSearchParams();
+  const page = pageFromQuery(params.get("view"));
+  const selectedEvent = demoEvents.find(event => event.id === params.get("event")) ?? null;
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() =>
+    readDemoState("sidebar-collapsed", false, (value): value is boolean => typeof value === "boolean"),
+  );
+  const [commandOpen, setCommandOpen] = useState(false);
+  const restoreNavFocus = useRef(true);
+  const previousMobileOpen = useRef(false);
+  const mainRef = useRef<HTMLElement>(null);
+  const locationKey = page + ":" + (selectedEvent?.id ?? "");
+  const previousLocation = useRef(locationKey);
+  const commandShortcut = /Mac|iPhone|iPad/.test(navigator.platform) ? "⌘ K" : "Ctrl K";
+  function setSelectedEvent(event: DemoEvent | null) {
+    const next = new URLSearchParams({ view: pageInfo[page].slug });
+    if (event) next.set("event", event.id);
+    setParams(next);
+  }
+  const [theme, setTheme] = useState<"light" | "dark">(() =>
+    readDemoState("theme", "light", (value): value is "light" | "dark" => value === "light" || value === "dark"),
+  );
   const [storageAvailable, setStorageAvailable] = useState(true);
   const persist = (key: string, value: unknown) => {
     const success = writeDemoState(key, value);
     if (!success) setStorageAvailable(false);
     return success;
   };
-  const [page, setPage] = useState<Page>("Overview"),
-    [search, setSearch] = useState(""),
+  const [search, setSearch] = useState(""),
     [sourceFilter, setSourceFilter] = useState("All sources"),
     [severityFilter, setSeverityFilter] = useState("Any severity"),
     [mobileNav, setMobileNav] = useState(false),
-    [selectedEvent, setSelectedEvent] = useState<DemoEvent | null>(null),
     [alerts, setAlerts] = useState<AlertItem[]>(() =>
       readDemoState("alerts", initialAlerts, validAlerts),
     ),
@@ -231,8 +220,36 @@ export default function Console() {
     );
   const navToggleRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
-    document.title = `${page} · Demo | Veycord Sentinel`;
-  }, [page]);
+    document.title = (selectedEvent ? "Event evidence" : pageInfo[page].label) + " · Demo | Veycord Sentinel";
+  }, [page, selectedEvent]);
+  useLayoutEffect(() => {
+    const navigatingFromDrawer = previousMobileOpen.current && !mobileNav && !restoreNavFocus.current;
+    previousMobileOpen.current = mobileNav;
+    if (previousLocation.current === locationKey && !navigatingFromDrawer) return;
+    previousLocation.current = locationKey;
+    mainRef.current?.scrollTo({ top: 0, behavior: "instant" });
+    const heading = mainRef.current?.querySelector("h1");
+    if (heading) { heading.tabIndex = -1; heading.focus({ preventScroll: true }); }
+  }, [locationKey, mobileNav]);
+  useEffect(() => { persist("sidebar-collapsed", sidebarCollapsed); }, [sidebarCollapsed]);
+  useEffect(() => {
+    const shortcut = (event: KeyboardEvent) => {
+      if (!(event.metaKey || event.ctrlKey) || event.altKey || event.shiftKey) return;
+      if (event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        restoreNavFocus.current = false;
+        setMobileNav(false);
+        setCommandOpen(value => !value);
+      } else if (event.key.toLowerCase() === "b" && window.innerWidth > 760) {
+        const target = event.target;
+        if (target instanceof HTMLElement && (target.isContentEditable || target.closest("input, textarea, select, dialog[open]"))) return;
+        event.preventDefault();
+        setSidebarCollapsed(value => !value);
+      }
+    };
+    document.addEventListener("keydown", shortcut);
+    return () => document.removeEventListener("keydown", shortcut);
+  }, []);
   const sidebarRef = useRef<HTMLElement>(null);
   useEffect(() => {
     if (!mobileNav) return;
@@ -261,7 +278,7 @@ export default function Console() {
       }
     };
     const onResize = () => {
-      if (window.innerWidth > 760) setMobileNav(false);
+      if (window.innerWidth > 760) { restoreNavFocus.current = false; setMobileNav(false); }
     };
     document.addEventListener("keydown", onKeyDown);
     window.addEventListener("resize", onResize);
@@ -269,7 +286,7 @@ export default function Console() {
       document.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("resize", onResize);
       document.body.style.overflow = previousOverflow;
-      requestAnimationFrame(() => navToggleRef.current?.focus());
+      if (restoreNavFocus.current) requestAnimationFrame(() => navToggleRef.current?.focus());
     };
   }, [mobileNav]);
   useEffect(() => {
@@ -304,8 +321,8 @@ export default function Console() {
       window.setTimeout(() => setToast(""), 2600);
     },
     go = (p: Page) => {
-      setPage(p);
-      setSelectedEvent(null);
+      restoreNavFocus.current = false;
+      setParams(p === "Overview" ? {} : { view: pageInfo[p].slug });
       setMobileNav(false);
     };
   const saveSearch = () => {
@@ -386,14 +403,14 @@ export default function Console() {
       dense: false,
     });
     setSavedSearches([]);
-    setSelectedEvent(null);
     go("Overview");
     notify("Demo reset to its original sample state.");
   };
   return (
     <div
-      className={`console-shell theme-${theme}${settings.dense ? " is-compact" : ""}`}
+      className={`console-shell theme-${theme}${settings.dense ? " is-compact" : ""}${sidebarCollapsed ? " is-sidebar-collapsed" : ""}`}
     >
+      <a className="console-skip-link" href="#console-content">Skip to workspace content</a>
       {mobileNav && (
         <button
           aria-label="Close navigation menu"
@@ -411,101 +428,44 @@ export default function Console() {
           }}
         />
       )}
-      <aside
-        id="workspace-navigation"
-        ref={sidebarRef}
-        className={`sidebar ${mobileNav ? "sidebar-open" : ""}`}
-        role={mobileNav ? "dialog" : undefined}
-        aria-modal={mobileNav || undefined}
-        aria-label="Workspace navigation"
-      >
-        <div className="sidebar-top">
-          <Brand />
-          <button
-            className="icon-button close-nav"
-            onClick={() => setMobileNav(false)}
-            aria-label="Close navigation"
-          >
-            <X size={18} />
-          </button>
-        </div>
-        <div className="workspace-switch">
-          <div className="workspace-avatar">
-            {settings.workspace[0].toUpperCase()}
-          </div>
-          <div>
-            <b>{settings.workspace}</b>
-            <small>Browser-only demo</small>
-          </div>
-        </div>
-        <div className="sidebar-label">WORKSPACE</div>
-        <nav className="side-nav" aria-label="Product navigation">
-          {navItems.map(({ label, icon: Icon }) => (
-            <button
-              key={label}
-              className={page === label ? "active" : ""}
-              aria-current={page === label ? "page" : undefined}
-              onClick={() => go(label)}
-            >
-              <Icon size={17} />
-              <span>{label}</span>
-              {label === "Alerts" &&
-                alerts.filter((a) => a.status !== "Resolved").length > 0 && (
-                  <i
-                    className="nav-count"
-                    aria-label={`${alerts.filter((a) => a.status !== "Resolved").length} unresolved alerts`}
-                  >
-                    {alerts.filter((a) => a.status !== "Resolved").length}
-                  </i>
-                )}
-            </button>
-          ))}
-        </nav>
-        <div className="sidebar-spacer" />
-        <div className="setup-card">
-          <div className="setup-icon">
-            <BookOpen size={16} />
-          </div>
-          <b>Practice investigation</b>
-          <p>Review an alert, inspect evidence, then open a case.</p>
-          <button onClick={() => go("Alerts")}>
-            Open alert queue <ArrowRight size={14} />
-          </button>
-        </div>
-        <div className="user-menu">
-          <div className="user-avatar">JD</div>
-          <span>
-            <b>Jordan Demo</b>
-            <small>Local demo analyst</small>
-          </span>
-        </div>
-      </aside>
-      <main className="console-main" inert={mobileNav}>
+      <ConsoleSidebar
+        page={page} workspace={settings.workspace} collapsed={sidebarCollapsed} mobileOpen={mobileNav} searchOpen={commandOpen}
+        alertCount={alerts.filter(alert => alert.status !== "Resolved").length}
+        caseCount={cases.filter(item => item.status === "Open").length}
+        sidebarRef={sidebarRef} onToggleCollapse={() => setSidebarCollapsed(value => !value)}
+        onClose={() => { restoreNavFocus.current = true; setMobileNav(false); }}
+        onNavigate={() => {
+          restoreNavFocus.current = false;
+          setMobileNav(false);
+        }}
+      />
+      <main id="console-content" className="console-main" ref={mainRef} tabIndex={-1} inert={mobileNav}>
         <header className="console-topbar">
           <button
             className="icon-button nav-toggle"
             ref={navToggleRef}
-            onClick={() => setMobileNav(true)}
+            onClick={() => { restoreNavFocus.current = true; setMobileNav(true); }}
             aria-label="Open navigation"
             aria-expanded={mobileNav}
             aria-controls="workspace-navigation"
           >
             <Menu size={19} />
           </button>
-          <div className="breadcrumbs">
-            <Link to="/" aria-label="Sentinel product website">
-              Sentinel
-            </Link>
-            <span>/</span>
-            <span>{page}</span>
-          </div>
+          <nav className="breadcrumbs" aria-label="Breadcrumb">
+            <Link to="/demo">Workspace</Link>
+            <span className="breadcrumb-separator" aria-hidden="true">/</span>
+            <span aria-current="page">{selectedEvent ? "Event evidence" : pageInfo[page].label}</span>
+          </nav>
           <button
             className="global-search global-search-action"
-            onClick={() => go("Explore")}
-            aria-label="Search sample events"
+            onClick={() => setCommandOpen(true)}
+            aria-label={"Search workspace " + commandShortcut}
+            aria-haspopup="dialog"
+            aria-keyshortcuts="Control+K Meta+K"
           >
-            <Search size={16} />
-            <span>Search sample events</span>
+            <Search size={18} aria-hidden="true" />
+            <span>Search workspace</span>{' '}
+            <kbd>{commandShortcut}</kbd>
           </button>
           <button
             className="icon-button theme-toggle"
@@ -521,12 +481,11 @@ export default function Console() {
           </button>
           <button
             className="icon-button top-help"
-            onClick={() => go("Reports")}
+            onClick={() => go("Guide")}
             aria-label="Open learning guide"
           >
             <CircleHelp size={18} />
           </button>
-          <div className="top-avatar">JD</div>
         </header>
         <div className="demo-banner">
           <span>
@@ -588,6 +547,10 @@ export default function Console() {
           </div>
         )}
       </main>
+      <WorkspaceSearch open={commandOpen} onClose={() => setCommandOpen(false)} onNavigate={go}
+        onEvent={setSelectedEvent} theme={theme} collapsed={sidebarCollapsed}
+        onToggleTheme={() => setTheme(value => value === "light" ? "dark" : "light")}
+        onToggleSidebar={() => setSidebarCollapsed(value => !value)} />
     </div>
   );
 }
@@ -639,7 +602,7 @@ function Content(p: ContentProps) {
       return <CasesPage {...p} />;
     case "Sources":
       return <SourcesPage {...p} />;
-    case "Reports":
+    case "Guide":
       return <GuidePage {...p} />;
     case "Settings":
       return <SettingsPage {...p} />;

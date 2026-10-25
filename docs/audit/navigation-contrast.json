@@ -1,0 +1,175 @@
+{
+  "scope": "Underlying mobile navigation with chooser closed; these controls are occluded in the four axe picker incomplete groups. Screenshot review is separate.",
+  "pairs": [
+    {
+      "theme": "light",
+      "text": "Workspace",
+      "foreground": "rgb(93, 106, 124)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 5.5
+    },
+    {
+      "theme": "light",
+      "text": "Overview",
+      "foreground": "rgb(23, 33, 49)",
+      "background": "rgb(255, 241, 232)",
+      "ratio": 14.63
+    },
+    {
+      "theme": "light",
+      "text": "Explore events",
+      "foreground": "rgb(82, 96, 116)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 6.39
+    },
+    {
+      "theme": "light",
+      "text": "Investigations",
+      "foreground": "rgb(93, 106, 124)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 5.5
+    },
+    {
+      "theme": "light",
+      "text": "Alerts",
+      "foreground": "rgb(82, 96, 116)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 6.39
+    },
+    {
+      "theme": "light",
+      "text": "3 unresolved alerts",
+      "foreground": "rgb(82, 96, 116)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 6.39
+    },
+    {
+      "theme": "light",
+      "text": "Cases",
+      "foreground": "rgb(82, 96, 116)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 6.39
+    },
+    {
+      "theme": "light",
+      "text": "Investigation guide",
+      "foreground": "rgb(82, 96, 116)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 6.39
+    },
+    {
+      "theme": "light",
+      "text": "Manage",
+      "foreground": "rgb(93, 106, 124)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 5.5
+    },
+    {
+      "theme": "light",
+      "text": "Detections",
+      "foreground": "rgb(82, 96, 116)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 6.39
+    },
+    {
+      "theme": "light",
+      "text": "Sources",
+      "foreground": "rgb(82, 96, 116)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 6.39
+    },
+    {
+      "theme": "light",
+      "text": "Settings",
+      "foreground": "rgb(82, 96, 116)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 6.39
+    },
+    {
+      "theme": "dark",
+      "text": "Workspace",
+      "foreground": "rgb(146, 159, 177)",
+      "background": "rgb(13, 19, 29)",
+      "ratio": 6.93
+    },
+    {
+      "theme": "dark",
+      "text": "Overview",
+      "foreground": "rgb(237, 241, 246)",
+      "background": "rgb(54, 37, 28)",
+      "ratio": 12.87
+    },
+    {
+      "theme": "dark",
+      "text": "Explore events",
+      "foreground": "rgb(186, 196, 209)",
+      "background": "rgb(13, 19, 29)",
+      "ratio": 10.55
+    },
+    {
+      "theme": "dark",
+      "text": "Investigations",
+      "foreground": "rgb(146, 159, 177)",
+      "background": "rgb(13, 19, 29)",
+      "ratio": 6.93
+    },
+    {
+      "theme": "dark",
+      "text": "Alerts",
+      "foreground": "rgb(186, 196, 209)",
+      "background": "rgb(13, 19, 29)",
+      "ratio": 10.55
+    },
+    {
+      "theme": "dark",
+      "text": "3 unresolved alerts",
+      "foreground": "rgb(186, 196, 209)",
+      "background": "rgb(23, 31, 43)",
+      "ratio": 9.39
+    },
+    {
+      "theme": "dark",
+      "text": "Cases",
+      "foreground": "rgb(186, 196, 209)",
+      "background": "rgb(13, 19, 29)",
+      "ratio": 10.55
+    },
+    {
+      "theme": "dark",
+      "text": "Investigation guide",
+      "foreground": "rgb(186, 196, 209)",
+      "background": "rgb(13, 19, 29)",
+      "ratio": 10.55
+    },
+    {
+      "theme": "dark",
+      "text": "Manage",
+      "foreground": "rgb(146, 159, 177)",
+      "background": "rgb(13, 19, 29)",
+      "ratio": 6.93
+    },
+    {
+      "theme": "dark",
+      "text": "Detections",
+      "foreground": "rgb(186, 196, 209)",
+      "background": "rgb(13, 19, 29)",
+      "ratio": 10.55
+    },
+    {
+      "theme": "dark",
+      "text": "Sources",
+      "foreground": "rgb(186, 196, 209)",
+      "background": "rgb(13, 19, 29)",
+      "ratio": 10.55
+    },
+    {
+      "theme": "dark",
+      "text": "Settings",
+      "foreground": "rgb(186, 196, 209)",
+      "background": "rgb(13, 19, 29)",
+      "ratio": 10.55
+    }
+  ],
+  "minimum": 5.5,
+  "passed": true
+}

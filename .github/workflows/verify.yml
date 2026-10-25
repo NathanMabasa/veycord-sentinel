@@ -58,6 +58,7 @@ jobs:
           python scripts/browser_audit.py
           python scripts/bootstrap_audit.py
           python scripts/dashboard_accessibility.py
+          python scripts/navigation_audit.py
       - run: npm audit --audit-level=high
       - name: Generate dependency SBOM for local release review
         run: npm sbom --sbom-format cyclonedx > /tmp/veycord-sbom.json

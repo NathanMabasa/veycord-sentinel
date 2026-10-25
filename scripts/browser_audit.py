@@ -41,10 +41,12 @@ def visit(page, path):
 
 def navigate(page, name):
     nav = page.locator('.side-nav')
-    target = nav.get_by_role('button', name=name, exact=False)
+    target = nav.get_by_role('link', name=('Investigation guide' if name=='Reports' else name), exact=False)
     if not target.is_visible():
         page.get_by_role('button', name='Open navigation', exact=True).click()
+    href = target.get_attribute("href")
     target.click()
+    expect(nav.locator('a[aria-current="page"]')).to_have_attribute("href", href)
 
 def no_overflow(page, name):
     sizes = page.evaluate('({width:innerWidth,scroll:document.documentElement.scrollWidth})')
@@ -95,8 +97,9 @@ with sync_playwright() as p:
     page.reload(wait_until='networkidle')
     check('light theme survives reload',page.get_by_role('button',name='Switch to dark theme').is_visible())
     page.screenshot(path=str(SHOTS/'dashboard-light.png'),full_page=True)
-    page.get_by_role('button',name='Search sample events',exact=True).click()
-    check('header search opens one scoped event search',page.get_by_role('textbox',name='Search sample events',exact=True).count()==1)
+    page.get_by_role('button',name='Search workspace',exact=False).click()
+    page.get_by_role('dialog',name='Search workspace',exact=True).get_by_role('option').filter(has_text='Explore events').click()
+    check('workspace search opens the scoped event search page',page.get_by_role('textbox',name='Search sample events',exact=True).count()==1)
     check('event search input has a 200-character bound',page.get_by_role('textbox',name='Search sample events',exact=True).get_attribute('maxlength')=='200')
     page.get_by_role('textbox',name='Search sample events',exact=True).fill('PowerShell')
     check('search filters fixtures',page.locator('tbody tr').count()==1)
