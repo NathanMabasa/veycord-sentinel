@@ -26,3 +26,11 @@ Protected integration: [PR11](https://github.com/NathanMabasa/veycord-sentinel/p
 ## Boundaries
 
 The chooser routes between modes; it does not authenticate, issue credentials, transfer records or select authorized tenants. Demo searches/evidence URLs use redistributable synthetic fixtures only. Filter text remains session state. Actual reporting, remaining large feature-view extraction, private-workspace accessibility/identity and a full assistive-technology matrix remain open in NEXT-RELEASE-GATES.md. No hosted telemetry or Cisco/government/production assurance is added.
+
+## Resumed failure investigation and correction
+
+Historical verify run 40169766023 failed at browser_audit.py102; CodeQL run 40169765920 passed. After the usage reset, inspection of the actual route showed `/demo?view=events` while the old Overview heading/current link remained rendered for a frame. The installed BrowserRouter updates location state through React.startTransition. This is an observable asynchronous route commit; a one-shot textbox count was not a valid readiness condition.
+
+`navigation-transition-investigation.json` records 12 baseline observations and3 event traces, including the URL/new-render gap. The correction waits for the current Events link, Events heading, exactly one textbox and its visibility. Related immediate filter/case assertions now also wait for their actual rendered result. No selector was weakened, no fixed sleep/retry workaround was added, and application navigation/CSP were unchanged.
+
+After correction, local build,38 unit/API/model,67 public workflow,38 navigation checks,80 automated accessibility states,2 PostgreSQL tests plus63 private browser checks,2 recovery and9 startup checks pass. Updated results and logs are retained. PR11's final required verify/CodeQL checks remain the authority for protected integration; the old failed run is retained as historical evidence.

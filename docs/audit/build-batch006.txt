@@ -13,4 +13,4 @@ dist/assets/App-H0ZWjU3U.css     65.78 kB │ gzip: 11.78 kB
 dist/assets/index-C-UGJFrr.js    70.55 kB │ gzip: 27.84 kB
 dist/assets/App-ymZGJl_-.js     169.36 kB │ gzip: 48.05 kB
 dist/assets/index-B_fsukgQ.js   227.66 kB │ gzip: 71.10 kB
-✓ built in 758ms
+✓ built in 781ms

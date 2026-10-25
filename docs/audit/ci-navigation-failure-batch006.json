@@ -1,0 +1,16 @@
+{
+  "runId": 40169766023,
+  "head": "ccb122e6da88258d08b00e3664459f27f013ebef",
+  "conclusion": "failure",
+  "stage": "Public UI and startup regression",
+  "location": "scripts/browser_audit.py:102",
+  "assertion": "workspace search opens the scoped event search page",
+  "detail": "Immediate textbox count was not1 after selecting Explore events. Actual Linux route/render state needs inspection after reset.",
+  "codeqlRun": 40169765920,
+  "codeqlConclusion": "success",
+  "merged": false,
+  "snapshot": "Historical original CI failure before the usage reset.",
+  "resolution": "Wait for rendered current-page link, Events heading and exactly one visible scoped textbox; retain strong count checks and add rendered-state waits around other immediate workflow assertions.",
+  "evidence": "docs/audit/navigation-transition-investigation.json",
+  "reverification": "Local full suite passes after correction; final PR11 checks govern remote status."
+}
