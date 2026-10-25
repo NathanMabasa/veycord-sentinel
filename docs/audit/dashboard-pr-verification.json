@@ -1,0 +1,25 @@
+{
+  "pullRequest": "https://github.com/NathanMabasa/veycord-sentinel/pull/9",
+  "verifiedHead": "b469059e60450d8ea640470eeba6a785d82f8d35",
+  "checks": [
+    {
+      "name": "CodeQL JavaScript and TypeScript",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/NathanMabasa/veycord-sentinel/actions/runs/40167302709/job/121090872420"
+    },
+    {
+      "name": "verify",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/NathanMabasa/veycord-sentinel/actions/runs/40167302676/job/121090872307"
+    },
+    {
+      "name": "CodeQL",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/NathanMabasa/veycord-sentinel/runs/121090992939"
+    }
+  ],
+  "note": "Actual successful first PR-head verification; follow-up evidence/copy refinements remain subject to the same required checks before merge."
+}

@@ -43,3 +43,8 @@ Screenshots inspected by the primary: `screenshots/private-workspace-overview-14
 This is a single-operator alpha with six deterministic rules. It has no supported public multi-user telemetry service, individual identity/MFA/roles, collector, automatic retention schedule, full privacy export/deletion, distributed rate limiter, externally anchored audit, scheduled/offsite backups or sustained-volume benchmark. There is no universal detection, production, corporate/government, POPIA or ASVS certification claim. See `../tickets/NEXT-RELEASE-GATES.md`.
 
 Source publication status and GitHub-hosted CI evidence are recorded separately in `../release/RELEASE-CHECKLIST.md`. Local checks do not imply that the Linux workflow has passed.
+
+
+## Public source verification, 2026-10-25
+
+Source is published at https://github.com/NathanMabasa/veycord-sentinel. GitHub-hosted run40165627076 passed at8c368c4 after a test-cluster portability correction; run40165791376 also passed at e8d0f1b. These are actual Linux results distinct from local records. Later dashboard and CodeQL findings/remediation are tracked in Batch004, not retroactively called part of the earlier baseline.

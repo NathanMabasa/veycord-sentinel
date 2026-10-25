@@ -1,0 +1,384 @@
+{
+  "tool": "axe-core 4.14.0",
+  "completed": true,
+  "states": [
+    {
+      "theme": "light",
+      "width": 1440,
+      "page": "Overview",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "page": "Explore",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "page": "Detections",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "page": "Alerts",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "page": "Cases",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "page": "Sources",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "page": "Reports",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 1440,
+      "page": "Settings",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "page": "Overview",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "page": "Explore",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 1,
+          "targets": [
+            [
+              "th:nth-child(1)"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "page": "Detections",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "page": "Alerts",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "page": "Cases",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "page": "Sources",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "page": "Reports",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 390,
+      "page": "Settings",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "page": "Overview",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "page": "Explore",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 1,
+          "targets": [
+            [
+              "th:nth-child(1)"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "page": "Detections",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "page": "Alerts",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "page": "Cases",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "page": "Sources",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "page": "Reports",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "light",
+      "width": 320,
+      "page": "Settings",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "page": "Overview",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "page": "Explore",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "page": "Detections",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "page": "Alerts",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "page": "Cases",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "page": "Sources",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "page": "Reports",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 1440,
+      "page": "Settings",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "page": "Overview",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "page": "Explore",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 1,
+          "targets": [
+            [
+              "th:nth-child(1)"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "page": "Detections",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "page": "Alerts",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "page": "Cases",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "page": "Sources",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "page": "Reports",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "page": "Settings",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "page": "Overview",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "page": "Explore",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 1,
+          "targets": [
+            [
+              "th:nth-child(1)"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "page": "Detections",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "page": "Alerts",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "page": "Cases",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "page": "Sources",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "page": "Reports",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "theme": "dark",
+      "width": 320,
+      "page": "Settings",
+      "violations": [],
+      "incomplete": []
+    }
+  ],
+  "passed": true,
+  "scope": "Synthetic demo, WCAG A/AA automated rules, light/dark, 1440/390/320px; incomplete rules and manual accessibility remain review work."
+}

@@ -164,3 +164,10 @@ The hero uses two concise lines, “Security data. Clear decisions.”, with bou
 Mobile console navigation is a modal navigation surface while open: background content is inert, focus stays within its controls, Escape closes it, focus returns to the trigger, and scrolling is restored. Public route navigation resets scroll and focuses the new heading; fragment links retain their target behavior.
 
 Evidence: `docs/audit/browser-results.json`, `docs/audit/bootstrap-results.json`, `docs/audit/design-audit.md`, and screenshots under `docs/audit/screenshots/`. Browser checks cover workflow persistence, exports, filter behavior, storage failure, keyboard navigation, API success/static fallback, and responsive overflow. They are regression evidence, not a claim of complete WCAG conformance or production security assurance.
+
+
+## Dashboard clarity update (2026-10-25, supersedes smaller console minima)
+
+Use 14px minimum ordinary console content, 16px inputs, 12px secondary metadata and 44px action targets. Light is the default for a new demo session; preserve the user's theme preference. Distinguish synthetic dataset status from live telemetry. Remove decorative green live pips, duplicate search controls and unrelated sparkline trends. Use fixture-derived source counts with exact numeric values and native event inspection buttons. Styling patterns were researched from official shadcn/ui and Watermelon UI; existing React/native CSS is retained without executing third-party registry installers. See `docs/audit/DASHBOARD-PATTERN-REVIEW.md`.
+
+The startup animation has a 1.2-second readiness deadline after module load; a stalled animation frame must not block the ready workspace. This is a maximum handover limit, not a minimum artificial wait.

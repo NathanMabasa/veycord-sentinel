@@ -194,12 +194,37 @@
       "detail": null
     },
     {
-      "name": "theme survives reload",
+      "name": "dashboard defaults to light theme",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "dark theme survives reload",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "light theme survives reload",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "header search opens one scoped event search",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "event search input has a 200-character bound",
       "passed": true,
       "detail": null
     },
     {
       "name": "search filters fixtures",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native event control opens evidence with Space",
       "passed": true,
       "detail": null
     },

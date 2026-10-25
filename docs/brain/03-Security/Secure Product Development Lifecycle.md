@@ -52,3 +52,8 @@ Use precise status labels: `implemented`, `verified`, `planned`, `not applicable
 - [Cisco on continuous security assurance](https://blogs.cisco.com/security/always-on-assurance)
 - [Cisco security, privacy, and trust approach](https://www.cisco.com/c/m/en_us/about/purpose/reporting-hub/responsible-innovation/spt.html)
 - [[Security Requirements]] · [[Threat Model Starter]] · [[Build Map and Traceability]]
+
+
+## Current assurance ledger (2026-10-25)
+
+See [[Cisco SDL Alignment and Assessment Path]] and `docs/security/ASSURANCE-MATRIX.md` for the distinction between referenced practices, local verification, GitHub scan settings and a formal scoped assessment. No Cisco certification is held.

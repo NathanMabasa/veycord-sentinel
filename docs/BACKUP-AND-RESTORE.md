@@ -57,3 +57,8 @@ An archive restore uses `--no-owner --no-acl`, so PostgreSQL object owners and A
 - The 256 MiB archive cap is intentional for this local prototype; larger archives are rejected.
 - Only custom-format PostgreSQL archives from a trusted source are accepted.
 - The integration test uses a disposable local PostgreSQL cluster and synthetic records. It verifies cryptographic tamper/wrong-key rejection, no-overwrite behavior, the empty-target guard, restore grants, runtime `PostgresStore` access across event, finding, case, and audit reads, and migration of a schema 001 archive to the current schema before runtime access. It does not establish a production recovery objective or independent security review.
+
+
+## Input file handling update (2026-10-25)
+
+Encryption/decryption now open source files once with `O_NOFOLLOW`, validate that descriptor and read through it. Encryption streams at most the validated size and rejects size mismatch. Symlink inputs are refused. This POSIX file-handling path is verified on macOS and Linux; no Windows-native recovery claim is established. Keep working directories private to the operator; these controls do not protect against an administrator who can modify the process or its open files.

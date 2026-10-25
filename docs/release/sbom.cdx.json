@@ -2,10 +2,10 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:56aef326-7a92-40d8-9c2e-7359d025599d",
+  "serialNumber": "urn:uuid:6558d3b0-6cfc-40c8-99bf-3203b5b89345",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-10-24T21:45:51.683Z",
+    "timestamp": "2026-10-25T05:54:36.509Z",
     "lifecycles": [
       {
         "phase": "build"
@@ -1632,6 +1632,48 @@
         {
           "license": {
             "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "axe-core@4.14.0",
+      "type": "library",
+      "name": "axe-core",
+      "version": "4.14.0",
+      "scope": "required",
+      "description": "Accessibility engine for automated Web UI testing",
+      "purl": "pkg:npm/axe-core@4.14.0",
+      "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/axe-core/-/axe-core-4.14.0.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/dequelabs/axe-core.git"
+        },
+        {
+          "type": "website",
+          "url": "https://www.deque.com/axe/"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "f564d9c448ec67b6f5dd31fc24f99b576cfc0876e5f34ff6866dd73c41b826035d40b2bcd480515e64b11df3003a44aa41e4714ffd1dc0d0f3d863a6df3ce971"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MPL-2.0"
           }
         }
       ]
@@ -3912,10 +3954,11 @@
         "@types/pg@8.23.1",
         "@types/react@19.3.0",
         "@types/react-dom@19.3.0",
+        "@vitejs/plugin-react@4.7.0",
+        "axe-core@4.14.0",
         "tsx@4.23.15",
         "typescript@5.7.3",
-        "vite@6.4.5",
-        "@vitejs/plugin-react@4.7.0"
+        "vite@6.4.5"
       ]
     },
     {
@@ -4177,6 +4220,10 @@
         "@types/babel__core@7.20.5",
         "react-refresh@0.17.0"
       ]
+    },
+    {
+      "ref": "axe-core@4.14.0",
+      "dependsOn": []
     },
     {
       "ref": "baseline-browser-mapping@2.11.32",

@@ -7,7 +7,7 @@
 | D-001 | Product shape | SIEM learning and investigation workbench | Strong portfolio depth and accessible first use | Proposed |
 | D-002 | Core license | Apache-2.0 | Permissive, clear self-hosting and reuse | Accepted by owner 2026-10-24; root LICENSE/package metadata adopted. Third-party rights/notices remain separate. |
 | D-003 | Storage/search | Prototype OpenSearch-backed approach first | Reuse open engine and Security Analytics patterns | Proposed; validate resource cost |
-| D-004 | GitHub | Public source of truth | Issues, releases, docs, contribution workflow | Accepted; public repository created 2026-10-24, initial source verification pending |
+| D-004 | GitHub | Public source of truth | Issues, releases, docs, contribution workflow | Accepted; public repository created 2026-10-25; source and Linux CI verified, with assurance gates recorded separately |
 | D-005 | Landing page | Yes, separate guided entry point with synthetic demo | Reaches users who do not know SIEM tools | Recommended |
 | D-006 | Core pricing | Self-hosted core free without event cap or feature expiry | Clear open-source promise | Recommended |
 | D-007 | First deployment | Single node, local/small-team lab | Achievable and demonstrable | Proposed |
@@ -20,10 +20,11 @@
 | D-014 | Canonical event schema | Compare OTel, OCSF, and ECS on representative fixtures before finalizing a Veycord envelope | Avoid custom field semantics and avoid lossy mapping | Open |
 | D-015 | Application framework | React + TypeScript + Vite console; Cloudflare Worker API with Hono; no SSR initially | Direct Cloudflare-supported path fits an interactive console and minimizes runtime complexity | React/Vite and a Hono Fetch-compatible read-only fixture API are implemented locally; D-017 adds a private Node/PostgreSQL slice; Cloudflare deployment and corporate rollout remain unvalidated |
 | D-016 | Local synthetic API slice | Expose bounded read-only event and detection fixture endpoints through Hono in Vite development and preview | Enables local UI/API contract work without collecting real telemetry | Implemented; see [API-v1](../../API-v1.md), `server/app.ts`, and `vite.config.ts`. Not deployed or suitable for customer data. |
-
 | D-017 | Private database foundation | Same open-source application with private operator-owned PostgreSQL database and Node/Hono gateway | Portable schema, no public data/secret commits, server scope, bounded vertical slice before high-volume engine benchmark | Implemented locally; single service key/workspace only. See [[../02-Architecture/Private Deployment Decision]]. Hosted deployment and enterprise gates remain open. |
-
 | D-018 | Bounded operations | PostgreSQL-serialized quotas, transactional audit, explicit held-evidence retention and authenticated local recovery | Cross-process integrity and reproducible recovery without an extra data service | Implemented and locally verified in batch003; see [[../02-Architecture/Operational Controls]]. Corporate rollout gates remain open. |
+
+| D-019 | Dashboard component strategy | Apply shadcn/Watermelon composition using scoped native CSS, semantic React controls and existing Lucide icons; add dev-only axe checks | Improve clarity/verification without a Tailwind migration or copied registry runtime | Implemented in batch004; see dashboard pattern review. New demo sessions default light, retain dark preference; no decorative live pips or trend charts. |
+| D-020 | Source assurance gate | SHA-pinned CodeQL JS/TS security-extended analysis with a fail-closed high/critical SARIF gate and required branch checks | Make static findings reviewable and prevent a successful scan job from silently accepting high findings | GitHub scan at 6821b0d passed with zero open alerts; protected main requires verify and CodeQL job checks. This is not certification. |
 
 ## Decision gates
 

@@ -71,9 +71,9 @@
   font-weight: 600;
 }
 .private-workspace__connection.is-connected {
-  border-color: #b7ddc7;
-  background: #eef8f1;
-  color: #17613b;
+  border-color: #cbd5e1;
+  background: #f1f5f9;
+  color: #334155;
 }
 .private-workspace__connect {
   display: grid;

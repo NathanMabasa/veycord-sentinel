@@ -1,0 +1,12 @@
+{
+  "stagedFiles": 68,
+  "configuredSecretMatches": [],
+  "privateFilesStaged": [],
+  "builtFilesChecked": 18,
+  "builtSecretMatches": [],
+  "privateConfigModes": {
+    ".env": "0o600",
+    ".env.runtime": "0o600"
+  },
+  "passed": true
+}
