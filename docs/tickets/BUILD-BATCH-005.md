@@ -9,6 +9,8 @@ Parent gate: SEN-209C. Scope: authored rule metadata, a protected catalog, immut
 | SEN-503 | Cover rule behavior and recovery; document safe updates/rollback. | Positive/near-miss/every missing required field fixtures, 36 unit/API tests; 2 PostgreSQL tests plus 63 browser checks; 2 recovery tests preserve new revisions and upgrade legacy001 records to null unknown. `docs/DETECTION-RULES.md` describes protected changes and corrective revision rollback. A deployment rollback drill is still pending. |
 | SEN-504 | Integrate, review, inspect mobile evidence and retain actual verification. | Local build, tests, runtime smoke and manual 320px finding screenshot inspection pass. Bounded agent review found leading-zero version acceptance; application and database now reject it. Protected PR/CI status is authoritative for remote verification. An initial local npm advisory lookup failed DNS; the retry succeeded with zero known advisories. |
 
+Protected integration: [PR10](https://github.com/NathanMabasa/veycord-sentinel/pull/10). Its required verify and CodeQL checks are the source of truth for remote status.
+
 ## Evidence and operational changes
 
 - `docs/audit/build-batch005.txt`, `unit-tests-batch005.txt`, `database-tests-batch005.txt`, `recovery-tests-batch005.txt`.
