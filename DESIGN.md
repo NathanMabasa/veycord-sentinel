@@ -71,3 +71,8 @@ The token names indicate roles. Keep severity colors semantic: orange is brand/a
 - Equal visual weight for all KPI cards and content panels.
 - Glows, glass blur, and large rounded cards on every surface.
 - Charts without time range, units, legend, empty state, and accessible text alternative.
+
+
+## Dashboard refinement, 2026-10-25
+
+The demo defaults to light when no preference exists and retains dark mode. Follow shadcn/Watermelon composition patterns with native React/CSS: one scoped event search, readable controls, native event actions and explicit empty states. No wholesale Tailwind or registry-template import is selected. Ordinary content is at least 14px, inputs 16px, secondary metadata 12px and actionable targets 44px. Use compact summary/counts derived from fixture data; do not imply live collection or add decorative trends. Neutral synthetic/connection labels have no green glow or pulsing pip. Reserve green for an explicit completed/resolved outcome. Separate orange filled-action contrast from orange text-link contrast.

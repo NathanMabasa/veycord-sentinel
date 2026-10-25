@@ -1,0 +1,108 @@
+{
+  "repository": "https://github.com/NathanMabasa/veycord-sentinel",
+  "visibility": "public",
+  "createdAt": "2026-10-24T18:48:12Z",
+  "baselineCommit": "6821b0d4cd804e6273cfd189d1b7800440427461",
+  "checks": [
+    {
+      "name": "CodeQL JavaScript and TypeScript",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/NathanMabasa/veycord-sentinel/actions/runs/40166425711/job/121088306379"
+    },
+    {
+      "name": "verify",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/NathanMabasa/veycord-sentinel/actions/runs/40166425709/job/121088306221"
+    }
+  ],
+  "privateVulnerabilityReporting": true,
+  "securitySettings": {
+    "secret_scanning": {
+      "status": "enabled"
+    },
+    "secret_scanning_push_protection": {
+      "status": "enabled"
+    },
+    "dependabot_security_updates": {
+      "status": "enabled"
+    },
+    "secret_scanning_non_provider_patterns": {
+      "status": "disabled"
+    },
+    "secret_scanning_validity_checks": {
+      "status": "disabled"
+    }
+  },
+  "branchProtection": {
+    "enforceAdmins": true,
+    "requiredChecks": [
+      {
+        "context": "verify",
+        "app_id": 15368
+      },
+      {
+        "context": "CodeQL JavaScript and TypeScript",
+        "app_id": 15368
+      }
+    ],
+    "strict": true,
+    "approvingReviews": 0,
+    "forcePush": false,
+    "deletion": false
+  },
+  "openCodeQLAlerts": [],
+  "resolvedAlerts": [
+    {
+      "number": 10,
+      "rule": "js/file-system-race",
+      "state": "fixed"
+    },
+    {
+      "number": 9,
+      "rule": "js/file-system-race",
+      "state": "fixed"
+    },
+    {
+      "number": 8,
+      "rule": "js/file-system-race",
+      "state": "fixed"
+    },
+    {
+      "number": 7,
+      "rule": "js/file-system-race",
+      "state": "fixed"
+    },
+    {
+      "number": 6,
+      "rule": "js/file-system-race",
+      "state": "fixed"
+    },
+    {
+      "number": 5,
+      "rule": "js/file-system-race",
+      "state": "fixed"
+    },
+    {
+      "number": 4,
+      "rule": "js/file-system-race",
+      "state": "fixed"
+    },
+    {
+      "number": 3,
+      "rule": "js/file-system-race",
+      "state": "fixed"
+    },
+    {
+      "number": 2,
+      "rule": "js/file-system-race",
+      "state": "fixed"
+    },
+    {
+      "number": 1,
+      "rule": "js/file-system-race",
+      "state": "fixed"
+    }
+  ]
+}

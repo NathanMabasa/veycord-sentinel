@@ -1,0 +1,32 @@
+{
+  "checks": [
+    {
+      "focus": "rgb(166, 63, 0)",
+      "surface": "#fff",
+      "canvas": "#f5f7fa",
+      "headerForeground": "rgb(93, 106, 124)",
+      "headerBackdrop": "rgb(238, 242, 246)",
+      "searchWidth": 44,
+      "searchHeight": 44,
+      "theme": "light",
+      "focusSurfaceContrast": 6.3,
+      "focusCanvasContrast": 5.87,
+      "headerContrast": 4.89
+    },
+    {
+      "focus": "rgb(255, 173, 122)",
+      "surface": "#171f2b",
+      "canvas": "#111722",
+      "headerForeground": "rgb(146, 159, 177)",
+      "headerBackdrop": "rgb(28, 38, 52)",
+      "searchWidth": 44,
+      "searchHeight": 44,
+      "theme": "dark",
+      "focusSurfaceContrast": 9.08,
+      "focusCanvasContrast": 9.84,
+      "headerContrast": 5.68
+    }
+  ],
+  "passed": true,
+  "manualReview": "Primary and bounded review agent inspected desktop/mobile screenshots, navigation focus and event actions. Remaining axe incomplete contrast targets are clipped table headers; the recorded light/dark header and focus-ring contrasts pass their respective numeric targets. This does not establish complete WCAG conformance."
+}

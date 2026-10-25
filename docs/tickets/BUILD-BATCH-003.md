@@ -12,7 +12,7 @@
 | SEN-307 | Real database activity overview | Bounded 24-hour event histogram, top sources and severity totals from scoped PostgreSQL data; accessible responsive views and API/browser evidence | Complete locally; evidence below |
 | SEN-306 | Integrated verification and source-of-truth update | Build, contracts, real PostgreSQL isolation/quota/audit/retention/recovery, browser, no secret leaks, scoped remaining-gate report | Complete locally; evidence below |
 
-| SEN-308 | Public Apache-2.0 alpha source | Reviewed synthetic-only source, working hero link, private vulnerability reporting and actual GitHub CI evidence | Publication in progress; repository created, first push/check pending |
+| SEN-308 | Public Apache-2.0 alpha source | Reviewed synthetic-only source, working hero link, private vulnerability reporting and actual GitHub CI evidence | Complete source alpha; private reporting enabled, first source push and Linux CI pass recorded in release checklist |
 
 No paid server or public telemetry service is created by this batch. The user authorized GitHub publication and adopted Apache-2.0. Identity/MFA, per-user/workspace roles, collectors, distributed edge limits, external audit anchoring, high-volume benchmark, independent assessment and supported release provenance still require their own gates. Backup tooling is an operator capability, not a backup schedule or offsite storage service.
 

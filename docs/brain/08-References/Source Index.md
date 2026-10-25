@@ -134,3 +134,11 @@ The Hono app's Worker-compatible entry shape does not mean a Worker deployment e
 - [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0): owner adopted project license; third-party rights remain separate.
 - Official [checkout](https://github.com/actions/checkout), [setup-node](https://github.com/actions/setup-node), [setup-python](https://github.com/actions/setup-python): v6 tag SHAs resolved and pinned in CI. Local checks are distinct from GitHub-hosted verification.
 - [GitHub repository API](https://docs.github.com/en/rest/repos/repos#enable-private-vulnerability-reporting-for-a-repository): private security reporting configuration; verify actual enablement before publishing a reporting link.
+
+
+## Dashboard and assurance update (2026-10-25)
+
+- [shadcn/ui documentation](https://ui.shadcn.com/docs), [official skill guide](https://ui.shadcn.com/docs/skills), [upstream SKILL.md](https://github.com/shadcn-ui/ui/blob/main/skills/shadcn/SKILL.md): researched component composition, typography, state and accessible primitives. The Tailwind-specific skill/CLI was not installed or executed against the native-CSS application.
+- [Watermelon UI](https://ui.watermelon.sh/free/react-components): React/Tailwind/shadcn patterns and declared MIT catalog; references are not blanket approval to run arbitrary registry scripts. No template/registry source imported in this pass.
+- [Cisco CSDL/hardening](https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/compute-security-hardening-guide-standalone-wp.html) and [industrial certification scope](https://www.cisco.com/c/en/us/products/collateral/security/isaiec-62443-3-3-wp.html): public practices and Cisco's own scoped certification; not transferred to Sentinel.
+- [CodeQL setup](https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/configure-code-scanning/configuring-advanced-setup-for-code-scanning), [official action source](https://github.com/github/codeql-action): static analysis for public source; actual scan/alerts tracked in assurance ledger.

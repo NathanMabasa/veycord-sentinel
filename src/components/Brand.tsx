@@ -7,7 +7,7 @@ export default function Brand() {
         <i />
       </span>
       <span className="brand-name">
-        <b>veycord</b>
+        <b>veycord</b>{" "}
         <small>sentinel</small>
       </span>
     </Link>

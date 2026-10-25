@@ -40,9 +40,15 @@ The same source can connect to your own private PostgreSQL database. It includes
 
 The private workspace also has real 24-hour activity analytics, event time ranges, enforced capacity, append-only operational audit, retention dry runs and encrypted backup/restore tooling. See [operations](docs/OPERATIONS.md). Interactive identity/roles, collectors, complete privacy deletion/export, external audit anchoring, scheduled/offsite recovery and high-volume validation remain pending. Use synthetic data while these gates are completed. Read the [vulnerability response manual](docs/brain/03-Security/Vulnerability%20Response%20Manual.md) and [hosting decision](docs/brain/02-Architecture/Private%20Deployment%20Decision.md).
 
+## Dashboard quality checks
+
+The demo starts in light mode, retains a dark-mode preference, and uses one event search with explicit inspection controls. Source counts come from the labeled fixtures. Run `npm run test:a11y` against a local Vite server for automated axe-core A/AA checks across eight dashboard pages, both themes and three widths. This complements functional, keyboard and screenshot review; it does not establish WCAG conformance.
+
+`npm run licenses:inventory` regenerates dependency notices after a reviewed lockfile change. `npm sbom --sbom-format cyclonedx` generates the dependency inventory.
+
 ## Project records
 
-- [Current batch tickets](docs/tickets/BUILD-BATCH-003.md)
+- [Current batch tickets](docs/tickets/BUILD-BATCH-004.md)
 - [Integration audit and evidence](docs/audit/INTEGRATION-AUDIT.md)
 - [Audit research and library choices](docs/audit/RESEARCH-AND-SELECTION.md)
 - [Product brain](docs/brain/README.md)

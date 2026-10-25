@@ -717,6 +717,13 @@ export function SecurityPage() {
           security assessment.
         </li>
       </ul>
+      <h2 className="subheading">Cisco practices and certification</h2>
+      <p className="wide-copy">
+        Sentinel is not Cisco certified. Cisco’s public development guidance is a
+        reference for our threat modeling, review, testing and vulnerability response.
+        Certification would require a defined assessment program, scope and successful
+        external evaluation. <a href={`${appConfig.githubUrl}/blob/main/docs/security/ASSURANCE-MATRIX.md`} target="_blank" rel="noreferrer">Read our current assurance evidence and open gaps.</a>
+      </p>
       <h2 className="subheading">Security lifecycle we are building toward</h2>
       <p className="wide-copy">
         Cisco describes a lifecycle spanning planning, development, validation,

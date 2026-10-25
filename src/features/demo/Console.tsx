@@ -1,8 +1,37 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import React from "react";
-import { Activity, AlertTriangle, ArrowRight, Bell, BookOpen, Check, CircleHelp, Download, FileSearch, HardDrive, LayoutDashboard, LockKeyhole, Menu, Moon, Plus, Search, Settings2, Shield, ShieldAlert, Sun, X } from "lucide-react";
+import {
+  Activity,
+  AlertTriangle,
+  ArrowRight,
+  Bell,
+  BookOpen,
+  Check,
+  CircleHelp,
+  Download,
+  FileSearch,
+  HardDrive,
+  LayoutDashboard,
+  LockKeyhole,
+  Menu,
+  Moon,
+  Plus,
+  Search,
+  Settings2,
+  Shield,
+  ShieldAlert,
+  Sun,
+  X,
+} from "lucide-react";
 import { Link } from "react-router-dom";
-import { activity, demoEvents, detections, initialAlerts, type DemoEvent, type Severity } from "../../data/demo";
+import "./console.css";
+import {
+  demoEvents,
+  detections,
+  initialAlerts,
+  type DemoEvent,
+  type Severity,
+} from "../../data/demo";
 import Brand from "../../components/Brand";
 type Page =
   | "Overview"
@@ -125,69 +154,35 @@ const navItems: { label: Page; icon: typeof LayoutDashboard }[] = [
   { label: "Reports", icon: BookOpen },
   { label: "Settings", icon: Settings2 },
 ];
-function Sparkline({ tone }: { tone: string }) {
+function Chart({ events }: { events: DemoEvent[] }) {
+  const sourceCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    events.forEach((event) =>
+      counts.set(event.source, (counts.get(event.source) ?? 0) + 1),
+    );
+    return [...counts.entries()].sort(([a], [b]) => a.localeCompare(b));
+  }, [events]);
+  const maxCount = Math.max(1, ...sourceCounts.map(([, count]) => count));
   return (
-    <svg
-      className={`sparkline ${tone}`}
-      viewBox="0 0 100 34"
-      preserveAspectRatio="none"
-      aria-hidden="true"
+    <div
+      className="chart-wrap"
+      role="group"
+      aria-label="Synthetic event counts grouped by source"
     >
-      <path d="M0 29 L9 24 L18 27 L27 14 L36 18 L45 9 L54 17 L63 11 L72 21 L81 6 L90 15 L100 3" />
-    </svg>
-  );
-}
-function Chart() {
-  const pts = useMemo(
-    () =>
-      activity
-        .map((v, i) => `${(i * 560) / (activity.length - 1)},${132 - v * 3}`)
-        .join(" "),
-    [],
-  );
-  return (
-    <div className="chart-wrap">
-      <div className="chart-y-axis">
-        <span>30</span>
-        <span>20</span>
-        <span>10</span>
-        <span>0</span>
-      </div>
-      <svg
-        className="activity-chart"
-        viewBox="0 0 560 140"
-        preserveAspectRatio="none"
-        role="img"
-        aria-label="Synthetic event counts by hour"
-      >
-        <defs>
-          <linearGradient id="area" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stopColor="#ff6a00" stopOpacity=".18" />
-            <stop offset="100%" stopColor="#ff6a00" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        {[18, 54, 90, 126].map((y) => (
-          <line key={y} x1="0" x2="560" y1={y} y2={y} className="grid-line" />
+      <ul className="source-count-list">
+        {sourceCounts.map(([source, count]) => (
+          <li key={source}>
+            <span>{source}</span>
+            <span className="source-count-track" aria-hidden="true">
+              <i style={{ width: `${(count / maxCount) * 100}%` }} />
+            </span>
+            <b>{count}</b>
+          </li>
         ))}
-        <polygon points={`0,140 ${pts} 560,140`} fill="url(#area)" />
-        <polyline
-          points={pts}
-          fill="none"
-          stroke="#ff6a00"
-          strokeWidth="2"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-        />
-      </svg>
-      <div className="chart-x-axis">
-        <span>00:00</span>
-        <span>04:00</span>
-        <span>08:00</span>
-        <span>12:00</span>
-        <span>16:00</span>
-        <span>20:00</span>
-        <span>Now</span>
-      </div>
+      </ul>
+      <p className="chart-footnote">
+        Counts from {events.length} bundled fixture records.
+      </p>
     </div>
   );
 }
@@ -195,7 +190,7 @@ export default function Console() {
   const storedTheme =
     readDemoState(
       "theme",
-      "dark",
+      "light",
       (value): value is string => value === "dark" || value === "light",
     ) === "light"
       ? "light"
@@ -235,7 +230,9 @@ export default function Console() {
       readDemoState("saved-searches", [], validSearches),
     );
   const navToggleRef = useRef<HTMLButtonElement>(null);
-  useEffect(() => { document.title = `${page} · Demo | Veycord Sentinel`; }, [page]);
+  useEffect(() => {
+    document.title = `${page} · Demo | Veycord Sentinel`;
+  }, [page]);
   const sidebarRef = useRef<HTMLElement>(null);
   useEffect(() => {
     if (!mobileNav) return;
@@ -247,13 +244,25 @@ export default function Console() {
         event.preventDefault();
         setMobileNav(false);
       } else if (event.key === "Tab") {
-        const controls = Array.from(sidebarRef.current?.querySelectorAll<HTMLElement>("a[href], button:not([disabled]), [tabindex='0']") ?? []).filter(element => element.getClientRects().length > 0);
-        const first = controls[0], last = controls[controls.length - 1];
-        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
-        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+        const controls = Array.from(
+          sidebarRef.current?.querySelectorAll<HTMLElement>(
+            "a[href], button:not([disabled]), [tabindex='0']",
+          ) ?? [],
+        ).filter((element) => element.getClientRects().length > 0);
+        const first = controls[0],
+          last = controls[controls.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
       }
     };
-    const onResize = () => { if (window.innerWidth > 760) setMobileNav(false); };
+    const onResize = () => {
+      if (window.innerWidth > 760) setMobileNav(false);
+    };
     document.addEventListener("keydown", onKeyDown);
     window.addEventListener("resize", onResize);
     return () => {
@@ -301,6 +310,8 @@ export default function Console() {
     };
   const saveSearch = () => {
     if (!search.trim()) return notify("Enter a search term first.");
+    if (search.trim().length > 200) return notify("Use 200 characters or fewer for a saved search.");
+    if (savedSearches.length >= 100 && !savedSearches.includes(search.trim())) return notify("The limit of 100 saved searches has been reached.");
     setSavedSearches((v) =>
       v.includes(search.trim()) ? v : [...v, search.trim()],
     );
@@ -400,7 +411,14 @@ export default function Console() {
           }}
         />
       )}
-      <aside id="workspace-navigation" ref={sidebarRef} className={`sidebar ${mobileNav ? "sidebar-open" : ""}`} role={mobileNav ? "dialog" : undefined} aria-modal={mobileNav || undefined} aria-label="Workspace navigation">
+      <aside
+        id="workspace-navigation"
+        ref={sidebarRef}
+        className={`sidebar ${mobileNav ? "sidebar-open" : ""}`}
+        role={mobileNav ? "dialog" : undefined}
+        aria-modal={mobileNav || undefined}
+        aria-label="Workspace navigation"
+      >
         <div className="sidebar-top">
           <Brand />
           <button
@@ -432,9 +450,12 @@ export default function Console() {
               <Icon size={17} />
               <span>{label}</span>
               {label === "Alerts" &&
-                alerts.filter((a) => a.status === "New").length > 0 && (
-                  <i className="nav-count">
-                    {alerts.filter((a) => a.status === "New").length}
+                alerts.filter((a) => a.status !== "Resolved").length > 0 && (
+                  <i
+                    className="nav-count"
+                    aria-label={`${alerts.filter((a) => a.status !== "Resolved").length} unresolved alerts`}
+                  >
+                    {alerts.filter((a) => a.status !== "Resolved").length}
                   </i>
                 )}
             </button>
@@ -451,7 +472,7 @@ export default function Console() {
             Open alert queue <ArrowRight size={14} />
           </button>
         </div>
-        <div className="user-menu" aria-label="Demo analyst">
+        <div className="user-menu">
           <div className="user-avatar">JD</div>
           <span>
             <b>Jordan Demo</b>
@@ -472,28 +493,20 @@ export default function Console() {
             <Menu size={19} />
           </button>
           <div className="breadcrumbs">
-            <Link to="/" aria-label="Back to product website">
+            <Link to="/" aria-label="Sentinel product website">
               Sentinel
             </Link>
             <span>/</span>
             <span>{page}</span>
           </div>
-          <label className="global-search">
+          <button
+            className="global-search global-search-action"
+            onClick={() => go("Explore")}
+            aria-label="Search sample events"
+          >
             <Search size={16} />
-            <input
-              aria-label="Search events and hosts"
-              placeholder="Search events, hosts, users, IPs…"
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                if (page !== "Explore") setPage("Explore");
-              }}
-              onKeyDown={(e) => {
-                if ((e.metaKey || e.ctrlKey) && e.key === "Enter") saveSearch();
-              }}
-            />
-            <kbd>⌘ ↵</kbd>
-          </label>
+            <span>Search sample events</span>
+          </button>
           <button
             className="icon-button theme-toggle"
             onClick={() =>
@@ -517,15 +530,15 @@ export default function Console() {
         </header>
         <div className="demo-banner">
           <span>
-            <span className="demo-dot" /> LOCAL SYNTHETIC DEMO
+            Synthetic dataset
           </span>
           <p>
             {storageAvailable
-              ? "Sample records only. Changes stay in this browser."
+              ? "Your alert and case changes stay in this browser."
               : "Sample records only. Changes last for this session; browser storage is unavailable."}
           </p>
           <button onClick={reset}>
-            Reset demo <span>↺</span>
+            Reset demo
           </button>
         </div>
         {selectedEvent ? (
@@ -646,10 +659,7 @@ function Heading({
   return (
     <div className="page-heading">
       <div>
-        <div className="heading-kicker">
-          <span className="status-pip" />
-          {kicker}
-        </div>
+        <div className="heading-kicker">{kicker}</div>
         <h1>{title}</h1>
         <p>{subtitle}</p>
       </div>
@@ -682,7 +692,6 @@ function Metric({
       </div>
       <div className="metric-value-row">
         <strong>{value}</strong>
-        <Sparkline tone={tone} />
       </div>
       <div className="metric-bottom">
         <span className={`metric-delta ${tone}`}>{delta}</span>
@@ -699,10 +708,10 @@ function Overview(p: ContentProps) {
     <div className="content-area">
       <Heading
         kicker="Workspace overview"
-        title="Good morning, Jordan"
+        title="Security overview"
         subtitle="A small synthetic environment for practising event investigation."
       >
-        <span className="sample-label" aria-label="Fixture time span">
+        <span className="sample-label">
           Fixture records: 08:21–09:42
         </span>
         <button
@@ -743,25 +752,19 @@ function Overview(p: ContentProps) {
           delta="Local fixtures"
           detail="No live connections"
           icon={HardDrive}
-          tone="green"
+          tone="slate"
         />
       </div>
       <div className="dashboard-grid">
         <section className="panel activity-panel">
           <div className="panel-heading">
             <div>
-              <h2>Sample event activity</h2>
-              <p>
-                Illustrative fixture pattern; not time-filtered or live
-                telemetry
-              </p>
+              <h2>Sample events by source</h2>
+              <p>Counts grouped from the bundled example records.</p>
             </div>
-            <span className="sample-label">
-              <span className="demo-dot" />
-              SYNTHETIC
-            </span>
+            <span className="sample-label">Synthetic dataset</span>
           </div>
-          <Chart />
+          <Chart events={demoEvents} />
         </section>
         <section className="panel alert-panel">
           <div className="panel-heading">
@@ -824,10 +827,7 @@ function Overview(p: ContentProps) {
         </section>
       </div>
       <div className="console-bottomline">
-        <span>
-          <span className="demo-dot" />
-          Local synthetic workspace
-        </span>
+        <span>Local synthetic workspace</span>
         <span>
           Browser storage only <span className="bottom-sep">/</span>
           <button onClick={() => p.go("Settings")}>Workspace settings</button>
@@ -860,10 +860,14 @@ function Explore(p: ContentProps) {
           <Search size={17} />
           <input
             aria-label="Search sample events"
+            maxLength={200}
             autoFocus
             placeholder="Search event, host, user, IP, or source…"
             value={p.search}
             onChange={(e) => p.setSearch(e.target.value)}
+            onKeyDown={(e) => {
+              if ((e.metaKey || e.ctrlKey) && e.key === "Enter") p.saveSearch();
+            }}
           />
           <kbd>⌘ ↵ to save</kbd>
         </label>
@@ -923,10 +927,7 @@ function Explore(p: ContentProps) {
             <h2>Event results</h2>
             <p>Fabricated records for this demonstration.</p>
           </div>
-          <span className="sample-label">
-            <span className="demo-dot" />
-            SAMPLE DATA
-          </span>
+          <span className="sample-label">Sample dataset</span>
         </div>
         <EventTable events={p.events} open={p.openEvent} />
       </section>
@@ -949,28 +950,31 @@ function EventTable({
       </div>
     );
   return (
-    <div className="table-scroll">
+    <div
+      className="table-scroll"
+      role="region"
+      aria-label="Sample event results"
+      tabIndex={0}
+      aria-describedby="event-table-scroll-help"
+    >
+      <p id="event-table-scroll-help" className="sr-only">
+        Scroll horizontally to review all event fields.
+      </p>
       <table>
+        <caption className="sr-only">Sample event results</caption>
         <thead>
           <tr>
-            <th>TIME</th>
-            <th>EVENT</th>
-            <th>SOURCE</th>
-            <th>HOST</th>
-            <th>SEVERITY</th>
-            <th>OUTCOME</th>
+            <th scope="col">TIME</th>
+            <th scope="col">EVENT</th>
+            <th scope="col">SOURCE</th>
+            <th scope="col">HOST</th>
+            <th scope="col">SEVERITY</th>
+            <th scope="col">OUTCOME</th>
           </tr>
         </thead>
         <tbody>
           {events.map((r) => (
-            <tr
-              key={r.id}
-              tabIndex={0}
-              onClick={() => open(r)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") open(r);
-              }}
-            >
+            <tr key={r.id}>
               <td className="mono">{r.time}</td>
               <td>
                 <span
@@ -982,7 +986,13 @@ function EventTable({
                     <Activity size={13} />
                   )}
                 </span>
-                {r.event}
+                <button
+                  className="event-open"
+                  aria-label={`Inspect event ${r.event} (${r.id})`}
+                  onClick={() => open(r)}
+                >
+                  {r.event}
+                </button>
               </td>
               <td>{r.source}</td>
               <td className="mono host-cell">{r.host}</td>
@@ -1327,8 +1337,7 @@ function SourcesPage(p: ContentProps) {
         subtitle="These records are bundled fixtures. Connection and ingestion are not implemented yet."
       >
         <span className="sample-label">
-          <span className="demo-dot" />
-          NO LIVE CONNECTIONS
+          Synthetic fixtures · no connections
         </span>
       </Heading>
       <div className="source-callout">
@@ -1510,7 +1519,7 @@ function SettingsPage(p: ContentProps) {
             onClick={() => p.setTheme(p.theme === "dark" ? "light" : "dark")}
             aria-label={`Switch to ${p.theme === "dark" ? "light" : "dark"} theme`}
           >
-            Toggle theme
+            Switch to {p.theme === "dark" ? "light" : "dark"} theme
           </button>
         </div>
         <div className="setting-row">

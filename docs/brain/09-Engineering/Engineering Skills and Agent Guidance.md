@@ -43,3 +43,8 @@ For architecture research, consult primary product docs and license texts, then 
 ## Verification discipline
 
 When implementation verification is requested, use the test/verification method suited to the changed component: unit/contract tests for logic and APIs, worker-runtime tests for Cloudflare bindings, browser tests for UI, and representative load/security tests for data-plane changes. Do not claim a test or assessment passed unless it was actually run and the evidence is retained.
+
+
+## Reviewed dashboard references (2026-10-25)
+
+The official [shadcn skill](https://ui.shadcn.com/docs/skills) and [upstream MD](https://github.com/shadcn-ui/ui/blob/main/skills/shadcn/SKILL.md) are reference candidates for a future actual shadcn/Tailwind implementation. They were researched, not installed or blindly executed against this native-CSS application. Installed frontend-design, React best practices and webapp-testing remain the active matching skills. [Watermelon UI](https://ui.watermelon.sh/free/react-components) is a visual/composition source; each imported component would need separate license, code/dependency and accessibility review. Current changes need no additional runtime package.
