@@ -1,6 +1,6 @@
 # Veycord Sentinel handoff —2026-10-25, batch006
 
-Latest user request: improve sidebar/navigation using strong product design and working understandable elements. Current branch `improve-console-navigation` implements batch006; inspect Git and its protected PR before further work. Batch005 merged via PR10 at f538936d9ddce7e54c6a1697973eb321052200a9. PR10 verify40168395903 and CodeQL40168395888 passed. Public source is https://github.com/NathanMabasa/veycord-sentinel.
+Latest user request: improve sidebar/navigation using strong product design and working understandable elements. Current branch `improve-console-navigation` implements batch006; protected integration is [PR11](https://github.com/NathanMabasa/veycord-sentinel/pull/11). Inspect Git and that PR before further work. Batch005 merged via PR10 at f538936d9ddce7e54c6a1697973eb321052200a9. PR10 verify40168395903 and CodeQL40168395888 passed. Public source is https://github.com/NathanMabasa/veycord-sentinel.
 
 ## Navigation continuation
 
