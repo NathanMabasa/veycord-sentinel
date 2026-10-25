@@ -20,6 +20,7 @@ All successful responses use a `{ "data": ... }` envelope. Event-list responses 
 | `GET`   | `/api/private/v1/audit`     | Latest 100 audit entries for the configured workspace.                    |
 | `GET`   | `/api/private/v1/events`    | Search stored events.                                                     |
 | `POST`  | `/api/private/v1/events`    | Validate a batch, evaluate deterministic starter detections, then ingest. |
+| `GET`   | `/api/private/v1/rules`     | Current six-rule metadata catalog; no executable predicates or query parameters. |
 | `GET`   | `/api/private/v1/findings`  | List at most 100 findings.                                                |
 | `GET`   | `/api/private/v1/cases`     | List at most 100 cases.                                                   |
 | `POST`  | `/api/private/v1/cases`     | Create a case with a title, analyst note, and optional finding UUID.      |
@@ -58,3 +59,7 @@ This private API is not a claim of production readiness or multi-tenant support.
 - `GET /api/private/v1/audit`: newest100 scoped operational records; runtime cannot edit/delete them. No per-user attribution is implied.
 
 Quota violations use409 and roll back the mutation and its audit together. Defaults and administrator commands are in [operations](OPERATIONS.md). Event UI ranges are1h/24h/7d/30d; API event range remains capped at31d. Public `/api/v1` stays synthetic and unauthenticated.
+
+## Rule revision evidence (batch005)
+
+The protected `/rules` catalog describes current-build authored, experimental single-event rules. Each record includes version, owner, license, required fields, false positives and primary references. It shares the read limit and accepts no query parameters. It does not establish database health. Findings expose `ruleVersion`: newly evaluated revisions are stored transactionally; legacy/manual findings return null. Do not substitute the current catalog version for a historical unknown. See [rule lifecycle](DETECTION-RULES.md) for review and rollback procedures and remaining correlation/suppression gaps.

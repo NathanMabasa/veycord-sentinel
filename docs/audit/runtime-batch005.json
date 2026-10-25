@@ -1,0 +1,24 @@
+{
+  "checked": "2026-10-25T06:11:27.169Z",
+  "checks": [
+    {
+      "route": "/health",
+      "status": 200
+    },
+    {
+      "route": "/summary",
+      "status": 200
+    },
+    {
+      "route": "/findings",
+      "status": 200
+    },
+    {
+      "route": "/rules",
+      "status": 200
+    }
+  ],
+  "anonymousRulesStatus": 401,
+  "migration": "004_finding_rule_version.sql",
+  "passed": true
+}

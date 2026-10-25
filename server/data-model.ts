@@ -15,6 +15,8 @@ export type EventInput = {
 }
 export type DetectionMatch = {
   ruleId: string
+  /** Null/omitted for legacy or manually supplied findings; never infer from the current catalog. */
+  ruleVersion?: string | null
   name: string
   severity: SeverityLevel
   techniqueId: string

@@ -8,7 +8,7 @@ import { spawn, execFile as execFileCallback } from 'node:child_process'
 import { createServer } from 'node:net'
 import { test } from 'node:test'
 import { Pool } from 'pg'
-import { PostgresStore, StoreNotFoundError, StoreQuotaError } from '../server/storage/postgres-store.js'
+import { PostgresStore, StoreNotFoundError, StoreQuotaError, StoreInputError } from '../server/storage/postgres-store.js'
 
 const execFile = promisify(execFileCallback)
 
@@ -180,9 +180,9 @@ test('PostgresStore isolates workspaces and persists bounded event, finding, and
         outcome: 'denied', attributes: { attempt: 1, synthetic: true }, raw: '{"synthetic":true}',
       }
       const second = { ...first, eventId: 'test-event-2', timestamp: '2026-10-24T09:00:00.000Z', event: 'Second synthetic event' }
-      const match = { ruleId: 'TEST-001', name: 'Synthetic test finding', severity: 'medium' as const, techniqueId: 'T1110', reason: 'Synthetic test match.', evidence: ['One synthetic evidence item.'] }
+      const match = { ruleId: 'TEST-001', ruleVersion: '1.0.0', name: 'Synthetic test finding', severity: 'medium' as const, techniqueId: 'T1110', reason: 'Synthetic test match.', evidence: ['One synthetic evidence item.'] }
       assert.deepEqual(await store.ingest([first, second], [[match], []]), { accepted: 2, duplicates: 0, findings: 1 })
-      assert.deepEqual(await store.ingest([first], [[match]]), { accepted: 0, duplicates: 1, findings: 0 })
+      assert.deepEqual(await store.ingest([first], [[{ ...match, ruleVersion: '2.0.0' }]]), { accepted: 0, duplicates: 1, findings: 0 })
       assert.deepEqual(await store.summary(), { eventCount: 2, findingCount: 1, openCaseCount: 0, latestEventAt: '2026-10-24T09:00:00.000Z' })
       const firstOperations = await store.operations()
       assert.deepEqual(firstOperations.limits, { maxEvents: 2, maxEventBytes: 100000, maxCases: 1, maxAuditEntries: 200000, retentionDays: 30 })
@@ -208,6 +208,11 @@ test('PostgresStore isolates workspaces and persists bounded event, finding, and
       const findings = await store.listFindings(10)
       assert.equal(findings.length, 1)
       assert.equal(findings[0].eventId, 'test-event-1')
+      assert.equal(findings[0].ruleVersion, '1.0.0')
+      for (const ruleVersion of ['not-a-version', '01.0.0', '1.01.0', '1.0.01', '1.0.0-beta', '1000000.0.0']) {
+        await assert.rejects(store.ingest([{ ...first, eventId: 'invalid-version' }], [[{ ...match, ruleVersion }]]), StoreInputError)
+        await assert.rejects(admin.query('UPDATE findings SET rule_version=$1 WHERE id=$2', [ruleVersion, findings[0].id]), { code: '23514' })
+      }
       const caseRecord = await store.createCase({ title: 'Synthetic investigation', note: 'Fixture-only note.', findingId: findings[0].id })
       assert.equal(caseRecord.findingId, findings[0].id)
       assert.equal((await store.updateCase(caseRecord.id, { status: 'closed' }))?.status, 'closed')

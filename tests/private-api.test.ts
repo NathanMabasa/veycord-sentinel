@@ -491,3 +491,25 @@ test("applies separate in-process read and ingest rate limits", async () => {
   store.createCase=async()=>{throw new StoreNotFoundError("private detail")};
   assert.equal((await api.fetch(request("/api/private/v1/cases",json({title:"Synthetic",note:""})))).status,404);
 });
+
+test("rule catalog is authenticated, bounded, non-executable, uncached, and rejects caller scope", async () => {
+  const { api, store } = apiFor();
+  for (const headers of [{} as Record<string, string>, { authorization: "Bearer invalid" }]) {
+    assert.equal((await api.fetch(request("/api/private/v1/rules", { headers }))).status, 401);
+  }
+  for (const query of ["?workspace=other", "?token=secret", "?limit=1"]) {
+    assert.equal((await api.fetch(request(`/api/private/v1/rules${query}`, { headers: auth }))).status, 400);
+  }
+  const mutation = await api.fetch(request("/api/private/v1/rules", { method: "POST", headers: auth }));
+  assert.equal(mutation.status, 405);
+  assert.equal(mutation.headers.get("allow"), "GET, HEAD");
+  const response = await api.fetch(request("/api/private/v1/rules", { headers: auth }));
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get("cache-control"), "no-store");
+  const { data } = await response.json();
+  assert.equal(data.length, 6);
+  assert.ok(data.every((rule: Record<string, unknown>) => rule.version === "1.0.0" && !("matches" in rule)));
+  assert.equal(store.calls, 0);
+  for (let index = 0; index < 59; index++) await api.fetch(request("/api/private/v1/rules", { headers: auth }));
+  assert.equal((await api.fetch(request("/api/private/v1/rules", { headers: auth }))).status, 429);
+});

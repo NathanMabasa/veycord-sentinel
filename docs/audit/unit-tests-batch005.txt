@@ -1,0 +1,48 @@
+
+> veycord-sentinel@0.1.0 test:unit
+> tsx --test tests/api.test.ts tests/private-api.test.ts tests/detections.test.ts tests/gateway.test.ts tests/runtime-config.test.ts
+
+✔ health identifies the fixture-only unauthenticated mode and sets security headers (9.418125ms)
+✔ event search returns bounded synthetic data and supports opaque pagination (0.738209ms)
+✔ event search applies supported filters (0.4785ms)
+✔ event search rejects impossible dates and accepts valid RFC 3339 offsets (0.934875ms)
+✔ event search handles empty matches and enforces field and date range bounds (0.494333ms)
+✔ invalid and unbounded search inputs return a safe validation error (0.814083ms)
+✔ event detail, detections, and missing IDs use documented envelopes (0.877625ms)
+✔ unknown API routes and unsupported methods never become SPA responses (0.277166ms)
+✔ unexpected handler errors return a safe 500 with security headers (0.315084ms)
+✔ VC-001 has positive and negative coverage with evidence (0.471458ms)
+✔ VC-002 has positive and negative coverage with evidence (0.050583ms)
+✔ VC-003 has positive and negative coverage with evidence (0.03425ms)
+✔ VC-004 has positive and negative coverage with evidence (0.03275ms)
+✔ VC-005 has positive and negative coverage with evidence (0.041709ms)
+✔ VC-006 has positive and negative coverage with evidence (0.029625ms)
+✔ missing fields and arbitrary payload strings are not evaluated (0.257958ms)
+✔ threshold must be an integer count and approval must be explicit (0.046209ms)
+✔ catalog has complete authored experimental metadata without executable predicates (0.189792ms)
+✔ every authored match carries the evaluated revision and every required field has a missing-field negative (0.171167ms)
+✔ private routes fail closed by default while public fixtures remain separate (8.926ms)
+✔ enabling private mode requires complete server-only configuration and verified TLS (0.222ms)
+✔ requires a strong configured token and authenticates before store access (14.262458ms)
+✔ maps storage quota failures to a safe conflict response (3.174333ms)
+✔ serves protected health, summary, analytics, operations, audit, events, findings, and cases in data envelopes (2.450791ms)
+✔ operations and audit reject query strings and return safe store failures (0.746209ms)
+✔ analytics rejects all client filters and returns a safe bounded failure (0.718417ms)
+✔ event query validation rejects unknown, repeated, malformed, and oversized inputs (0.991709ms)
+✔ validates event batches strictly and evaluates detections before ingestion (3.189042ms)
+✔ caps chunked request bodies before JSON parsing (0.448084ms)
+✔ creates and patches UUID cases; rejects extra client workspace fields (1.81625ms)
+✔ uses safe 503 envelopes and rejects unsupported methods and missing case IDs (0.885667ms)
+✔ applies separate in-process read and ingest rate limits (7.027333ms)
+✔ case note may be empty and storage input errors are safe client failures (0.739167ms)
+✔ rule catalog is authenticated, bounded, non-executable, uncached, and rejects caller scope (3.719792ms)
+✔ dedicated runtime rejects migration, restore and encryption credentials (0.405709ms)
+✔ runtime file contains only allowed settings and never overwrites an existing file (57.328833ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 149.369625

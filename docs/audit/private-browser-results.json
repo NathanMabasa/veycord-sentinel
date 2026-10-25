@@ -21,6 +21,14 @@
       "passed": true
     },
     {
+      "name": "protected rule catalog exposes six experimental versioned rules",
+      "passed": true
+    },
+    {
+      "name": "all five stored findings display evaluated rule revision",
+      "passed": true
+    },
+    {
       "name": "actual hourly analytics sums to 8 accepted records",
       "passed": true
     },
@@ -89,6 +97,10 @@
       "passed": true
     },
     {
+      "name": "1440px finding revision stays inside its card",
+      "passed": true
+    },
+    {
       "name": "1440px has no document overflow",
       "passed": true
     },
@@ -105,6 +117,10 @@
       "passed": true
     },
     {
+      "name": "1024px finding revision stays inside its card",
+      "passed": true
+    },
+    {
       "name": "1024px has no document overflow",
       "passed": true
     },
@@ -118,6 +134,10 @@
     },
     {
       "name": "1024px table keeps readable cells and all columns",
+      "passed": true
+    },
+    {
+      "name": "768px finding revision stays inside its card",
       "passed": true
     },
     {
@@ -138,6 +158,10 @@
     },
     {
       "name": "tablet table supports keyboard horizontal scrolling",
+      "passed": true
+    },
+    {
+      "name": "390px finding revision stays inside its card",
       "passed": true
     },
     {
@@ -165,6 +189,10 @@
       "passed": true
     },
     {
+      "name": "360px finding revision stays inside its card",
+      "passed": true
+    },
+    {
       "name": "360px has no document overflow",
       "passed": true
     },
@@ -186,6 +214,10 @@
     },
     {
       "name": "360px mobile evidence action opens the stored event",
+      "passed": true
+    },
+    {
+      "name": "320px finding revision stays inside its card",
       "passed": true
     },
     {

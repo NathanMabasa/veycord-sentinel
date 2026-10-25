@@ -8,7 +8,7 @@ import {
   StoreNotFoundError,
   StoreQuotaError,
 } from "./storage/postgres-store.js";
-import { evaluateEvent } from "./detections.js";
+import { evaluateEvent, listRuleCatalog } from "./detections.js";
 import {
   isUuid,
   MAX_BODY_BYTES,
@@ -206,6 +206,10 @@ export function createPrivateApi({
     return c.json({ data: { status: "ok" } });
   });
 
+  app.get(`${PREFIX}/rules`, rateLimit("read"), (c) =>
+    c.json({ data: listRuleCatalog() }),
+  );
+
   app.get(`${PREFIX}/summary`, rateLimit("read"), async (c) => {
     const result = await withStore(c, () => store.summary());
     return result instanceof Response ? result : c.json({ data: result });
@@ -307,6 +311,7 @@ export function createPrivateApi({
     const known =
       path === `${PREFIX}/health` ||
       path === `${PREFIX}/summary` ||
+      path === `${PREFIX}/rules` ||
       path === `${PREFIX}/analytics` ||
       path === `${PREFIX}/operations` ||
       path === `${PREFIX}/audit` ||
