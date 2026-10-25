@@ -1,0 +1,19 @@
+node_modules/
+dist/
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# Private runtime data and backups
+.data/
+backups/
+*.dump
+*.backup
+*.vybak
+*.pgdump
+build/
+
+__pycache__/
+*.pyc
+*.tsbuildinfo

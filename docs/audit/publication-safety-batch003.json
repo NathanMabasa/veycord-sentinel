@@ -1,0 +1,39 @@
+{
+  "runtimeChecks": [
+    {
+      "endpoint": "summary",
+      "status": 200,
+      "validObject": true
+    },
+    {
+      "endpoint": "operations",
+      "status": 200,
+      "validObject": true
+    },
+    {
+      "endpoint": "analytics",
+      "status": 200,
+      "validObject": true
+    },
+    {
+      "endpoint": "audit",
+      "status": 200,
+      "validObject": true
+    }
+  ],
+  "configuredSecretScan": {
+    "filesChecked": 202,
+    "secretCount": 4,
+    "matchedFiles": []
+  },
+  "ignoredPrivatePaths": {
+    ".env": true,
+    ".env.runtime": true,
+    ".data/postgres": true,
+    "node_modules": true,
+    "dist": true,
+    "build": true,
+    ".data/backups/before-operations-migration.vybak": true
+  },
+  "passed": true
+}

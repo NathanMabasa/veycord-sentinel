@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:16.15
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: veycord
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in a local .env file}
+    ports:
+      - "127.0.0.1:54329:5432"
+    volumes:
+      - veycord-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d veycord"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    networks:
+      - private-data
+
+volumes:
+  veycord-postgres-data:
+
+networks:
+  private-data:
+    internal: true

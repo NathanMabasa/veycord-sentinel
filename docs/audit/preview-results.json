@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "health": 200,
+  "missingApiRoute": 404,
+  "ingestUnavailable": 405,
+  "bootCss": 200,
+  "apiExplorer": "HTTP 200",
+  "heroCtaBottom": 605.0,
+  "browserErrors": []
+}

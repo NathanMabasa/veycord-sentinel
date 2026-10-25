@@ -1,0 +1,40 @@
+
+> veycord-sentinel@0.1.0 test:unit
+> tsx --test tests/api.test.ts tests/private-api.test.ts tests/detections.test.ts tests/gateway.test.ts
+
+✔ health identifies the fixture-only unauthenticated mode and sets security headers (9.963ms)
+✔ event search returns bounded synthetic data and supports opaque pagination (0.901084ms)
+✔ event search applies supported filters (0.2865ms)
+✔ event search rejects impossible dates and accepts valid RFC 3339 offsets (0.876041ms)
+✔ event search handles empty matches and enforces field and date range bounds (0.5035ms)
+✔ invalid and unbounded search inputs return a safe validation error (0.570958ms)
+✔ event detail, detections, and missing IDs use documented envelopes (0.287875ms)
+✔ unknown API routes and unsupported methods never become SPA responses (0.237542ms)
+✔ unexpected handler errors return a safe 500 with security headers (0.527375ms)
+✔ VC-001 has positive and negative coverage with evidence (0.440459ms)
+✔ VC-002 has positive and negative coverage with evidence (0.0505ms)
+✔ VC-003 has positive and negative coverage with evidence (0.034625ms)
+✔ VC-004 has positive and negative coverage with evidence (0.032125ms)
+✔ VC-005 has positive and negative coverage with evidence (0.041ms)
+✔ VC-006 has positive and negative coverage with evidence (0.03575ms)
+✔ missing fields and arbitrary payload strings are not evaluated (0.254458ms)
+✔ threshold must be an integer count and approval must be explicit (0.044541ms)
+✔ private routes fail closed by default while public fixtures remain separate (10.050584ms)
+✔ enabling private mode requires complete server-only configuration and verified TLS (0.216416ms)
+✔ requires a strong configured token and authenticates before store access (13.29175ms)
+✔ serves protected health, summary, events, findings, and cases in data envelopes (4.319208ms)
+✔ event query validation rejects unknown, repeated, malformed, and oversized inputs (1.718167ms)
+✔ validates event batches strictly and evaluates detections before ingestion (3.8345ms)
+✔ caps chunked request bodies before JSON parsing (0.639416ms)
+✔ creates and patches UUID cases; rejects extra client workspace fields (1.07325ms)
+✔ uses safe 503 envelopes and rejects unsupported methods and missing case IDs (0.72925ms)
+✔ applies separate in-process read and ingest rate limits (11.393666ms)
+✔ case note may be empty and storage input errors are safe client failures (1.19975ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 121.454959

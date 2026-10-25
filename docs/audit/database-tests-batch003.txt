@@ -1,0 +1,14 @@
+
+> veycord-sentinel@0.1.0 test:db
+> tsx --test tests/postgres.test.ts
+
+✔ database connections require verified TLS remotely or an explicit loopback-only override (0.676166ms)
+✔ PostgresStore isolates workspaces and persists bounded event, finding, and case operations (6129.914042ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6188.862834

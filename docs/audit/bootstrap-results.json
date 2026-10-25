@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "completed": true,
+  "checks": [
+    {
+      "name": "startup visible during real module loading",
+      "passed": true
+    },
+    {
+      "name": "startup releases application interaction",
+      "passed": true
+    },
+    {
+      "name": "normal navigation does not replay loader",
+      "passed": true
+    },
+    {
+      "name": "module failure presents actionable reload",
+      "passed": true
+    },
+    {
+      "name": "reload recovers after module failure",
+      "passed": true
+    },
+    {
+      "name": "reduced motion reaches visible content",
+      "passed": true
+    },
+    {
+      "name": "stalled animation frames cannot block a loaded workspace",
+      "passed": true
+    },
+    {
+      "name": "no JavaScript has useful guidance",
+      "passed": true
+    },
+    {
+      "name": "no JavaScript is not stuck on a loader",
+      "passed": true
+    }
+  ]
+}

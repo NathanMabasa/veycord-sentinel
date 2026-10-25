@@ -1,0 +1,453 @@
+{
+  "checks": [
+    {
+      "name": "public / at 360px",
+      "passed": true,
+      "detail": {
+        "width": 360,
+        "scroll": 360
+      }
+    },
+    {
+      "name": "public /product at 360px",
+      "passed": true,
+      "detail": {
+        "width": 360,
+        "scroll": 360
+      }
+    },
+    {
+      "name": "public /docs at 360px",
+      "passed": true,
+      "detail": {
+        "width": 360,
+        "scroll": 360
+      }
+    },
+    {
+      "name": "public /roadmap at 360px",
+      "passed": true,
+      "detail": {
+        "width": 360,
+        "scroll": 360
+      }
+    },
+    {
+      "name": "public /security at 360px",
+      "passed": true,
+      "detail": {
+        "width": 360,
+        "scroll": 360
+      }
+    },
+    {
+      "name": "public /community at 360px",
+      "passed": true,
+      "detail": {
+        "width": 360,
+        "scroll": 360
+      }
+    },
+    {
+      "name": "public /docs/api at 360px",
+      "passed": true,
+      "detail": {
+        "width": 360,
+        "scroll": 360
+      }
+    },
+    {
+      "name": "public / at 768px",
+      "passed": true,
+      "detail": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "public /product at 768px",
+      "passed": true,
+      "detail": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "public /docs at 768px",
+      "passed": true,
+      "detail": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "public /roadmap at 768px",
+      "passed": true,
+      "detail": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "public /security at 768px",
+      "passed": true,
+      "detail": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "public /community at 768px",
+      "passed": true,
+      "detail": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "public /docs/api at 768px",
+      "passed": true,
+      "detail": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "public / at 1440px",
+      "passed": true,
+      "detail": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "public /product at 1440px",
+      "passed": true,
+      "detail": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "public /docs at 1440px",
+      "passed": true,
+      "detail": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "public /roadmap at 1440px",
+      "passed": true,
+      "detail": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "public /security at 1440px",
+      "passed": true,
+      "detail": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "public /community at 1440px",
+      "passed": true,
+      "detail": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "public /docs/api at 1440px",
+      "passed": true,
+      "detail": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "page navigation resets scroll and focuses heading",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "API explorer reaches live synthetic API",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "API explorer queries fixtures",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "API explorer explains static-host fallback",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "malformed storage recovers",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "theme survives reload",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "search filters fixtures",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "case closes",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "case note persists",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "case JSON export contains note",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "duplicate case prevented",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "dashboard Overview at 360px",
+      "passed": true,
+      "detail": {
+        "width": 360,
+        "scroll": 360
+      }
+    },
+    {
+      "name": "dashboard Explore at 360px",
+      "passed": true,
+      "detail": {
+        "width": 360,
+        "scroll": 360
+      }
+    },
+    {
+      "name": "dashboard Detections at 360px",
+      "passed": true,
+      "detail": {
+        "width": 360,
+        "scroll": 360
+      }
+    },
+    {
+      "name": "dashboard Alerts at 360px",
+      "passed": true,
+      "detail": {
+        "width": 360,
+        "scroll": 360
+      }
+    },
+    {
+      "name": "dashboard Cases at 360px",
+      "passed": true,
+      "detail": {
+        "width": 360,
+        "scroll": 360
+      }
+    },
+    {
+      "name": "dashboard Sources at 360px",
+      "passed": true,
+      "detail": {
+        "width": 360,
+        "scroll": 360
+      }
+    },
+    {
+      "name": "dashboard Reports at 360px",
+      "passed": true,
+      "detail": {
+        "width": 360,
+        "scroll": 360
+      }
+    },
+    {
+      "name": "dashboard Settings at 360px",
+      "passed": true,
+      "detail": {
+        "width": 360,
+        "scroll": 360
+      }
+    },
+    {
+      "name": "mobile dialog makes background inert",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "mobile keyboard focus stays inside navigation",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "mobile Escape returns focus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "dashboard Overview at 768px",
+      "passed": true,
+      "detail": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "dashboard Explore at 768px",
+      "passed": true,
+      "detail": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "dashboard Detections at 768px",
+      "passed": true,
+      "detail": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "dashboard Alerts at 768px",
+      "passed": true,
+      "detail": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "dashboard Cases at 768px",
+      "passed": true,
+      "detail": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "dashboard Sources at 768px",
+      "passed": true,
+      "detail": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "dashboard Reports at 768px",
+      "passed": true,
+      "detail": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "dashboard Settings at 768px",
+      "passed": true,
+      "detail": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "dashboard Overview at 1440px",
+      "passed": true,
+      "detail": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "dashboard Explore at 1440px",
+      "passed": true,
+      "detail": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "dashboard Detections at 1440px",
+      "passed": true,
+      "detail": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "dashboard Alerts at 1440px",
+      "passed": true,
+      "detail": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "dashboard Cases at 1440px",
+      "passed": true,
+      "detail": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "dashboard Sources at 1440px",
+      "passed": true,
+      "detail": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "dashboard Reports at 1440px",
+      "passed": true,
+      "detail": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "dashboard Settings at 1440px",
+      "passed": true,
+      "detail": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "no browser runtime errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "blocked storage still renders dashboard",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "blocked storage warns session-only",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "browserErrors": [],
+  "completed": true,
+  "failure": null,
+  "passed": true
+}

@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.server.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "rootDir": ".",
+    "outDir": "build",
+    "rewriteRelativeImportExtensions": true,
+    "sourceMap": false
+  },
+  "include": ["server/**/*.ts", "src/data/demo.ts"],
+  "exclude": ["tests", "db", "vite.config.ts"]
+}

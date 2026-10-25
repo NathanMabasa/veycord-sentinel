@@ -1,0 +1,10 @@
+import test from 'node:test'
+import assert from 'node:assert/strict'
+import { evaluateEvent,starterRules } from '../server/detections.js'
+import type { EventInput } from '../server/data-model.js'
+const event=(attributes:EventInput['attributes']):EventInput=>({eventId:'fixture-1',timestamp:'2026-10-24T00:00:00Z',event:'Synthetic event',source:'test',host:'test-host',severity:'low',attributes})
+const positives:EventInput['attributes'][]=[{processName:'PowerShell.exe',commandLine:'powershell.exe -ENC example'},{category:'authentication',failureCount:5},{category:'dns',action:'blocked',rareDestination:true},{category:'service',action:'created',outsideChangeWindow:true},{category:'scheduled_task',action:'created',approvedChange:false},{category:'audit',action:'cleared'}]
+const negatives:EventInput['attributes'][]=[{processName:'bash',commandLine:'echo -enc example'},{category:'authentication',failureCount:4},{category:'dns',action:'allowed',rareDestination:true},{category:'service',action:'created'},{category:'scheduled_task',action:'created'},{category:'audit',action:'read'}]
+starterRules.forEach((rule,index)=>test(`${rule.id} has positive and negative coverage with evidence`,()=>{const hits=evaluateEvent(event(positives[index]));const hit=hits.find(item=>item.ruleId===rule.id);assert.ok(hit);assert.ok(hit.evidence.length);assert.equal(evaluateEvent(event(negatives[index])).some(item=>item.ruleId===rule.id),false)}))
+test('missing fields and arbitrary payload strings are not evaluated',()=>{assert.deepEqual(evaluateEvent(event({})),[]);assert.deepEqual(evaluateEvent({...event({payload:'globalThis.compromised=true; process.exit(1)'}),raw:'<script>alert(1)</script>'}),[]);assert.equal((globalThis as Record<string,unknown>).compromised,undefined)})
+test('threshold must be an integer count and approval must be explicit',()=>{assert.deepEqual(evaluateEvent(event({category:'authentication',failureCount:5.1})),[]);assert.deepEqual(evaluateEvent(event({category:'scheduled_task',action:'created',approvedChange:'false'})),[])})

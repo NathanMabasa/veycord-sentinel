@@ -1,0 +1,40 @@
+
+> veycord-sentinel@0.1.0 test:db
+> tsx --test tests/postgres.test.ts
+
+✔ database connections require verified TLS remotely or an explicit loopback-only override (0.676875ms)
+✖ PostgresStore isolates workspaces and persists bounded event, finding, and case operations (8700.379875ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8760.76175
+
+✖ failing tests:
+
+test at tests/postgres.test.ts:50:1
+✖ PostgresStore isolates workspaces and persists bounded event, finding, and case operations (8700.379875ms)
+  Error: Command failed: python3 scripts/private_browser_audit.py
+  Traceback (most recent call last):
+    File "<checkout>/scripts/private_browser_audit.py", line 95, in <module>
+      check(f'{width}px event heading stays below header',page.evaluate("document.getElementById('private-events-title').getBoundingClientRect().top>=document.querySelector('.site-header').getBoundingClientRect().bottom"))
+    File "<checkout>/scripts/private_browser_audit.py", line 14, in check
+      assert condition, name
+  AssertionError: 360px event heading stays below header
+
+      at genericNodeError (node:internal/errors:985:15)
+      at wrappedFn (node:internal/errors:539:14)
+      at ChildProcess.exithandler (node:child_process:417:12)
+      at ChildProcess.emit (node:events:509:28)
+      at maybeClose (node:internal/child_process:1124:16)
+      at ChildProcess._handle.onexit (node:internal/child_process:306:5) {
+    code: 1,
+    killed: false,
+    signal: null,
+    cmd: 'python3 scripts/private_browser_audit.py',
+    stdout: '',
+    stderr: `Traceback (most recent call last):\n  File "<checkout>/scripts/private_browser_audit.py", line 95, in <module>\n    check(f'{width}px event heading stays below header',page.evaluate("document.getElementById('private-events-title').getBoundingClientRect().top>=document.querySelector('.site-header').getBoundingClientRect().bottom"))\n  File "<checkout>/scripts/private_browser_audit.py", line 14, in check\n    assert condition, name\nAssertionError: 360px event heading stays below header\n`
+  }

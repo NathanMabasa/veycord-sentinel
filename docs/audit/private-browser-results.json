@@ -1,0 +1,226 @@
+{
+  "checks": [
+    {
+      "name": "private API denies anonymous access",
+      "passed": true
+    },
+    {
+      "name": "empty disconnected screen renders",
+      "passed": true
+    },
+    {
+      "name": "real database initially empty",
+      "passed": true
+    },
+    {
+      "name": "empty database analytics has no fabricated activity",
+      "passed": true
+    },
+    {
+      "name": "UI ingestion persists 8 events and evaluates 5 findings",
+      "passed": true
+    },
+    {
+      "name": "actual hourly analytics sums to 8 accepted records",
+      "passed": true
+    },
+    {
+      "name": "capacity and mutation audit reflect real ingestion",
+      "passed": true
+    },
+    {
+      "name": "event evidence dialog opens and closes",
+      "passed": true
+    },
+    {
+      "name": "case creation accepts empty optional note",
+      "passed": true
+    },
+    {
+      "name": "case note update accepted",
+      "passed": true
+    },
+    {
+      "name": "case notes save and case closes in database",
+      "passed": true
+    },
+    {
+      "name": "audit does not expose private case note text",
+      "passed": true
+    },
+    {
+      "name": "credential is absent from persistent browser storage",
+      "passed": true
+    },
+    {
+      "name": "stored event filter returns matching evidence",
+      "passed": true
+    },
+    {
+      "name": "event time range 1h is sent as bounded API timestamps",
+      "passed": true
+    },
+    {
+      "name": "event time range 24h is sent as bounded API timestamps",
+      "passed": true
+    },
+    {
+      "name": "event time range 168h is sent as bounded API timestamps",
+      "passed": true
+    },
+    {
+      "name": "event time range 720h is sent as bounded API timestamps",
+      "passed": true
+    },
+    {
+      "name": "bounded synthetic pagination batch accepted",
+      "passed": true
+    },
+    {
+      "name": "cursor pagination loads all 63 rows without changing range",
+      "passed": true
+    },
+    {
+      "name": "disconnect clears key and private views",
+      "passed": true
+    },
+    {
+      "name": "database case survives reconnect",
+      "passed": true
+    },
+    {
+      "name": "1440px has no document overflow",
+      "passed": true
+    },
+    {
+      "name": "1440px sticky header stays at viewport top",
+      "passed": true
+    },
+    {
+      "name": "1440px event heading stays below header",
+      "passed": true
+    },
+    {
+      "name": "1440px table keeps readable cells and all columns",
+      "passed": true
+    },
+    {
+      "name": "1024px has no document overflow",
+      "passed": true
+    },
+    {
+      "name": "1024px sticky header stays at viewport top",
+      "passed": true
+    },
+    {
+      "name": "1024px event heading stays below header",
+      "passed": true
+    },
+    {
+      "name": "1024px table keeps readable cells and all columns",
+      "passed": true
+    },
+    {
+      "name": "768px has no document overflow",
+      "passed": true
+    },
+    {
+      "name": "768px sticky header stays at viewport top",
+      "passed": true
+    },
+    {
+      "name": "768px event heading stays below header",
+      "passed": true
+    },
+    {
+      "name": "768px table keeps readable cells and all columns",
+      "passed": true
+    },
+    {
+      "name": "tablet table supports keyboard horizontal scrolling",
+      "passed": true
+    },
+    {
+      "name": "390px has no document overflow",
+      "passed": true
+    },
+    {
+      "name": "390px sticky header stays at viewport top",
+      "passed": true
+    },
+    {
+      "name": "390px event heading stays below header",
+      "passed": true
+    },
+    {
+      "name": "390px all event metadata remains visible",
+      "passed": true
+    },
+    {
+      "name": "390px event content has readable sizes and non-overlapping blocks",
+      "passed": true
+    },
+    {
+      "name": "390px mobile evidence action opens the stored event",
+      "passed": true
+    },
+    {
+      "name": "360px has no document overflow",
+      "passed": true
+    },
+    {
+      "name": "360px sticky header stays at viewport top",
+      "passed": true
+    },
+    {
+      "name": "360px event heading stays below header",
+      "passed": true
+    },
+    {
+      "name": "360px all event metadata remains visible",
+      "passed": true
+    },
+    {
+      "name": "360px event content has readable sizes and non-overlapping blocks",
+      "passed": true
+    },
+    {
+      "name": "360px mobile evidence action opens the stored event",
+      "passed": true
+    },
+    {
+      "name": "320px has no document overflow",
+      "passed": true
+    },
+    {
+      "name": "320px sticky header stays at viewport top",
+      "passed": true
+    },
+    {
+      "name": "320px event heading stays below header",
+      "passed": true
+    },
+    {
+      "name": "320px all event metadata remains visible",
+      "passed": true
+    },
+    {
+      "name": "320px event content has readable sizes and non-overlapping blocks",
+      "passed": true
+    },
+    {
+      "name": "320px mobile evidence action opens the stored event",
+      "passed": true
+    },
+    {
+      "name": "320px unbroken event and host values wrap inside their card",
+      "passed": true
+    },
+    {
+      "name": "no browser runtime exceptions",
+      "passed": true
+    }
+  ],
+  "completed": true,
+  "passed": true
+}

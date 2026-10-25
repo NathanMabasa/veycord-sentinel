@@ -1,0 +1,62 @@
+name: Verify Sentinel
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: verify-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6, verified 2026-10-24
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - name: Install application and test tools
+        run: |
+          npm ci
+          sudo apt-get update
+          sudo apt-get install -y postgresql-16
+          echo '/usr/lib/postgresql/16/bin' >> "$GITHUB_PATH"
+          python -m pip install playwright==1.60.0
+          python -m playwright install --with-deps chromium
+      - run: npm run build
+      - run: npm run test:unit
+      - name: PostgreSQL and real browser integration
+        env:
+          SENTINEL_BROWSER_AUDIT: 'true'
+        run: npm run test:db
+      - run: npm run test:recovery
+      - name: Public UI and startup regression
+        run: |
+          npm run dev -- --host 127.0.0.1 > /tmp/sentinel-vite.log 2>&1 &
+          sentinel_vite_pid=$!
+          trap 'kill "$sentinel_vite_pid"' EXIT
+          python - <<'PY'
+          import time, urllib.request
+          for attempt in range(60):
+              try:
+                  urllib.request.urlopen('http://127.0.0.1:5173/api/v1/health', timeout=1)
+                  break
+              except OSError:
+                  time.sleep(0.5)
+          else:
+              raise SystemExit('Development server failed to start')
+          PY
+          python scripts/browser_audit.py
+          python scripts/bootstrap_audit.py
+      - run: npm audit --audit-level=high
+      - name: Generate dependency SBOM for local release review
+        run: npm sbom --sbom-format cyclonedx > /tmp/veycord-sbom.json
