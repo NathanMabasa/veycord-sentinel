@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { randomBytes, randomUUID } from 'node:crypto';
-import { mkdtemp, readFile, rm, stat, truncate, writeFile } from 'node:fs/promises';
+import { mkdtemp, open, readFile, rm, symlink, truncate, writeFile } from 'node:fs/promises';
+import { constants } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
@@ -13,6 +14,18 @@ import { restoreDatabaseBackup, runRestoreCli } from '../db/restore.js';
 import { PostgresStore } from '../server/storage/postgres-store.js';
 
 const execFile = promisify(execFileCallback);
+const READ_NOFOLLOW = constants.O_RDONLY | constants.O_NOFOLLOW;
+
+async function readAt(file: Awaited<ReturnType<typeof open>>, size: number): Promise<Buffer> {
+  const contents = Buffer.alloc(size);
+  let offset = 0;
+  while (offset < size) {
+    const result = await file.read(contents, offset, size - offset, offset);
+    if (result.bytesRead === 0) throw new Error('Test artifact changed while being read');
+    offset += result.bytesRead;
+  }
+  return contents;
+}
 
 function runningInCi(): boolean {
   return /^(1|true)$/i.test(process.env.CI ?? '') || process.env.GITHUB_ACTIONS === 'true';
@@ -70,18 +83,32 @@ test('backup key, local admin connection, and AES-GCM envelope reject unsafe or 
   const encrypted = join(directory, 'archive.vybak');
   const decrypted = join(directory, 'decrypted.dump');
   const tampered = join(directory, 'tampered.vybak');
+  const archiveLink = join(directory, 'archive-link.dump');
+  const envelopeLink = join(directory, 'envelope-link.vybak');
   await writeFile(archive, randomBytes(128), { mode: 0o600 });
   try {
+    await symlink(archive, archiveLink);
+    await assert.rejects(encryptArchiveFile(archiveLink, join(directory, 'symlink-encrypted.vybak'), key), /Could not read the database archive/);
     await encryptArchiveFile(archive, encrypted, key, '2026-10-24T00:00:00.000Z');
     const metadata = await decryptArchiveFile(encrypted, decrypted, key);
     assert.equal(metadata.format, 'veycord-postgres-backup');
     assert.deepEqual(await readFile(decrypted), await readFile(archive));
-    assert.equal((await stat(encrypted)).mode & 0o777, 0o600);
-    await assert.rejects(decryptArchiveFile(encrypted, join(directory, 'wrong-key.dump'), randomBytes(32)), /authentication failed/);
-    const bytes = await readFile(encrypted);
-    bytes[bytes.length - 17] ^= 1;
-    await writeFile(tampered, bytes, { mode: 0o600 });
-    await assert.rejects(decryptArchiveFile(tampered, join(directory, 'tampered.dump'), key), /authentication failed/);
+    const encryptedHandle = await open(encrypted, READ_NOFOLLOW);
+    try {
+      const encryptedStat = await encryptedHandle.stat();
+      assert.equal(encryptedStat.mode & 0o777, 0o600);
+      const bytes = await readAt(encryptedHandle, encryptedStat.size);
+      await assert.rejects(decryptArchiveFile(encrypted, join(directory, 'wrong-key.dump'), randomBytes(32)), /authentication failed/);
+      await assert.rejects(open(join(directory, 'wrong-key.dump'), READ_NOFOLLOW), { code: 'ENOENT' });
+      bytes[bytes.length - 17] ^= 1;
+      await writeFile(tampered, bytes, { mode: 0o600 });
+      await assert.rejects(decryptArchiveFile(tampered, join(directory, 'tampered.dump'), key), /authentication failed/);
+      await assert.rejects(open(join(directory, 'tampered.dump'), READ_NOFOLLOW), { code: 'ENOENT' });
+    } finally {
+      await encryptedHandle.close();
+    }
+    await symlink(encrypted, envelopeLink);
+    await assert.rejects(decryptArchiveFile(envelopeLink, join(directory, 'symlink-decrypted.dump'), key), /Could not read the encrypted backup/);
     const occupiedEnvelope = join(directory, 'occupied.vybak');
     await writeFile(occupiedEnvelope, 'pre-existing encrypted backup', { mode: 0o600 });
     await assert.rejects(encryptArchiveFile(archive, occupiedEnvelope, key), /Could not encrypt/);
@@ -220,12 +247,26 @@ test('PostgreSQL backup restores a synthetic Sentinel workspace and restricted r
     await createDatabaseBackup({
       connectionString: sourceUrl, allowLocalInsecure: true, backupKey, outputPath,
     });
-    assert.equal((await stat(outputPath)).mode & 0o777, 0o600);
-    const archiveBefore = await readFile(outputPath);
-    await assert.rejects(createDatabaseBackup({
-      connectionString: sourceUrl, allowLocalInsecure: true, backupKey, outputPath,
-    }), /already exists/);
-    assert.deepEqual(await readFile(outputPath), archiveBefore);
+    const outputHandle = await open(outputPath, READ_NOFOLLOW);
+    let archiveBefore: Buffer;
+    try {
+      const outputStat = await outputHandle.stat();
+      assert.equal(outputStat.mode & 0o777, 0o600);
+      archiveBefore = await readAt(outputHandle, outputStat.size);
+      await assert.rejects(createDatabaseBackup({
+        connectionString: sourceUrl, allowLocalInsecure: true, backupKey, outputPath,
+      }), /already exists/);
+      // Verify the pathname still resolves to the original file, not only a retained descriptor.
+      const currentOutput = await open(outputPath, READ_NOFOLLOW);
+      try {
+        const currentStat = await currentOutput.stat();
+        assert.equal(currentStat.dev, outputStat.dev);
+        assert.equal(currentStat.ino, outputStat.ino);
+        assert.deepEqual(await readAt(currentOutput, currentStat.size), archiveBefore);
+      } finally { await currentOutput.close(); }
+    } finally {
+      await outputHandle.close();
+    }
 
     await writeFile(tamperedPath, archiveBefore);
     const damaged = await readFile(tamperedPath);

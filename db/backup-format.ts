@@ -1,4 +1,4 @@
-import { createReadStream, createWriteStream } from 'node:fs';
+import { createWriteStream, constants } from 'node:fs';
 import { open, stat, unlink } from 'node:fs/promises';
 import { createCipheriv, createDecipheriv, randomBytes } from 'node:crypto';
 import { pipeline } from 'node:stream/promises';
@@ -11,6 +11,7 @@ export const MAX_METADATA_BYTES = 4096;
 export const GCM_NONCE_BYTES = 12;
 export const GCM_TAG_BYTES = 16;
 const FIXED_HEADER_BYTES = 4 + 1 + GCM_NONCE_BYTES + 4;
+const READ_NOFOLLOW = constants.O_RDONLY | constants.O_NOFOLLOW;
 
 export type BackupMetadata = {
   format: 'veycord-postgres-backup';
@@ -105,11 +106,18 @@ function makeHeader(key: Buffer, createdAt: string, nonce = randomBytes(GCM_NONC
 
 /** Encrypts a bounded pg_dump custom archive into a new mode-0600 envelope file. */
 export async function encryptArchiveFile(archivePath: string, envelopePath: string, key: Buffer, createdAt = new Date().toISOString()): Promise<void> {
-  const archiveStat = await stat(archivePath);
+  const { header, cipher } = makeHeader(key, createdAt);
+  const input = await open(archivePath, READ_NOFOLLOW).catch(() => {
+    throw new Error('Could not read the database archive');
+  });
+  const archiveStat = await input.stat().catch(async () => {
+    await input.close().catch(() => {});
+    throw new Error('Could not read the database archive');
+  });
   if (!archiveStat.isFile() || archiveStat.size < 1 || archiveStat.size > MAX_ARCHIVE_BYTES) {
+    await input.close();
     throw new Error('Database archive exceeds the supported backup size');
   }
-  const { header, cipher } = makeHeader(key, createdAt);
   const output = createWriteStream(envelopePath, { flags: 'wx', mode: 0o600 });
   let outputCreated = false;
   output.once('open', () => { outputCreated = true; });
@@ -118,7 +126,7 @@ export async function encryptArchiveFile(archivePath: string, envelopePath: stri
       output.once('error', reject);
       output.write(header, (error) => error ? reject(error) : resolve());
     });
-    await pipeline(createReadStream(archivePath), cipher, output, { end: false });
+    await pipeline(input.createReadStream({ start: 0, end: archiveStat.size - 1, autoClose: false }), cipher, output, { end: false });
     await new Promise<void>((resolve, reject) => {
       output.end(cipher.getAuthTag(), (error?: Error | null) => error ? reject(error) : resolve());
     });
@@ -126,11 +134,14 @@ export async function encryptArchiveFile(archivePath: string, envelopePath: stri
     output.destroy();
     if (outputCreated) await unlink(envelopePath).catch(() => {});
     throw new Error('Could not encrypt the database archive');
+  } finally {
+    await input.close().catch(() => {});
   }
   const envelopeStat = await stat(envelopePath);
-  if (envelopeStat.size > MAX_ARCHIVE_BYTES + MAX_METADATA_BYTES + FIXED_HEADER_BYTES + GCM_TAG_BYTES) {
+  if (envelopeStat.size !== header.length + archiveStat.size + GCM_TAG_BYTES ||
+      envelopeStat.size > MAX_ARCHIVE_BYTES + MAX_METADATA_BYTES + FIXED_HEADER_BYTES + GCM_TAG_BYTES) {
     await unlink(envelopePath).catch(() => {});
-    throw new Error('Encrypted backup exceeds the supported size');
+    throw new Error('Encrypted backup size does not match the bounded archive');
   }
 }
 
@@ -161,42 +172,33 @@ function validateMetadata(value: unknown): BackupMetadata {
 export async function decryptArchiveFile(envelopePath: string, archivePath: string, key: Buffer): Promise<BackupMetadata> {
   if (key.length !== 32) throw new Error('Backup encryption key is invalid');
   let outputCreated = false;
+  let input: Awaited<ReturnType<typeof open>> | undefined;
   try {
-    const envelopeStat = await stat(envelopePath);
+    input = await open(envelopePath, READ_NOFOLLOW);
+    const envelopeStat = await input.stat();
     const maxEnvelope = MAX_ARCHIVE_BYTES + MAX_METADATA_BYTES + FIXED_HEADER_BYTES + GCM_TAG_BYTES;
     if (!envelopeStat.isFile() || envelopeStat.size > maxEnvelope || envelopeStat.size < FIXED_HEADER_BYTES + GCM_TAG_BYTES + 1) {
       throw new Error('Backup envelope size is invalid');
     }
-    const input = await open(envelopePath, 'r');
-    let header: Buffer;
-    let metadata: BackupMetadata;
-    let nonce: Buffer;
-    let ciphertextStart: number;
-    try {
-      const fixed = await readExact(input, FIXED_HEADER_BYTES, 0);
-      if (!fixed.subarray(0, 4).equals(BACKUP_MAGIC) || fixed.readUInt8(4) !== BACKUP_VERSION) {
-        throw new Error('Backup format or version is unsupported');
-      }
-      nonce = fixed.subarray(5, 5 + GCM_NONCE_BYTES);
-      const metadataLength = fixed.readUInt32BE(5 + GCM_NONCE_BYTES);
-      if (metadataLength < 1 || metadataLength > MAX_METADATA_BYTES) throw new Error('Backup metadata size is invalid');
-      const metadataRaw = await readExact(input, metadataLength, FIXED_HEADER_BYTES);
-      try {
-        metadata = validateMetadata(JSON.parse(metadataRaw.toString('utf8')));
-      } catch {
-        throw new Error('Backup metadata is invalid');
-      }
-      header = Buffer.concat([fixed, metadataRaw]);
-      ciphertextStart = header.length;
-    } finally {
-      await input.close();
+    const fixed = await readExact(input, FIXED_HEADER_BYTES, 0);
+    if (!fixed.subarray(0, 4).equals(BACKUP_MAGIC) || fixed.readUInt8(4) !== BACKUP_VERSION) {
+      throw new Error('Backup format or version is unsupported');
     }
+    const nonce = fixed.subarray(5, 5 + GCM_NONCE_BYTES);
+    const metadataLength = fixed.readUInt32BE(5 + GCM_NONCE_BYTES);
+    if (metadataLength < 1 || metadataLength > MAX_METADATA_BYTES) throw new Error('Backup metadata size is invalid');
+    const metadataRaw = await readExact(input, metadataLength, FIXED_HEADER_BYTES);
+    let metadata: BackupMetadata;
+    try {
+      metadata = validateMetadata(JSON.parse(metadataRaw.toString('utf8')));
+    } catch {
+      throw new Error('Backup metadata is invalid');
+    }
+    const header = Buffer.concat([fixed, metadataRaw]);
+    const ciphertextStart = header.length;
     const ciphertextLength = envelopeStat.size - ciphertextStart - GCM_TAG_BYTES;
     if (ciphertextLength < 1 || ciphertextLength > MAX_ARCHIVE_BYTES) throw new Error('Backup archive size is invalid');
-    const tagFile = await open(envelopePath, 'r');
-    let tag: Buffer;
-    try { tag = await readExact(tagFile, GCM_TAG_BYTES, envelopeStat.size - GCM_TAG_BYTES); }
-    finally { await tagFile.close(); }
+    const tag = await readExact(input, GCM_TAG_BYTES, envelopeStat.size - GCM_TAG_BYTES);
     const decipher = createDecipheriv('aes-256-gcm', key, nonce);
     decipher.setAAD(header);
     decipher.setAuthTag(tag);
@@ -204,7 +206,7 @@ export async function decryptArchiveFile(envelopePath: string, archivePath: stri
     output.once('open', () => { outputCreated = true; });
     try {
       await pipeline(
-        createReadStream(envelopePath, { start: ciphertextStart, end: envelopeStat.size - GCM_TAG_BYTES - 1 }),
+        input.createReadStream({ start: ciphertextStart, end: envelopeStat.size - GCM_TAG_BYTES - 1, autoClose: false }),
         decipher,
         output,
       );
@@ -219,5 +221,7 @@ export async function decryptArchiveFile(envelopePath: string, archivePath: stri
     if (outputCreated) await unlink(archivePath).catch(() => {});
     if (error instanceof Error && /^(Backup|Encrypted)/.test(error.message)) throw error;
     throw new Error('Could not read the encrypted backup');
+  } finally {
+    await input?.close().catch(() => {});
   }
 }

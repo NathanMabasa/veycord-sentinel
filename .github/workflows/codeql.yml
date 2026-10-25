@@ -31,6 +31,13 @@ jobs:
           build-mode: none
           config-file: ./.github/codeql/config.yml
       - name: Analyze source
+        id: analysis
         uses: github/codeql-action/analyze@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
         with:
           category: /language:javascript-typescript
+      - name: Verify security gate behavior
+        run: python3 scripts/test_sarif_gate.py
+      - name: Reject high and critical security findings
+        env:
+          SENTINEL_SARIF_DIRECTORY: ${{ steps.analysis.outputs.sarif-output }}
+        run: python3 scripts/check_sarif.py "$SENTINEL_SARIF_DIRECTORY"

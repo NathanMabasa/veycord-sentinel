@@ -1,6 +1,21 @@
 import assert from 'node:assert/strict'
+import { constants } from 'node:fs'
+import { open } from 'node:fs/promises'
 import test from 'node:test'
 import { assertRuntimeEnvironment } from '../server/runtime-environment.js'
+
+const READ_NOFOLLOW = constants.O_RDONLY | constants.O_NOFOLLOW
+
+async function readAt(file: Awaited<ReturnType<typeof open>>, size: number): Promise<string> {
+  const contents = Buffer.alloc(size)
+  let offset = 0
+  while (offset < size) {
+    const result = await file.read(contents, offset, size - offset, offset)
+    if (result.bytesRead === 0) throw new Error('Runtime test file changed while being read')
+    offset += result.bytesRead
+  }
+  return contents.toString('utf8')
+}
 
 test('dedicated runtime rejects migration, restore and encryption credentials',()=>{
   assert.doesNotThrow(()=>assertRuntimeEnvironment({DATABASE_URL:'fixture-runtime-url',SENTINEL_PRIVATE_ENABLED:'false'}))
@@ -8,7 +23,7 @@ test('dedicated runtime rejects migration, restore and encryption credentials',(
 })
 
 test('runtime file contains only allowed settings and never overwrites an existing file',async()=>{
-  const {mkdtemp,readFile,stat,rm}=await import('node:fs/promises')
+  const {mkdtemp,rm}=await import('node:fs/promises')
   const {tmpdir}=await import('node:os')
   const {join,resolve}=await import('node:path')
   const {promisify}=await import('node:util')
@@ -20,12 +35,23 @@ test('runtime file contains only allowed settings and never overwrites an existi
   try {
     await execute(process.execPath,[script],{cwd:directory,env})
     const file=join(directory,'.env.runtime')
-    const content=await readFile(file,'utf8')
-    assert.equal((await stat(file)).mode&0o777,0o600)
-    assert.ok(content.includes('DATABASE_URL='))
-    assert.ok(!content.includes('synthetic-administrator-secret'))
-    assert.ok(!content.includes('synthetic-encryption-secret'))
-    await assert.rejects(execute(process.execPath,[script],{cwd:directory,env}))
-    assert.equal(await readFile(file,'utf8'),content)
+    const handle=await open(file,READ_NOFOLLOW)
+    try {
+      const fileStat=await handle.stat()
+      const content=await readAt(handle,fileStat.size)
+      assert.equal(fileStat.mode&0o777,0o600)
+      assert.ok(content.includes('DATABASE_URL='))
+      assert.ok(!content.includes('synthetic-administrator-secret'))
+      assert.ok(!content.includes('synthetic-encryption-secret'))
+      await assert.rejects(execute(process.execPath,[script],{cwd:directory,env}))
+      // Reopen the path after the refused write: the old descriptor alone could hide replacement.
+      const current=await open(file,READ_NOFOLLOW)
+      try {
+        const currentStat=await current.stat()
+        assert.equal(currentStat.dev,fileStat.dev)
+        assert.equal(currentStat.ino,fileStat.ino)
+        assert.equal(await readAt(current,currentStat.size),content)
+      } finally { await current.close() }
+    } finally { await handle.close() }
   } finally {await rm(directory,{recursive:true,force:true})}
 })
