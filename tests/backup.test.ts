@@ -232,7 +232,7 @@ test('PostgreSQL backup restores a synthetic Sentinel workspace and restricted r
       attributes: { synthetic: true }, raw: '{"synthetic":true}',
     };
     const match = {
-      ruleId: 'BACKUP-TEST-001', name: 'Synthetic recovery finding', severity: 'high' as const,
+      ruleId: 'BACKUP-TEST-001', ruleVersion: '1.2.3', name: 'Synthetic recovery finding', severity: 'high' as const,
       techniqueId: 'T1543.003', reason: 'A synthetic event was used to verify database recovery.', evidence: ['fixture only'],
     };
     assert.deepEqual(await sourceStore.ingest([event], [[match]]), { accepted: 1, duplicates: 0, findings: 1 });
@@ -296,6 +296,7 @@ test('PostgreSQL backup restores a synthetic Sentinel workspace and restricted r
     });
     assert.equal((await restoredStore.listEvents({ from: '2026-10-24T00:00:00Z', to: '2026-10-25T00:00:00Z', limit: 10 })).data.length, 1);
     assert.equal((await restoredStore.listFindings(10)).length, 1);
+    assert.equal((await restoredStore.listFindings(10))[0].ruleVersion, '1.2.3');
     assert.equal((await restoredStore.listCases(10))[0].note, 'Restore fixture');
     assert.equal((await restoredStore.listAudit(20)).some((item) => item.action === 'case.created'), true);
     otherRestoredStore = new PostgresStore({ connectionString: targetRuntimeUrl, workspaceId: otherWorkspaceId, allowLocalInsecure: true });
@@ -316,6 +317,7 @@ test('PostgreSQL backup restores a synthetic Sentinel workspace and restricted r
     });
     assert.equal((await legacyRestoredStore.listEvents({ from: '2026-10-23T00:00:00Z', to: '2026-10-24T00:00:00Z', limit: 10 })).data[0].eventId, 'legacy-001-event');
     assert.equal((await legacyRestoredStore.listFindings(10))[0].name, 'Legacy recovery finding');
+    assert.equal((await legacyRestoredStore.listFindings(10))[0].ruleVersion, null);
     assert.equal((await legacyRestoredStore.listCases(10))[0].note, 'Created before migration 002');
     assert.equal((await legacyRestoredStore.listAudit(20)).length, 0);
   } finally {

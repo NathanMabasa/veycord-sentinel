@@ -6,6 +6,7 @@ This is the implementation map from product brain to buildable work. Each featur
 
 - **Public demo:** fixture console and read-only `/api/v1`, with browser-local demo state.
 - **Private foundation:** `/workspace` and `/api/private/v1` through Node/Hono, enabled only with server configuration; PostgreSQL events/findings/cases, authenticated bounded ingestion, six deterministic rules, keyset event pages, runtime-role checks and forced workspace RLS. See [[../02-Architecture/Private Deployment Decision]], [[../03-Security/Detection Coverage]], `docs/PRIVATE-WORKSPACE.md` and batch 002 tickets.
+- **Detection revision slice (batch005):** protected current-build catalog with authored owner/license/version/experimental metadata; newly evaluated findings persist the revision, legacy findings retain unknown, positive/negative/missing-field and recovery evidence. See `docs/DETECTION-RULES.md` and batch005 tickets.
 - **Open gates:** interactive identity/roles and tenant membership, collectors/schema normalization, individual/external audit, privacy export/deletion, automatic retention, offsite/scheduled recovery, hosted deployment and high-volume benchmark. Scope and limitations are part of acceptance, not implied completed controls.
 
 No production-readiness or real-telemetry approval is established by this foundation.

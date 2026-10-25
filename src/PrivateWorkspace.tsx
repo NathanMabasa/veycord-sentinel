@@ -764,7 +764,7 @@ export default function PrivateWorkspace() {
                   </div>
                   <h3>{finding.name}</h3>
                   <p>{finding.reason}</p>
-                  <dl><div><dt>Host</dt><dd>{finding.host || "Unknown"}</dd></div><div><dt>Rule</dt><dd className="is-mono">{finding.ruleId}</dd></div><div><dt>Technique</dt><dd className="is-mono">{finding.techniqueId || "—"}</dd></div></dl>
+                  <dl><div><dt>Host</dt><dd>{finding.host || "Unknown"}</dd></div><div><dt>Rule</dt><dd className="is-mono">{finding.ruleId} · {finding.ruleVersion ? `v${finding.ruleVersion}` : "Version unknown"}</dd></div><div><dt>Technique</dt><dd className="is-mono">{finding.techniqueId || "—"}</dd></div></dl>
                   {finding.evidence?.length > 0 && <details className="private-workspace__evidence"><summary>Evidence ({finding.evidence.length})</summary><ul>{finding.evidence.slice(0, 20).map((item, index) => <li key={`${finding.id}-${index}`}>{item}</li>)}</ul></details>}
                   <div className="private-workspace__finding-actions">
                     <button className="private-workspace__button is-secondary" type="button" onClick={() => { setCaseFinding(finding); setCaseTitle(`Review: ${finding.name}`); setCaseNote(""); }} disabled={pending !== null}>

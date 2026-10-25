@@ -37,6 +37,11 @@ try:
         expect(summary.locator('strong').nth(0)).to_have_text('8')
         expect(summary.locator('strong').nth(1)).to_have_text('5')
         check('UI ingestion persists 8 events and evaluates 5 findings',True)
+        rules_response=page.request.get(BASE+'/api/private/v1/rules',headers={'Authorization':'Bearer '+TOKEN})
+        check('protected rule catalog exposes six experimental versioned rules',rules_response.status==200 and len(rules_response.json()['data'])==6 and all(r['status']=='experimental' and r['version']=='1.0.0' for r in rules_response.json()['data']))
+        findings_region=page.get_by_role('region',name='Findings',exact=True)
+        check('all five stored findings display evaluated rule revision',findings_region.get_by_text('v1.0.0',exact=False).count()==5)
+
         activity.get_by_text('Hourly counts (UTC)',exact=True).click()
         hourly=activity.get_by_role('list',name='Hourly event counts, timestamps in UTC',exact=True)
         expect(hourly.locator('li')).to_have_count(24)
@@ -114,6 +119,11 @@ try:
         expect(page.locator('.private-workspace__table tbody tr')).to_have_count(1)
         for width in [1440,1024,768,390,360,320]:
             page.set_viewport_size({'width':width,'height':900 if width>680 else 844})
+            finding_card=page.locator('.private-workspace__finding').first
+            check(f'{width}px finding revision stays inside its card',finding_card.evaluate("(card)=>[...card.querySelectorAll('dd')].every(e=>e.getBoundingClientRect().right<=card.getBoundingClientRect().right && e.scrollWidth<=e.clientWidth+1)"))
+            if width==320:
+                finding_card.screenshot(path=str(ROOT/'docs/audit/screenshots/private-finding-revision-320.png'))
+
             check(f'{width}px has no document overflow',page.evaluate('document.documentElement.scrollWidth<=innerWidth && document.body.scrollWidth<=innerWidth'))
             page.evaluate("""() => {
                 const section=document.getElementById('private-events-title');

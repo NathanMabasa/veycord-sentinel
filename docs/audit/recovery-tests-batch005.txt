@@ -1,0 +1,14 @@
+
+> veycord-sentinel@0.1.0 test:recovery
+> tsx --test tests/backup.test.ts
+
+✔ backup key, local admin connection, and AES-GCM envelope reject unsafe or altered inputs (15.053958ms)
+✔ PostgreSQL backup restores a synthetic Sentinel workspace and restricted runtime access (1442.68975ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1571.801875

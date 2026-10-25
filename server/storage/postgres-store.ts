@@ -71,6 +71,7 @@ type PgEventRow = {
 type PgFindingRow = {
   id: string
   rule_id: string
+  rule_version: string | null
   name: string
   severity: SeverityLevel
   technique_id: string
@@ -156,6 +157,7 @@ function validateEvent(event: EventInput): void {
 function validateMatch(match: DetectionMatch): void {
   if (!match || typeof match !== 'object') throw new StoreInputError()
   boundedString(match.ruleId, 'ruleId', 120)
+  if (match.ruleVersion != null && (typeof match.ruleVersion !== 'string' || !/^(0|[1-9][0-9]{0,5})\.(0|[1-9][0-9]{0,5})\.(0|[1-9][0-9]{0,5})$/.test(match.ruleVersion))) throw new StoreInputError()
   boundedString(match.name, 'name', 200)
   boundedString(match.techniqueId, 'techniqueId', 40)
   boundedString(match.reason, 'reason', 1000)
@@ -207,6 +209,7 @@ function findingFromRow(row: PgFindingRow): StoredFinding {
   return {
     id: row.id,
     ruleId: row.rule_id,
+    ruleVersion: row.rule_version,
     name: row.name,
     severity: row.severity,
     techniqueId: row.technique_id,
@@ -445,11 +448,11 @@ export class PostgresStore implements DataStore {
         accepted += 1
         for (const match of matches[index]) {
           const finding = await client.query(
-            `INSERT INTO findings (id, workspace_id, event_uuid, rule_id, name, severity, technique_id, reason, evidence)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9::jsonb)
+            `INSERT INTO findings (id, workspace_id, event_uuid, rule_id, name, severity, technique_id, reason, evidence, rule_version)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9::jsonb, $10)
              ON CONFLICT (workspace_id, event_uuid, rule_id) DO NOTHING`,
             [randomUUID(), this.workspaceId, inserted.rows[0].id, match.ruleId, match.name, match.severity,
-              match.techniqueId, match.reason, JSON.stringify(match.evidence)],
+              match.techniqueId, match.reason, JSON.stringify(match.evidence), match.ruleVersion ?? null],
           )
           findings += finding.rowCount ?? 0
         }
@@ -510,7 +513,7 @@ export class PostgresStore implements DataStore {
     this.validateLimit(limit)
     return this.withWorkspace(async (client) => {
       const result = await client.query<PgFindingRow>(
-        `SELECT f.id, f.rule_id, f.name, f.severity, f.technique_id, f.reason, f.evidence, f.status,
+        `SELECT f.id, f.rule_id, f.rule_version, f.name, f.severity, f.technique_id, f.reason, f.evidence, f.status,
                 e.event_id, e.timestamp, e.host
            FROM findings f JOIN events e ON e.workspace_id = f.workspace_id AND e.id = f.event_uuid
           WHERE f.workspace_id = $1 ORDER BY f.created_at DESC, f.id DESC LIMIT $2`,
