@@ -250,15 +250,15 @@ test('PostgreSQL backup restores a synthetic Sentinel workspace and restricted r
     const outputHandle = await open(outputPath, READ_NOFOLLOW);
     let archiveBefore: Buffer;
     try {
-      const outputStat = await outputHandle.stat();
-      assert.equal(outputStat.mode & 0o777, 0o600);
-      archiveBefore = await readAt(outputHandle, outputStat.size);
+      archiveBefore = await outputHandle.readFile();
       await assert.rejects(createDatabaseBackup({
         connectionString: sourceUrl, allowLocalInsecure: true, backupKey, outputPath,
       }), /already exists/);
       // Verify the pathname still resolves to the original file, not only a retained descriptor.
       const currentOutput = await open(outputPath, READ_NOFOLLOW);
       try {
+        const outputStat = await outputHandle.stat();
+        assert.equal(outputStat.mode & 0o777, 0o600);
         const currentStat = await currentOutput.stat();
         assert.equal(currentStat.dev, outputStat.dev);
         assert.equal(currentStat.ino, outputStat.ino);

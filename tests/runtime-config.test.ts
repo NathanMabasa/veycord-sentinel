@@ -37,9 +37,7 @@ test('runtime file contains only allowed settings and never overwrites an existi
     const file=join(directory,'.env.runtime')
     const handle=await open(file,READ_NOFOLLOW)
     try {
-      const fileStat=await handle.stat()
-      const content=await readAt(handle,fileStat.size)
-      assert.equal(fileStat.mode&0o777,0o600)
+      const content=await handle.readFile('utf8')
       assert.ok(content.includes('DATABASE_URL='))
       assert.ok(!content.includes('synthetic-administrator-secret'))
       assert.ok(!content.includes('synthetic-encryption-secret'))
@@ -47,6 +45,9 @@ test('runtime file contains only allowed settings and never overwrites an existi
       // Reopen the path after the refused write: the old descriptor alone could hide replacement.
       const current=await open(file,READ_NOFOLLOW)
       try {
+        // Open both descriptors before metadata assertions; no check-then-open access decision.
+        const fileStat=await handle.stat()
+        assert.equal(fileStat.mode&0o777,0o600)
         const currentStat=await current.stat()
         assert.equal(currentStat.dev,fileStat.dev)
         assert.equal(currentStat.ino,fileStat.ino)
