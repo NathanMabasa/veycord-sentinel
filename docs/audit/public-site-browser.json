@@ -2,147 +2,446 @@
   "checks": [
     {
       "name": "/ renders at 320px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": []
+      }
     },
     {
       "name": "/product renders at 320px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": []
+      }
     },
     {
       "name": "/docs renders at 320px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": [
+          {
+            "tag": "A",
+            "cls": "",
+            "right": 362.46875,
+            "text": "Run locally"
+          },
+          {
+            "tag": "A",
+            "cls": "",
+            "right": 453.15625,
+            "text": "API contract"
+          },
+          {
+            "tag": "A",
+            "cls": "",
+            "right": 572.078125,
+            "text": "Demo limitations"
+          }
+        ]
+      }
     },
     {
       "name": "/docs/api renders at 320px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": []
+      }
     },
     {
       "name": "/security renders at 320px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": []
+      }
     },
     {
       "name": "/roadmap renders at 320px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": []
+      }
     },
     {
       "name": "/community renders at 320px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": []
+      }
     },
     {
       "name": "/demo renders at 320px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "cls": "",
+            "right": 906.65625,
+            "text": "Sample event resultsTIMEEVENTSOURCEHOSTSEVERITYOUTCOME09:42:18PowerShe"
+          },
+          {
+            "tag": "THEAD",
+            "cls": "",
+            "right": 906.65625,
+            "text": "TIMEEVENTSOURCEHOSTSEVERITYOUTCOME"
+          },
+          {
+            "tag": "TR",
+            "cls": "",
+            "right": 906.65625,
+            "text": "TIMEEVENTSOURCEHOSTSEVERITYOUTCOME"
+          },
+          {
+            "tag": "TH",
+            "cls": "",
+            "right": 449.53125,
+            "text": "EVENT"
+          },
+          {
+            "tag": "TH",
+            "cls": "",
+            "right": 593.203125,
+            "text": "SOURCE"
+          },
+          {
+            "tag": "TH",
+            "cls": "",
+            "right": 708.328125,
+            "text": "HOST"
+          },
+          {
+            "tag": "TH",
+            "cls": "",
+            "right": 812.421875,
+            "text": "SEVERITY"
+          },
+          {
+            "tag": "TH",
+            "cls": "",
+            "right": 906.65625,
+            "text": "OUTCOME"
+          }
+        ]
+      }
     },
     {
       "name": "/workspace renders at 320px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": []
+      }
     },
     {
       "name": "public workspace has no credential form at 320px",
-      "passed": true
+      "passed": true,
+      "detail": null
     },
     {
       "name": "/ renders at 768px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": []
+      }
     },
     {
       "name": "/product renders at 768px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": []
+      }
     },
     {
       "name": "/docs renders at 768px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": []
+      }
     },
     {
       "name": "/docs/api renders at 768px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": []
+      }
     },
     {
       "name": "/security renders at 768px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": []
+      }
     },
     {
       "name": "/roadmap renders at 768px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": []
+      }
     },
     {
       "name": "/community renders at 768px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": []
+      }
     },
     {
       "name": "/demo renders at 768px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": [
+          {
+            "tag": "TABLE",
+            "cls": "",
+            "right": 1160.6875,
+            "text": "Sample event resultsTIMEEVENTSOURCEHOSTSEVERITYOUTCOME09:42:18PowerShe"
+          },
+          {
+            "tag": "THEAD",
+            "cls": "",
+            "right": 1160.6875,
+            "text": "TIMEEVENTSOURCEHOSTSEVERITYOUTCOME"
+          },
+          {
+            "tag": "TR",
+            "cls": "",
+            "right": 1160.6875,
+            "text": "TIMEEVENTSOURCEHOSTSEVERITYOUTCOME"
+          },
+          {
+            "tag": "TH",
+            "cls": "",
+            "right": 847.234375,
+            "text": "SOURCE"
+          },
+          {
+            "tag": "TH",
+            "cls": "",
+            "right": 962.359375,
+            "text": "HOST"
+          },
+          {
+            "tag": "TH",
+            "cls": "",
+            "right": 1066.453125,
+            "text": "SEVERITY"
+          },
+          {
+            "tag": "TH",
+            "cls": "",
+            "right": 1160.6875,
+            "text": "OUTCOME"
+          },
+          {
+            "tag": "TBODY",
+            "cls": "",
+            "right": 1160.6875,
+            "text": "09:42:18PowerShell launched with encoded commandWindows SecurityFIN-WS"
+          }
+        ]
+      }
     },
     {
       "name": "/workspace renders at 768px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": []
+      }
     },
     {
       "name": "public workspace has no credential form at 768px",
-      "passed": true
+      "passed": true,
+      "detail": null
     },
     {
       "name": "/ renders at 1440px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": []
+      }
     },
     {
       "name": "/product renders at 1440px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": []
+      }
     },
     {
       "name": "/docs renders at 1440px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": []
+      }
     },
     {
       "name": "/docs/api renders at 1440px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": []
+      }
     },
     {
       "name": "/security renders at 1440px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": []
+      }
     },
     {
       "name": "/roadmap renders at 1440px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": []
+      }
     },
     {
       "name": "/community renders at 1440px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": []
+      }
     },
     {
       "name": "/demo renders at 1440px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": []
+      }
     },
     {
       "name": "/workspace renders at 1440px without horizontal overflow",
-      "passed": true
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": []
+      }
     },
     {
       "name": "public workspace has no credential form at 1440px",
-      "passed": true
+      "passed": true,
+      "detail": null
     },
     {
       "name": "header GitHub action points to the public source",
-      "passed": true
+      "passed": true,
+      "detail": null
     },
     {
       "name": "public API explorer filters actual fixture responses",
-      "passed": true
+      "passed": true,
+      "detail": null
     },
     {
       "name": "direct demo link selects Events",
-      "passed": true
+      "passed": true,
+      "detail": null
     },
     {
       "name": "demo event search works in the public build",
-      "passed": true
+      "passed": true,
+      "detail": null
     },
     {
       "name": "private API is not enabled",
-      "passed": true
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "homepage scope link wraps with enlarged text at 320px without clipping its icon",
+      "passed": true,
+      "detail": {
+        "right": 300,
+        "width": 320,
+        "scroll": 320,
+        "whiteSpace": "normal",
+        "iconWidth": 16
+      }
     },
     {
       "name": "no uncaught browser errors",
-      "passed": true
+      "passed": true,
+      "detail": null
     }
   ],
   "browserErrors": []

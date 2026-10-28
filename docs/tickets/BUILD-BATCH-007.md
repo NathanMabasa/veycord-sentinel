@@ -18,3 +18,10 @@ Read [public deployment guide](../PUBLIC-WEB.md). No real telemetry, paid infras
 - Successful deployment: `appgdep_6ae1e046bed48191b9e2810c6328f9c4`; Site source commit `ee73bad1ffc861a99eb86fd2a0edfc1dd33f6b38`, exported from GitHub candidate `2501be9` with the documented build-script mapping. Archive SHA256 `ce908c899dcac0cc9de13bf752efb561ec26454cfdbbc427fa1e58c78fb8f262`; two files, no database/configuration secrets.
 - `public-site-http.json` and `public-site-live-browser.json` record actual cloud requests. A default Python user agent initially received platform403; a browser user agent and actual Chromium both reached the public site without credentials or redirects. CSP was preserved.
 - Initial GitHub verify40682283829 passed existing checks and five new Worker contracts, then failed the new homepage320px browser check on Linux. Local36 browser checks passed. Additional dimensions/offender diagnostics were added rather than weakening the check; final integration must await resolution and a passing final head.
+
+
+## Resumed mobile correction (2026-10-28)
+
+GitHub run40682749080 recorded the exact failure: viewport320px, scrollWidth343px, the homepage scope link right edge342.875px. Its shared text-button style forced nowrap; Linux font metrics exposed the overflow. The correction is scoped to `.principles-section > .text-button`: allow normal wrapping, constrain maximum width to its content area, retain left alignment and prevent the arrow icon from shrinking. No font size was reduced and no overflow was hidden. The existing viewport assertion remains unchanged; a new enlarged-text20px/320px regression checks the link bounds and icon width.
+
+The rebuilt Worker has five passing contract checks. Local browser verification passes37 checks; Linux final-head verification and corrected public publication are still required. Screenshot: `screenshots/public-home-link-320.png`.
