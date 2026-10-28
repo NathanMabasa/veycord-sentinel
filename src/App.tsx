@@ -45,7 +45,7 @@ function App() {
 function SelfHosting() {
   return (
     <PageFrame eyebrow="SELF-HOSTING" title="Your workspace. Your infrastructure." lead="This public site runs the synthetic demo. To connect a database, run Veycord Sentinel in your own private environment.">
-      <section className="docs-article">
+      <section className="docs-article self-hosting-guide">
         <h2>Start with the open-source application</h2>
         <p>The GitHub project includes the application, PostgreSQL schema, migrations, API and setup instructions. Keep credentials and records in your own environment.</p>
         <p>The private workspace is an early single-operator foundation. Use synthetic data while the documented security and operational release gates remain open.</p>

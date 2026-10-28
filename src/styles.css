@@ -149,3 +149,6 @@ textarea {
 
 
 /* Semantic foregrounds on light surfaces; status retains text and color. */.theme-light .state-new, .theme-light .state-open{color:#874500;background:#fff0d6}.theme-light .state-investigating{color:#254eb8;background:#e8f0ff}.theme-light .state-resolved{color:#12663c;background:#e5f6ec}.theme-light .state-closed{color:#46556a;background:#edf0f5}.theme-light .severity.high{color:#b42318}.theme-light .severity.medium{color:#875000}.theme-light .severity.low{color:#46556a}
+
+/* Public self-hosting actions wrap with system-font and text-size differences. */
+.self-hosting-guide .button{max-width:100%;white-space:normal;text-align:left}

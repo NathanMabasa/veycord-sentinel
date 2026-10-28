@@ -25,3 +25,9 @@ Read [public deployment guide](../PUBLIC-WEB.md). No real telemetry, paid infras
 GitHub run40682749080 recorded the exact failure: viewport320px, scrollWidth343px, the homepage scope link right edge342.875px. Its shared text-button style forced nowrap; Linux font metrics exposed the overflow. The correction is scoped to `.principles-section > .text-button`: allow normal wrapping, constrain maximum width to its content area, retain left alignment and prevent the arrow icon from shrinking. No font size was reduced and no overflow was hidden. The existing viewport assertion remains unchanged; a new enlarged-text20px/320px regression checks the link bounds and icon width.
 
 The rebuilt Worker has five passing contract checks. Local browser verification passes37 checks; Linux final-head verification and corrected public publication are still required. Screenshot: `screenshots/public-home-link-320.png`.
+
+
+The first resumed Linux run40686293935 passed the homepage check, then exposed the new public self-hosting action overflowing at320px (scrollWidth345). The action's box fit, but its inherited nowrap text extended beyond it. The public guide now has a scoped wrapping/max-width rule too; a separate20px text-range regression detects overflow even when element boxes fit. Both changes preserve readable text and the CSP. Version2 was saved but not deployed after this additional failure; only a fully verified corrected version may replace live version1.
+
+
+Resumed final candidate: standard build and38 unit checks pass; five Worker contracts pass;38 public browser checks pass locally, including both enlarged-text regressions. The original Linux viewport checks remain strict. Live repository protection was re-read; only squash merging is now offered, with existing verification/CodeQL/admin/secret protections retained. See `github-public-protections-batch007.json` and batch008 for the explicit zero-external-review limitation and Sentry prerequisites.

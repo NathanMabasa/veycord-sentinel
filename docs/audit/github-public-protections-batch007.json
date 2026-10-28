@@ -1,0 +1,53 @@
+{
+  "checked": "2026-10-28",
+  "visibility": "public",
+  "homepage": "https://veycord-sentinel.nyikonathanmabasa.chatgpt.site",
+  "license": "Apache-2.0",
+  "security": {
+    "secret_scanning": {
+      "status": "enabled"
+    },
+    "secret_scanning_push_protection": {
+      "status": "enabled"
+    },
+    "dependabot_security_updates": {
+      "status": "enabled"
+    },
+    "secret_scanning_non_provider_patterns": {
+      "status": "disabled"
+    },
+    "secret_scanning_validity_checks": {
+      "status": "disabled"
+    }
+  },
+  "merging": {
+    "allow_merge_commit": false,
+    "allow_squash_merge": true,
+    "allow_rebase_merge": false,
+    "delete_branch_on_merge": true
+  },
+  "main": {
+    "adminEnforcement": true,
+    "checks": [
+      "verify",
+      "CodeQL JavaScript and TypeScript"
+    ],
+    "upToDateRequired": true,
+    "reviews": {
+      "url": "https://api.github.com/repos/NathanMabasa/veycord-sentinel/branches/main/protection/required_pull_request_reviews",
+      "dismiss_stale_reviews": true,
+      "require_code_owner_reviews": false,
+      "require_last_push_approval": false,
+      "required_approving_review_count": 0
+    },
+    "forcePush": false,
+    "deletion": false,
+    "linearHistory": true,
+    "resolvedConversations": true
+  },
+  "workflow": {
+    "default_workflow_permissions": "read",
+    "can_approve_pull_request_reviews": false
+  },
+  "privateVulnerabilityReporting": true
+}
