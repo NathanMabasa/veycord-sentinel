@@ -6,7 +6,7 @@ This is the same frontend with an explicit public build mode, not a separate pro
 
 ## Deployment architecture
 
-Sites publishes a Cloudflare-compatible ESM Worker. The adapter imports only the existing synthetic Hono API. It does not import the private gateway, `pg`, runtime configuration or database credentials. The seven built UI assets are embedded in the Worker; no D1, R2, connector or private HTTP binding is configured. The artifact is about 780 KB before platform compression; the build rejects output above 8 MiB.
+Sites publishes a Cloudflare-compatible ESM Worker. The adapter imports only the existing synthetic Hono API. It does not import the private gateway, `pg`, runtime configuration or database credentials. The seven built UI assets are embedded in the Worker; no D1, R2, connector or private HTTP binding is configured. The artifact is about 810 KB before platform compression; the build rejects output above 8 MiB.
 
 `npm run build:public` uses explicit Vite configuration with `.env` loading disabled and allowlisted compile-time flags. It never uses the private gateway's Vite plugin. The regular `npm run build` / Node / PostgreSQL deployment remains available for self-hosting. The public build replaces generated `dist`, so rebuild the regular application before starting the private Node server.
 
