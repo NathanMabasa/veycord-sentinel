@@ -34,3 +34,6 @@ Resumed final candidate: standard build and38 unit checks pass; five Worker cont
 
 
 Correction to the initial self-hosting diagnosis: run40687036139's richer diagnostics identified the inner-hero H1, specifically the unbreakable word infrastructure, as the remaining345px overflow. The action wrapping change is retained because its enlarged-text regression is useful, but it was not sufficient to fix that heading. The public title now uses concrete shorter wording (Run your own Sentinel workspace) and inner-hero headings can wrap long tokens without clipping or reducing font size. Saved versions2 and3 were not deployed; live version1 awaits a fully passing replacement.
+
+
+PR12 merged normally after required checks passed on c6dc22c: Verify40688432445 and CodeQL40688432436. Main merge a0577c1d18e95a776d044a357d639b796d4819fc. The mobile heading correction passed on Linux. The one-time resume automation was deleted. The next public publication includes the owner's clarified onboarding work in batch009; do not deploy the rejected saved versions2/3.

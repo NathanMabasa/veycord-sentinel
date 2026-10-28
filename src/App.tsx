@@ -5,6 +5,7 @@ import Console from "./features/demo/Console";
 import ApiExplorer from "./ApiExplorer";
 import PrivateWorkspace from "./PrivateWorkspace";
 import { appConfig } from "./config";
+import { GetStartedPage, ConnectionsPage, HttpSetupPage } from "./features/site/OnboardingPages";
 function RoutePosition() {
   const { pathname, hash } = useLocation();
   const previousPath = useRef(pathname);
@@ -30,6 +31,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/product" element={<ProductPage />} />
+        <Route path="/get-started" element={<GetStartedPage />} />
+        <Route path="/connections" element={<ConnectionsPage />} />
+        <Route path="/connections/http" element={<HttpSetupPage />} />
         <Route path="/docs" element={<DocsPage />} />
         <Route path="/docs/api" element={<PageFrame eyebrow="API REFERENCE" title="Inspect the API, one request at a time." lead="Exercise the local synthetic-data read routes and inspect the exact JSON response."><ApiExplorer /></PageFrame>} />
         <Route path="/roadmap" element={<RoadmapPage />} />
@@ -50,6 +54,7 @@ function SelfHosting() {
         <p>The GitHub project includes the application, PostgreSQL schema, migrations, API and setup instructions. Keep credentials and records in your own environment.</p>
         <p>The private workspace is an early single-operator foundation. Use synthetic data while the documented security and operational release gates remain open.</p>
         <p><a className="button button-primary" href={`${appConfig.githubUrl}/blob/main/docs/PRIVATE-WORKSPACE.md`} target="_blank" rel="noreferrer">Read the self-hosting guide</a></p>
+        <p><Link className="button button-dark-outline" to="/connections/http">Set up HTTP ingestion</Link></p>
         <p><Link className="button button-dark-outline" to="/demo">Return to the demo</Link></p>
       </section>
     </PageFrame>

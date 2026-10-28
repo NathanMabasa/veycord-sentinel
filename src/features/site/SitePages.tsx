@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import React from "react";
-import { ArrowRight, Bell, Database, BookOpen, ExternalLink, FileSearch, Github, LayoutDashboard, LockKeyhole, Menu, Search, Shield, ShieldAlert } from "lucide-react";
+import { ArrowRight, Bell, Database, BookOpen, Download, ExternalLink, FileSearch, Github, LayoutDashboard, LockKeyhole, Menu, Search, Shield, ShieldAlert } from "lucide-react";
 import gsap from "gsap";
 import { Link, NavLink } from "react-router-dom";
 import { demoEvents } from "../../data/demo";
@@ -12,15 +12,15 @@ function SiteHeader() {
       <Brand />
       <nav aria-label="Main navigation">
         <NavLink to="/product">Product</NavLink>
+        <NavLink to="/connections">Connections</NavLink>
         <NavLink to="/docs">Docs</NavLink>
-        <NavLink to="/roadmap">Roadmap</NavLink>
         <NavLink to="/security">Security</NavLink>
         <NavLink to="/community">Community</NavLink>
       </nav>
       <div className="site-actions">
         <GithubLink />
-        <Link to="/demo" className="button button-primary">
-          Try the demo <ArrowRight size={16} />
+        <Link to="/get-started" className="button button-primary">
+          Get started <ArrowRight size={16} />
         </Link>
       </div>
       <details className="mobile-site-nav">
@@ -29,12 +29,12 @@ function SiteHeader() {
         </summary>
         <nav aria-label="Mobile navigation">
           <NavLink to="/product">Product</NavLink>
+          <NavLink to="/connections">Connections</NavLink>
           <NavLink to="/docs">Docs</NavLink>
-          <NavLink to="/roadmap">Roadmap</NavLink>
           <NavLink to="/security">Security</NavLink>
           <NavLink to="/community">Community</NavLink>
-          <Link to="/demo" className="button button-primary">
-            Try the demo <ArrowRight size={16} />
+          <Link to="/get-started" className="button button-primary">
+            Get started <ArrowRight size={16} />
           </Link>
         </nav>
       </details>
@@ -71,7 +71,8 @@ function SiteFooter() {
         <div className="footer-links">
           <span>Explore</span>
           <Link to="/product">Product</Link>
-          <Link to="/docs">Getting started</Link>
+          <Link to="/get-started">Getting started</Link>
+          <Link to="/connections">Connections</Link>
           <Link to="/roadmap">Roadmap</Link>
         </div>
         <div className="footer-links">
@@ -213,19 +214,20 @@ export function Landing() {
             </p>
             <div className="hero-buttons">
               <Link to="/demo" className="button button-primary button-large">
-                Try the interactive demo <ArrowRight size={17} />
+                Try the web demo <ArrowRight size={17} />
               </Link>
               <Link
-                to="/product"
+                to="/get-started#self-host"
                 className="button button-outline button-large"
               >
-                Explore the product <ArrowRight size={16} />
+                Download and self-host <Download size={16} />
               </Link>
             </div>
             <p className="hero-disclosure">
               No account required. The demo runs on synthetic sample events in
               your browser.
             </p>
+            <Link className="hero-connection-link" to="/connections">Set up a data connection <ArrowRight size={15} /></Link>
           </div>
           <ProductPreview />
         </section>
@@ -472,7 +474,7 @@ export function ProductPage() {
           ],
           [
             "Sources",
-            "Inspect sample source families. Live source connection is not implemented.",
+            "Inspect sample source families, then follow the private HTTP setup for a self-hosted workspace. Managed source collectors are planned.",
           ],
           [
             "Workspace settings",
@@ -494,14 +496,16 @@ export function ProductPage() {
           <b>Current boundary</b>
           <br />
           The console uses bundled synthetic records and local browser state. It
-          has no authenticated data backend, tenant boundary, or real-data
-          ingestion. A separate local read-only API serves synthetic fixtures.
+          is separate from the optional private Node/PostgreSQL workspace. The
+          private API supports bounded authenticated JSON ingestion; hosted
+          accounts, tenant membership and managed collectors remain pending.
         </p>
       </div>
       <h2 className="subheading">Architecture direction</h2>
       <p className="wide-copy">
         React + TypeScript + Vite is the selected console framework. Cloudflare
-        Workers with Hono are the proposed API path. OpenSearch Security
+        Workers with Hono serve the public synthetic API. The private data path
+        runs on Node and PostgreSQL. OpenSearch Security
         Analytics and ClickHouse remain under workload benchmark before
         selecting a data engine. See the project brain for detailed architecture
         and release gates.
@@ -597,7 +601,7 @@ export function DocsPage() {
             <p>
               It does not accept logs, authenticate users, provide tenant
               isolation, store data on a server, run real detection rules, or
-              connect to Cloudflare. Do not submit real telemetry.
+              connect live sources. It runs on Cloudflare with synthetic fixtures. Do not submit real telemetry.
             </p>
             <Link to="/security">
               Read security status <ArrowRight size={15} />

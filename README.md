@@ -8,7 +8,7 @@ A security investigation workbench in early development. The current application
 
 ## Web demo and GitHub source
 
-[Open the web demo](https://veycord-sentinel.nyikonathanmabasa.chatgpt.site/demo) or [browse the source on GitHub](https://github.com/NathanMabasa/veycord-sentinel). The web distribution contains synthetic data, browser-local case state and a read-only API. No account or installation is required. Real telemetry and database connections belong in a separately configured private installation; the public site does not collect logs or request operator keys.
+[Choose your setup](https://veycord-sentinel.nyikonathanmabasa.chatgpt.site/get-started), [browse connections](https://veycord-sentinel.nyikonathanmabasa.chatgpt.site/connections), [open the web demo](https://veycord-sentinel.nyikonathanmabasa.chatgpt.site/demo) or [browse the source on GitHub](https://github.com/NathanMabasa/veycord-sentinel). The web distribution contains synthetic data, browser-local case state and a read-only API. No account or installation is required. Real telemetry and database connections belong in a separately configured private installation; the public site does not collect logs or request operator keys.
 
 See [public deployment](docs/PUBLIC-WEB.md) for the database-free Worker build, publishing process and current limits. GitHub changes do not automatically redeploy the Site.
 

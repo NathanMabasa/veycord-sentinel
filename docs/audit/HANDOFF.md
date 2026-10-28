@@ -1,29 +1,21 @@
-# Veycord Sentinel handoff — 2026-10-28 public web continuation
+# Veycord Sentinel handoff — 2026-10-28 product onboarding
 
-## Owner clarification (latest)
+## Owner intent
 
-Use Sentry as a reference for a hosted/self-hosted product with connection onboarding and GitHub downloads. Do not pursue a Sentry account/DSN or error-monitoring integration. Build a clear get-started path and real self-hosted HTTP setup; hosted real-data signup remains gated by identity, tenant isolation and operations. PR12 still needs the final heading fix to pass; follow with batch009 onboarding. Saved Site versions2/3 are not deployed.
+Use Sentry as a reference for hosted/self-hosted product paths and connection onboarding. No Sentry account, DSN or error-monitoring integration is requested. Batch008 remains deferred. Build batch009 provides web-demo, GitHub download and real self-hosted HTTP setup. Hosted real-data signup remains gated by identity, authorization, isolation, quotas and operational/privacy reviews.
 
-## Current state
+## Verified base
 
-PR12 (publish-web-demo) is the protected integration source: https://github.com/NathanMabasa/veycord-sentinel/pull/12 . Final required verify/CodeQL must pass before squash merge; never bypass. Source/publication docs: docs/tickets/BUILD-BATCH-007.md and docs/PUBLIC-WEB.md. GitHub remains public Apache-2.0 and its homepage points to https://veycord-sentinel.nyikonathanmabasa.chatgpt.site .
+PR12 was protected-squash merged without bypass at main a0577c1d18e95a776d044a357d639b796d4819fc after final-head c6dc22c verify40688432445 and CodeQL40688432436 succeeded. It fixes Linux320px link overflow and the self-hosting title. GitHub remains public Apache-2.0, strict verify/CodeQL, admin enforcement, no force pushes/deletion, resolved conversations, linear history, secret scanning/push protection/private reporting, read-only Actions and squash-only merging. Required independent approving reviews remain0 for the solo maintainer; do not imply outside human review.
 
-Site project appgprj_6ae1df006640819185d4ffa2e912d1b5 is public. Version1 remains live. Version2 was saved from Site commit8519b99ad4973fc83ef5ad50e8de69c766e1d037 but deliberately not deployed because Linux verification exposed a second narrow-screen issue. Do not deploy that saved version. Reuse the Site identity and export the corrected committed source, then build/save/deploy its matching archive as the next version.
+## Current candidate
 
-## Verified corrections and remaining integration
+Branch add-product-onboarding adds /get-started, /connections and /connections/http, direct source ZIP, safe generated Bash, actual synthetic JSON download and honest planned-adapter statuses. No runtime dependencies added. Local standard/public builds,42 unit/API/model checks, five built Worker contracts and65 public browser checks pass. Nine new axe states report zero violations/incomplete groups after correcting public button/header contrast. The generated Bash is tested over the real loopback HTTP interface with an isolated in-memory store; actual PostgreSQL integration remains in required CI. See docs/tickets/BUILD-BATCH-009.md. Final-head GitHub checks and publication are still pending at this snapshot.
 
-Historical CI40682749080: homepage scope link nowrap overflow at320px, scrollWidth343. CI40686293935: homepage fixed; new self-hosting action inherited nowrap text and overflowed345px even though its box fit. Both now have scoped max-width/normal-wrap rules; the homepage arrow cannot shrink. No font-size reduction, hidden overflow, selector weakening or CSP relaxation. Public browser audit adds20px enlarged-text checks of link/icon/text-range bounds. Standard build,38 unit checks, five Worker contracts and38 public browser checks pass locally. Final Linux required checks remain authoritative; use current PR head rather than historical run state.
+## Publication
 
-## Publishing
+Site appgprj_6ae1df006640819185d4ffa2e912d1b5 is public at https://veycord-sentinel.nyikonathanmabasa.chatgpt.site . Version1 remains live; versions2/3 were saved but deliberately not deployed. Do not deploy those older artifacts. Reuse identity and sanitized committed source. Preserve .data/public-site/.git; git archive excludes ignored private files. Site-only mapping retains regular build as build:self-host and maps build to build:public. Use Sites helper with COPYFILE_DISABLE=1 to avoid AppleDouble metadata; fresh credential remains in memory/hidden stdin only. Native save/deploy/status must match the pushed source and archive. Do not claim the current candidate is live before successful publication.
 
-Use Sites skill. Existing ignored .data/public-site has its own source Git history and hosting identity; preserve .git. Sanitize using git archive of the chosen committed source, never copy .env, .env.runtime, .data, DB, keys or archives. Site-only package script mapping: save regular build as build:self-host and map build to npm run build:public. Fresh credential stays in memory; pass through hidden stdin to site-workflow helper, never in args/files/output. Source helper must push exact source and package matching archive before save/deploy. Current public preview owns loopback4173. Public build replaces dist; standard build restores private-compatible assets. No private Node server was started or customer data accessed.
+## Preserve and limits
 
-## GitHub and Sentry request
-
-Live API evidence: docs/audit/github-public-protections-batch007.json. Existing admin enforcement, strict verify/CodeQL, resolved conversations, linear history, blocked force pushes/deletion, secret scanning/push protection/private reporting, default read-only Actions and no Actions PR approval are verified. Squash-only merging configured. External approving review count is0 because there is one maintainer; this is not independent human review.
-
-Owner requested Sentry error monitoring. Official sources and privacy/runtime decisions are in docs/brain/03-Security/Application Error Monitoring.md; tickets are docs/tickets/BUILD-BATCH-008.md. No Sentry connector was available and no SDK/DSN/reporting is active. Require owner project URL/public DSN and region/retention before activation; never request an auth token in chat. Do not copy the full quickstart: current dataCollection defaults, replay and breadcrumbs can include sensitive context. The optional Sentry GitHub App has source/check/issue/PR write permissions and is not required for ingestion. Limit it to Sentinel only if selected. Cloudflare SDK compatibility with Sites remains unverified. All private deployments remain uninstrumented by default.
-
-## Preserve and stop conditions
-
-Private PostgreSQL .data/postgres, .env/.env.runtime and external backup key are untouched. Never print/commit secrets. Use synthetic records only. Check usage in bounded phases and stop before10% remains. Disable resume-sentinel-public-mobile-fix after this usable continuation. Finish publication evidence/tickets with actual IDs and final-head checks before reporting completion; monitoring connection still needs owner input.
+Private .env/.env.runtime, .data/postgres and external backup key are untouched. Synthetic data only; never print or commit secrets. Public loopback preview4173 is this continuation's process; no private Node service was started. Public build overwrites dist; run standard build before private serving. Stop before10% remains and save exact state. One-time resume-sentinel-public-mobile-fix was deleted successfully after this continuation.

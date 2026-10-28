@@ -220,6 +220,77 @@
       }
     },
     {
+      "name": "/get-started renders at 320px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": [
+          {
+            "tag": "TEXTAREA",
+            "cls": "",
+            "right": 299,
+            "client": 278,
+            "scroll": 632,
+            "text": "git clone https://github.com/NathanMabasa/veycord-sentinel.git veycord"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/get-started automated accessibility at 320px",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "/connections renders at 320px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/connections automated accessibility at 320px",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "/connections/http renders at 320px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": [
+          {
+            "tag": "TEXTAREA",
+            "cls": "",
+            "right": 299,
+            "client": 278,
+            "scroll": 562,
+            "text": "# Run in Bash on your private machine. The key stays in this subshell."
+          },
+          {
+            "tag": "TEXTAREA",
+            "cls": "",
+            "right": 299,
+            "client": 278,
+            "scroll": 562,
+            "text": "# Run in Bash on your private machine. The key stays in this subshell."
+          }
+        ]
+      }
+    },
+    {
+      "name": "/connections/http automated accessibility at 320px",
+      "passed": true,
+      "detail": []
+    },
+    {
       "name": "/workspace renders at 320px without horizontal overflow",
       "passed": true,
       "detail": {
@@ -405,6 +476,77 @@
       }
     },
     {
+      "name": "/get-started renders at 768px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": [
+          {
+            "tag": "TEXTAREA",
+            "cls": "",
+            "right": 690.203125,
+            "client": 291,
+            "scroll": 684,
+            "text": "git clone https://github.com/NathanMabasa/veycord-sentinel.git veycord"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/get-started automated accessibility at 768px",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "/connections renders at 768px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/connections automated accessibility at 768px",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "/connections/http renders at 768px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": [
+          {
+            "tag": "TEXTAREA",
+            "cls": "",
+            "right": 690.203125,
+            "client": 372,
+            "scroll": 608,
+            "text": "# Run in Bash on your private machine. The key stays in this subshell."
+          },
+          {
+            "tag": "TEXTAREA",
+            "cls": "",
+            "right": 690.203125,
+            "client": 372,
+            "scroll": 608,
+            "text": "# Run in Bash on your private machine. The key stays in this subshell."
+          }
+        ]
+      }
+    },
+    {
+      "name": "/connections/http automated accessibility at 768px",
+      "passed": true,
+      "detail": []
+    },
+    {
       "name": "/workspace renders at 768px without horizontal overflow",
       "passed": true,
       "detail": {
@@ -550,6 +692,60 @@
       }
     },
     {
+      "name": "/get-started renders at 1440px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": [
+          {
+            "tag": "TEXTAREA",
+            "cls": "",
+            "right": 1295,
+            "client": 551,
+            "scroll": 684,
+            "text": "git clone https://github.com/NathanMabasa/veycord-sentinel.git veycord"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/get-started automated accessibility at 1440px",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "/connections renders at 1440px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/connections automated accessibility at 1440px",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "/connections/http renders at 1440px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/connections/http automated accessibility at 1440px",
+      "passed": true,
+      "detail": []
+    },
+    {
       "name": "/workspace renders at 1440px without horizontal overflow",
       "passed": true,
       "detail": {
@@ -609,6 +805,51 @@
         "scroll": 320,
         "whiteSpace": "normal"
       }
+    },
+    {
+      "name": "source download links to the public main ZIP",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "catalog exposes one actual setup path and four explicit planned adapters",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "HTTP setup requests only an origin and no operator credential",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "insecure remote origins are rejected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "valid origin updates command templates without a network probe",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "copy control copies the actual generated Bash",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "keyboard origin updates clear stale copied feedback",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "clipboard failure keeps the command available for manual copy",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "downloaded file contains one labeled synthetic check event",
+      "passed": true,
+      "detail": null
     },
     {
       "name": "no uncaught browser errors",

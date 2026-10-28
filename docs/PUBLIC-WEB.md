@@ -6,7 +6,7 @@ This is the same frontend with an explicit public build mode, not a separate pro
 
 ## Deployment architecture
 
-Sites publishes a Cloudflare-compatible ESM Worker. The adapter imports only the existing synthetic Hono API. It does not import the private gateway, `pg`, runtime configuration or database credentials. The seven built UI assets are embedded in the Worker; no D1, R2, connector or private HTTP binding is configured. The artifact is about 780 KB before platform compression; the build rejects output above 8 MiB.
+Sites publishes a Cloudflare-compatible ESM Worker. The adapter imports only the existing synthetic Hono API. It does not import the private gateway, `pg`, runtime configuration or database credentials. The seven built UI assets are embedded in the Worker; no D1, R2, connector or private HTTP binding is configured. The artifact is about 810 KB before platform compression; the build rejects output above 8 MiB.
 
 `npm run build:public` uses explicit Vite configuration with `.env` loading disabled and allowlisted compile-time flags. It never uses the private gateway's Vite plugin. The regular `npm run build` / Node / PostgreSQL deployment remains available for self-hosting. The public build replaces generated `dist`, so rebuild the regular application before starting the private Node server.
 
@@ -30,3 +30,10 @@ Push the exact source snapshot to the Site's source repository, save its matchin
 The sanitized Site snapshot maps its default `build` script to `build:public` and preserves the regular build as `build:self-host`, so the hosting provider cannot accidentally build the private distribution. GitHub retains its original default build. This manifest-only adaptation is recorded alongside the independent Site source commit.
 
 The public Worker preserves the existing CSP, same-origin connections, anti-framing, safe API errors and query bounds. API writes and private routes are unavailable. These protections do not establish production SIEM readiness, compliance or certification. Hosted real telemetry remains gated by [remaining release work](tickets/NEXT-RELEASE-GATES.md).
+
+
+## Product onboarding
+
+`/get-started` separates the no-install web demo from GitHub source download and private self-hosting. `/connections` distinguishes the actual private HTTP API from planned collectors/parsers. `/connections/http` validates an origin and generates Bash commands plus a synthetic check JSON file. It neither collects a key nor calls the entered private origin. The commands prompt for the key only on the operator's machine, keep it in a subshell, and pass its header via stdin. Current ingestion remains single-operator/private; hosted account and real-data signup are not implemented. See batch009 for validation evidence.
+
+On macOS, run the Sites workflow helper with `COPYFILE_DISABLE=1` so the archive contains only Worker/hosting files and no AppleDouble metadata. Use the helper's exact pushed source commit and unchanged resulting archive.

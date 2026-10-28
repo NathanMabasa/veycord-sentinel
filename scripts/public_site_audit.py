@@ -5,7 +5,8 @@ from playwright.sync_api import sync_playwright, expect
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = 'http://127.0.0.1:4173'
-checks, errors = [], []
+checks, errors, accessibility = [], [], []
+axe_source = (ROOT / 'node_modules/axe-core/axe.min.js').read_text()
 
 def check(name, value, detail=None):
     checks.append({'name': name, 'passed': bool(value), 'detail': detail})
@@ -19,12 +20,17 @@ with sync_playwright() as p:
     try:
         for width in [320, 768, 1440]:
             page.set_viewport_size({'width': width, 'height': 900})
-            for route in ['/', '/product', '/docs', '/docs/api', '/security', '/roadmap', '/community', '/demo', '/workspace']:
+            for route in ['/', '/product', '/docs', '/docs/api', '/security', '/roadmap', '/community', '/demo', '/get-started', '/connections', '/connections/http', '/workspace']:
                 response = page.goto(BASE + route, wait_until='networkidle')
                 page.locator('.startup-screen').wait_for(state='hidden')
                 expect(page.locator('h1').first).to_be_visible()
                 dimensions = page.evaluate("({width:innerWidth,scroll:document.documentElement.scrollWidth,offenders:[...document.querySelectorAll('body *')].filter(e=>e.getBoundingClientRect().right>innerWidth+1 || e.scrollWidth>e.clientWidth+1).slice(0,8).map(e=>({tag:e.tagName,cls:typeof e.className==='string'?e.className:'svg',right:e.getBoundingClientRect().right,client:e.clientWidth,scroll:e.scrollWidth,text:e.textContent?.slice(0,70)}))})")
                 check(f'{route} renders at {width}px without horizontal overflow', response.status == 200 and dimensions['scroll'] <= width + 1, {'status':response.status, **dimensions})
+                if route in ['/get-started', '/connections', '/connections/http']:
+                    page.evaluate('() => {\n' + axe_source + '\n}')
+                    result = page.evaluate("""async () => {const r=await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']}});return {violations:r.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})),incomplete:r.incomplete.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)}))}}""")
+                    accessibility.append({'route':route,'width':width,**result})
+                    check(f'{route} automated accessibility at {width}px', not result['violations'], result['violations'])
             check(f'public workspace has no credential form at {width}px', page.get_by_role('textbox').count() == 0)
             expect(page.get_by_role('heading', name='Run your own Sentinel workspace.')).to_be_visible()
             if width in [320, 1440]:
@@ -60,8 +66,51 @@ with sync_playwright() as p:
         dimensions = guide_link.evaluate("element => {const range=document.createRange();range.selectNodeContents(element);return {right:element.getBoundingClientRect().right,textRight:range.getBoundingClientRect().right,scroll:document.documentElement.scrollWidth,whiteSpace:getComputedStyle(element).whiteSpace}}")
         check('self-hosting action wraps enlarged text within a 320px viewport', dimensions['right'] <= 320 and dimensions['textRight'] <= 320 and dimensions['scroll'] <= 321 and dimensions['whiteSpace'] == 'normal', dimensions)
         page.locator('.self-hosting-guide').screenshot(path=str(ROOT / 'docs/audit/screenshots/public-self-hosting-action-320.png'))
+        page.set_viewport_size({'width': 1440, 'height': 1000})
+        page.goto(BASE + '/get-started', wait_until='networkidle')
+        expect(page.get_by_role('heading', name='Choose where Sentinel runs.', exact=True)).to_be_visible()
+        check('source download links to the public main ZIP', page.get_by_role('link', name='Download source ZIP', exact=True).get_attribute('href') == 'https://github.com/NathanMabasa/veycord-sentinel/archive/refs/heads/main.zip')
+        page.screenshot(path=str(ROOT / 'docs/audit/screenshots/get-started-1440.png'), full_page=True)
+        page.goto(BASE + '/connections', wait_until='networkidle')
+        check('catalog exposes one actual setup path and four explicit planned adapters', page.get_by_role('link', name='Set up HTTP ingestion').count() == 1 and page.locator('.connection-roadmap li').count() == 4 and page.get_by_role('button', name='Connect GitHub').count() == 0)
+        page.get_by_role('link', name='Set up HTTP ingestion').click()
+        expect(page.get_by_role('heading', name='Check your private ingestion path.', exact=True)).to_be_visible()
+        check('HTTP setup requests only an origin and no operator credential', page.locator('input').count() == 1 and page.locator('input[type=password]').count() == 0)
+        origin = page.get_by_role('textbox', name='Sentinel server origin', exact=True)
+        origin.fill('http://remote.example.org')
+        page.get_by_role('button', name='Update commands', exact=True).click()
+        expect(page.get_by_role('alert')).to_contain_text('Use HTTPS')
+        check('insecure remote origins are rejected', origin.get_attribute('aria-invalid') == 'true')
+        outbound = []
+        page.on('request', lambda request: outbound.append(request.url))
+        origin.fill('https://sentinel.example.org')
+        page.get_by_role('button', name='Update commands', exact=True).click()
+        expect(page.get_by_role('status').filter(has_text='Commands updated for https://sentinel.example.org.')).to_be_visible()
+        health = page.get_by_role('textbox', name='Check private API health', exact=True)
+        expect(health).to_have_value(__import__('re').compile('SENTINEL_URL=\'https://sentinel.example.org\''))
+        check('valid origin updates command templates without a network probe', not any('sentinel.example.org' in url for url in outbound) and page.url == BASE + '/connections/http')
+        context.grant_permissions(['clipboard-read', 'clipboard-write'], origin=BASE)
+        page.locator('.setup-command').first.get_by_role('button', name='Copy command', exact=True).click()
+        expect(page.locator('.setup-command').first.get_by_role('status')).to_have_text('Copied to clipboard.')
+        check('copy control copies the actual generated Bash', page.evaluate('navigator.clipboard.readText()') == health.input_value())
+        origin.fill('https://second.example.org')
+        origin.press('Enter')
+        expect(page.locator('.setup-command').first.get_by_role('status')).to_have_text('')
+        check('keyboard origin updates clear stale copied feedback', 'second.example.org' in health.input_value())
+        page.evaluate("() => {navigator.clipboard.writeText = async () => {throw new Error('Synthetic clipboard failure')}}")
+        page.locator('.setup-command').first.get_by_role('button', name='Copy command', exact=True).click()
+        expect(page.locator('.setup-command').first.get_by_role('status')).to_contain_text('Select and copy')
+        check('clipboard failure keeps the command available for manual copy', health.is_visible())
+        with page.expect_download() as download_info:
+            page.get_by_role('button', name='Download check JSON', exact=True).click()
+        download = download_info.value
+        sample = json.loads(Path(download.path()).read_text())
+        check('downloaded file contains one labeled synthetic check event', download.suggested_filename == 'sentinel-connection-check.json' and len(sample['events']) == 1 and sample['events'][0]['attributes']['synthetic'] is True)
+        page.set_viewport_size({'width': 320, 'height': 900})
+        page.screenshot(path=str(ROOT / 'docs/audit/screenshots/http-setup-320.png'), full_page=True)
         check('no uncaught browser errors', not errors)
     finally:
         (ROOT / 'docs/audit/public-site-browser.json').write_text(json.dumps({'checks': checks, 'browserErrors': errors}, indent=2))
+        (ROOT / 'docs/audit/onboarding-accessibility.json').write_text(json.dumps(accessibility, indent=2))
         browser.close()
 print(f'Public Worker browser checks passed: {len(checks)}')

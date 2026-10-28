@@ -9,7 +9,7 @@ An Obsidian-compatible knowledge base for planning an open-source security analy
 - Architecture: [[02-Architecture/Proposed Architecture]], [[02-Architecture/Component Guide]], [[02-Architecture/Data and Detection Standards]], [[02-Architecture/Data Plane Decision and Benchmark]], [[02-Architecture/Deployment and Cost Model]], [[02-Architecture/Web Hosting Strategy]]
 - Security: [[03-Security/Security Requirements]], [[03-Security/POPIA and Government Readiness]], [[03-Security/Threat Model Starter]], [[03-Security/Cisco SDL Alignment and Assessment Path]]
 - Optional monitoring research: [[03-Security/Application Error Monitoring]] (deferred; Sentry is currently a product-flow reference)
-- Experience: [[05-UX/First Run and Learning Path]], [[05-UX/Information Architecture]], [[05-UX/Visual Design System]]
+- Experience: [[05-UX/Hosted and Self-Hosted Onboarding]], [[05-UX/First Run and Learning Path]], [[05-UX/Information Architecture]], [[05-UX/Visual Design System]]
 - Delivery: [[04-Roadmap/Phased Roadmap]], [[06-Operations/Project Operations]], [[09-Engineering/Framework Decision and Research Plan]], [[09-Engineering/Recommended Stack and Libraries]], [[09-Engineering/Build Map and Traceability]], [[09-Engineering/Engineering Skills and Agent Guidance]]
 - Decisions: [[07-Decisions/Decision Register]]
 - Sources: [[08-References/Source Index]]

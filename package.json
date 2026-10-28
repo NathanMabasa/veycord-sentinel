@@ -12,7 +12,7 @@
     "preview": "vite preview",
     "test:api": "tsx --test tests/api.test.ts",
     "start": "node --env-file-if-exists=.env.runtime build/server/node.js",
-    "test:unit": "tsx --test tests/api.test.ts tests/private-api.test.ts tests/detections.test.ts tests/gateway.test.ts tests/runtime-config.test.ts tests/navigation.test.ts",
+    "test:unit": "tsx --test tests/api.test.ts tests/private-api.test.ts tests/detections.test.ts tests/gateway.test.ts tests/runtime-config.test.ts tests/navigation.test.ts tests/connection-setup.test.ts",
     "test:db": "tsx --test tests/postgres.test.ts",
     "db:bootstrap": "node --env-file-if-exists=.env --import tsx db/bootstrap-runtime-role.ts",
     "db:migrate": "node --env-file-if-exists=.env --import tsx db/migrate.ts",

@@ -1,5 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { serve } from '@hono/node-server';
+import { execFile } from 'node:child_process';
+import { mkdtemp, writeFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { connectionCheckBatch, connectionCommand } from '../src/features/site/connection-setup.ts';
 import type {
   DataStore,
   DetectionMatch,
@@ -512,4 +518,34 @@ test("rule catalog is authenticated, bounded, non-executable, uncached, and reje
   assert.equal(store.calls, 0);
   for (let index = 0; index < 59; index++) await api.fetch(request("/api/private/v1/rules", { headers: auth }));
   assert.equal((await api.fetch(request("/api/private/v1/rules", { headers: auth }))).status, 429);
+});
+
+test('public setup commands authenticate and ingest their downloaded sample over the real HTTP interface', async () => {
+  const { api, store } = apiFor();
+  const directory = await mkdtemp(join(tmpdir(), 'sentinel-connection-check-'));
+  const server = serve({ fetch: api.fetch, hostname: '127.0.0.1', port: 0 });
+  const execute = (command: string) => new Promise<string>((resolve, reject) => {
+    const child = execFile('bash', ['-c', command], { cwd: directory, timeout: 5000, maxBuffer: 16_384 }, (error, stdout, stderr) => {
+      if (error) { reject(new Error('Generated connection command failed')); return; }
+      assert.equal(stderr.includes(TOKEN), false);
+      resolve(stdout.trim());
+    });
+    child.stdin?.end(TOKEN + '\n');
+  });
+  try {
+    if (!server.listening) await new Promise<void>(resolve => server.once('listening', resolve));
+    const address = server.address();
+    assert.ok(address && typeof address !== 'string');
+    const origin = `http://127.0.0.1:${address.port}`;
+    assert.deepEqual(JSON.parse(await execute(connectionCommand(origin, 'health'))), { data: { status: 'ok' } });
+    const sample = connectionCheckBatch();
+    await writeFile(join(directory, 'sentinel-connection-check.json'), JSON.stringify(sample), { mode: 0o600 });
+    const result = JSON.parse(await execute(connectionCommand(origin, 'ingest')));
+    assert.equal(result.data.accepted, 1);
+    assert.equal(store.ingested[0].eventId, sample.events[0].eventId);
+    assert.equal(store.ingested[0].attributes?.synthetic, true);
+  } finally {
+    await new Promise<void>((resolve, reject) => server.close(error => error ? reject(error) : resolve()));
+    await rm(directory, { recursive: true, force: true });
+  }
 });
