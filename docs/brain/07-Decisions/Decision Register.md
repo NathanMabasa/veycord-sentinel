@@ -41,3 +41,8 @@ Remaining decisions and gates: benchmark the data plane; select first event form
 1. Is first success aimed primarily at an aspiring analyst, a small IT team, or both (with learner-first onboarding)?
 2. Are we willing to depend on OpenSearch as the backend for the MVP, or should the first milestone compare another engine?
 3. Is Veycord the brand for both the public website and the software, or should Sentinel have a separate product identity?
+
+
+## D-024 clarification / D-025 — hosted and self-hosted product onboarding
+
+Accepted owner clarification2026-10-28: Sentry is a product-flow reference, not a request for an error-monitoring connection. Preserve optional monitoring research without requesting a DSN. Provide a web-demo/self-hosted choice, GitHub source ZIP, explicit connection readiness and a real private HTTP setup path. Batch009 implements local command generation and a synthetic check download; it never collects an operator key or probes private servers from the public site. Public hosted accounts/real-data ingress still require the established identity/isolation/privacy/operations gates. See [[../05-UX/Hosted and Self-Hosted Onboarding]].

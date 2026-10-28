@@ -30,3 +30,10 @@ Push the exact source snapshot to the Site's source repository, save its matchin
 The sanitized Site snapshot maps its default `build` script to `build:public` and preserves the regular build as `build:self-host`, so the hosting provider cannot accidentally build the private distribution. GitHub retains its original default build. This manifest-only adaptation is recorded alongside the independent Site source commit.
 
 The public Worker preserves the existing CSP, same-origin connections, anti-framing, safe API errors and query bounds. API writes and private routes are unavailable. These protections do not establish production SIEM readiness, compliance or certification. Hosted real telemetry remains gated by [remaining release work](tickets/NEXT-RELEASE-GATES.md).
+
+
+## Product onboarding
+
+`/get-started` separates the no-install web demo from GitHub source download and private self-hosting. `/connections` distinguishes the actual private HTTP API from planned collectors/parsers. `/connections/http` validates an origin and generates Bash commands plus a synthetic check JSON file. It neither collects a key nor calls the entered private origin. The commands prompt for the key only on the operator's machine, keep it in a subshell, and pass its header via stdin. Current ingestion remains single-operator/private; hosted account and real-data signup are not implemented. See batch009 for validation evidence.
+
+On macOS, run the Sites workflow helper with `COPYFILE_DISABLE=1` so the archive contains only Worker/hosting files and no AppleDouble metadata. Use the helper's exact pushed source commit and unchanged resulting archive.

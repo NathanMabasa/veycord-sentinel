@@ -1,0 +1,56 @@
+[
+  {
+    "route": "/get-started",
+    "width": 320,
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "route": "/connections",
+    "width": 320,
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "route": "/connections/http",
+    "width": 320,
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "route": "/get-started",
+    "width": 768,
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "route": "/connections",
+    "width": 768,
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "route": "/connections/http",
+    "width": 768,
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "route": "/get-started",
+    "width": 1440,
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "route": "/connections",
+    "width": 1440,
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "route": "/connections/http",
+    "width": 1440,
+    "violations": [],
+    "incomplete": []
+  }
+]

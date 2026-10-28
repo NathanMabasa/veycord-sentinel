@@ -8,4 +8,5 @@ export const appConfig = {
   publicDemo: import.meta.env.VITE_PUBLIC_DEMO === 'true',
   // Override for forks; the default public repository was verified at publication.
   githubUrl: validRepository ? `https://github.com/${validRepository}` : '',
+  sourceZipUrl: validRepository ? `https://github.com/${validRepository}/archive/refs/heads/main.zip` : '',
 }
