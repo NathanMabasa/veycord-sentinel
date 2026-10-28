@@ -7,9 +7,9 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE = 'http://127.0.0.1:4173'
 checks, errors = [], []
 
-def check(name, value):
-    checks.append({'name': name, 'passed': bool(value)})
-    assert value, name
+def check(name, value, detail=None):
+    checks.append({'name': name, 'passed': bool(value), 'detail': detail})
+    assert value, f'{name}: {detail}'
 
 with sync_playwright() as p:
     browser = p.chromium.launch(headless=True)
@@ -23,7 +23,8 @@ with sync_playwright() as p:
                 response = page.goto(BASE + route, wait_until='networkidle')
                 page.locator('.startup-screen').wait_for(state='hidden')
                 expect(page.locator('h1').first).to_be_visible()
-                check(f'{route} renders at {width}px without horizontal overflow', response.status == 200 and page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1'))
+                dimensions = page.evaluate("({width:innerWidth,scroll:document.documentElement.scrollWidth,offenders:[...document.querySelectorAll('body *')].filter(e=>e.getBoundingClientRect().right>innerWidth+1).slice(0,8).map(e=>({tag:e.tagName,cls:typeof e.className==='string'?e.className:'svg',right:e.getBoundingClientRect().right,text:e.textContent?.slice(0,70)}))})")
+                check(f'{route} renders at {width}px without horizontal overflow', response.status == 200 and dimensions['scroll'] <= width + 1, {'status':response.status, **dimensions})
             check(f'public workspace has no credential form at {width}px', page.get_by_role('textbox').count() == 0)
             expect(page.get_by_role('heading', name='Your workspace. Your infrastructure.')).to_be_visible()
             if width in [320, 1440]:

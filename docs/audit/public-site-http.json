@@ -1,0 +1,95 @@
+{
+  "origin": "https://veycord-sentinel.nyikonathanmabasa.chatgpt.site",
+  "client": "Unauthenticated Mozilla user agent; default Python user agent received platform HTTP403",
+  "checks": [
+    {
+      "path": "/",
+      "status": 200,
+      "expected": 200,
+      "type": "text/html; charset=utf-8",
+      "url": "https://veycord-sentinel.nyikonathanmabasa.chatgpt.site/",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"
+    },
+    {
+      "path": "/demo",
+      "status": 200,
+      "expected": 200,
+      "type": "text/html; charset=utf-8",
+      "url": "https://veycord-sentinel.nyikonathanmabasa.chatgpt.site/demo",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"
+    },
+    {
+      "path": "/docs/api",
+      "status": 200,
+      "expected": 200,
+      "type": "text/html; charset=utf-8",
+      "url": "https://veycord-sentinel.nyikonathanmabasa.chatgpt.site/docs/api",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"
+    },
+    {
+      "path": "/workspace",
+      "status": 200,
+      "expected": 200,
+      "type": "text/html; charset=utf-8",
+      "url": "https://veycord-sentinel.nyikonathanmabasa.chatgpt.site/workspace",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"
+    },
+    {
+      "path": "/api/v1/health",
+      "status": 200,
+      "expected": 200,
+      "type": "application/json",
+      "url": "https://veycord-sentinel.nyikonathanmabasa.chatgpt.site/api/v1/health",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'",
+      "response": {
+        "status": "ok",
+        "mode": "synthetic-demo",
+        "authenticated": false
+      }
+    },
+    {
+      "path": "/api/v1/events?q=PowerShell&limit=1",
+      "status": 200,
+      "expected": 200,
+      "type": "application/json",
+      "url": "https://veycord-sentinel.nyikonathanmabasa.chatgpt.site/api/v1/events?q=PowerShell&limit=1",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'",
+      "response": {
+        "data": [
+          {
+            "id": "evt-7f21a0",
+            "timestamp": "2026-10-23T07:42:18.000Z",
+            "source": "Windows Security",
+            "host": "FIN-WS-042",
+            "event": "PowerShell launched with encoded command",
+            "severity": "high",
+            "outcome": "Success",
+            "fields": {
+              "user": "j.mokoena",
+              "sourceIp": "192.0.2.42",
+              "detail": "A PowerShell process started with an encoded command-line argument. Review the parent process and user activity to determine whether this was expected administration.",
+              "raw": "{\"event_id\":4688,\"host\":\"FIN-WS-042\",\"user\":\"j.mokoena\",\"process\":\"powershell.exe\",\"command_line\":\"powershell.exe -enc <synthetic-payload>\",\"source_ip\":\"192.0.2.42\"}"
+            }
+          }
+        ],
+        "page": {
+          "nextCursor": "eyJ2IjoxLCJvZmZzZXQiOjF9"
+        }
+      }
+    },
+    {
+      "path": "/api/private/v1/health",
+      "status": 404,
+      "expected": 404,
+      "type": "application/json",
+      "url": "https://veycord-sentinel.nyikonathanmabasa.chatgpt.site/api/private/v1/health",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'",
+      "response": {
+        "error": {
+          "code": "NOT_FOUND",
+          "message": "Not found"
+        }
+      }
+    }
+  ]
+}

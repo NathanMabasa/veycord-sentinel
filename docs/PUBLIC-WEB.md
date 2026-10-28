@@ -27,4 +27,6 @@ The local Worker adapter listens only on `127.0.0.1:4173`. `python3 scripts/publ
 
 Push the exact source snapshot to the Site's source repository, save its matching build archive, then deploy the returned version. Public access is explicitly requested by the owner. GitHub and Sites source repositories are distinct: GitHub merges do **not** automatically deploy this Site. Each web update needs the reviewed publishing workflow and a verified deployment result.
 
+The sanitized Site snapshot maps its default `build` script to `build:public` and preserves the regular build as `build:self-host`, so the hosting provider cannot accidentally build the private distribution. GitHub retains its original default build. This manifest-only adaptation is recorded alongside the independent Site source commit.
+
 The public Worker preserves the existing CSP, same-origin connections, anti-framing, safe API errors and query bounds. API writes and private routes are unavailable. These protections do not establish production SIEM readiness, compliance or certification. Hosted real telemetry remains gated by [remaining release work](tickets/NEXT-RELEASE-GATES.md).
