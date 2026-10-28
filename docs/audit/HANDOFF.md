@@ -1,5 +1,9 @@
 # Veycord Sentinel handoff — 2026-10-28 public web continuation
 
+## Owner clarification (latest)
+
+Use Sentry as a reference for a hosted/self-hosted product with connection onboarding and GitHub downloads. Do not pursue a Sentry account/DSN or error-monitoring integration. Build a clear get-started path and real self-hosted HTTP setup; hosted real-data signup remains gated by identity, tenant isolation and operations. PR12 still needs the final heading fix to pass; follow with batch009 onboarding. Saved Site versions2/3 are not deployed.
+
 ## Current state
 
 PR12 (publish-web-demo) is the protected integration source: https://github.com/NathanMabasa/veycord-sentinel/pull/12 . Final required verify/CodeQL must pass before squash merge; never bypass. Source/publication docs: docs/tickets/BUILD-BATCH-007.md and docs/PUBLIC-WEB.md. GitHub remains public Apache-2.0 and its homepage points to https://veycord-sentinel.nyikonathanmabasa.chatgpt.site .

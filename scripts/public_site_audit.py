@@ -26,7 +26,7 @@ with sync_playwright() as p:
                 dimensions = page.evaluate("({width:innerWidth,scroll:document.documentElement.scrollWidth,offenders:[...document.querySelectorAll('body *')].filter(e=>e.getBoundingClientRect().right>innerWidth+1 || e.scrollWidth>e.clientWidth+1).slice(0,8).map(e=>({tag:e.tagName,cls:typeof e.className==='string'?e.className:'svg',right:e.getBoundingClientRect().right,client:e.clientWidth,scroll:e.scrollWidth,text:e.textContent?.slice(0,70)}))})")
                 check(f'{route} renders at {width}px without horizontal overflow', response.status == 200 and dimensions['scroll'] <= width + 1, {'status':response.status, **dimensions})
             check(f'public workspace has no credential form at {width}px', page.get_by_role('textbox').count() == 0)
-            expect(page.get_by_role('heading', name='Your workspace. Your infrastructure.')).to_be_visible()
+            expect(page.get_by_role('heading', name='Run your own Sentinel workspace.')).to_be_visible()
             if width in [320, 1440]:
                 page.screenshot(path=str(ROOT / f'docs/audit/screenshots/public-self-hosting-{width}.png'), full_page=True)
         page.set_viewport_size({'width': 1440, 'height': 1000})

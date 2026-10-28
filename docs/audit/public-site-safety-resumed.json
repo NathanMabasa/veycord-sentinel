@@ -1,0 +1,14 @@
+{
+  "checked": "2026-10-28",
+  "workerBytes": 780003,
+  "archiveFiles": [
+    "dist/.openai/hosting.json",
+    "dist/server/index.js"
+  ],
+  "configuredSecretValuesAbsent": true,
+  "privateRuntimeMarkersAbsent": true,
+  "privateConfigOwnerOnly": true,
+  "newRuntimeDependencies": false,
+  "packaging": "COPYFILE_DISABLE=1 prevents macOS AppleDouble metadata entries; source/archive commit unchanged",
+  "limits": "Known configured-value scan and artifact allowlist; not an independent secrets assessment"
+}

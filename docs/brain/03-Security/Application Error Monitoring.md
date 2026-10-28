@@ -1,6 +1,6 @@
 # Application Error Monitoring
 
-Researched 2026-10-28. Owner requested Sentry integration and strict public GitHub settings. **Status: planned; no SDK, DSN, project connection or reporting is active.** A Sentry plugin search returned no available connector. Project/account access has not been supplied. Do not fabricate a DSN or claim that reports arrive in Sentry.
+Researched 2026-10-28. **Owner clarification: Sentry is a reference for the hosted/self-hosted product and connection flow. Error monitoring is deferred optional research, not a current connection request.** No SDK, DSN, project connection or reporting is active. The earlier request for a Sentry project is withdrawn; no Sentry account is needed to use Sentinel's demo or self-host it.
 
 ## Purpose and boundaries
 
@@ -29,7 +29,7 @@ Error ingestion can be configured without installing Sentry's GitHub App. The op
 
 Source-map upload credentials belong in a scoped CI secret, never `VITE_*`, the browser bundle, `.openai/hosting.json` or committed files. Source maps should be uploaded privately and excluded from public assets. No wizard or unpinned installation command has been run.
 
-## Required owner input
+## Only if error monitoring is requested later
 
 Provide the existing **Sentry project URL** (or its public DSN) and confirm its region/retention choice. Never paste an auth token into chat. If there is no project, an owner must create/select the account and project. GitHub App/source-map authorization, if desired, is a separate step after reviewing its permissions.
 

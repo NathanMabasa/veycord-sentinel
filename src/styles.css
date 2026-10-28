@@ -152,3 +152,6 @@ textarea {
 
 /* Public self-hosting actions wrap with system-font and text-size differences. */
 .self-hosting-guide .button{max-width:100%;white-space:normal;text-align:left}
+
+/* Long headings remain readable with platform fonts and enlarged text. */
+.inner-hero h1{overflow-wrap:anywhere}

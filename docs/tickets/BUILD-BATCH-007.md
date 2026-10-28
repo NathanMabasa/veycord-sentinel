@@ -31,3 +31,6 @@ The first resumed Linux run40686293935 passed the homepage check, then exposed t
 
 
 Resumed final candidate: standard build and38 unit checks pass; five Worker contracts pass;38 public browser checks pass locally, including both enlarged-text regressions. The original Linux viewport checks remain strict. Live repository protection was re-read; only squash merging is now offered, with existing verification/CodeQL/admin/secret protections retained. See `github-public-protections-batch007.json` and batch008 for the explicit zero-external-review limitation and Sentry prerequisites.
+
+
+Correction to the initial self-hosting diagnosis: run40687036139's richer diagnostics identified the inner-hero H1, specifically the unbreakable word infrastructure, as the remaining345px overflow. The action wrapping change is retained because its enlarged-text regression is useful, but it was not sufficient to fix that heading. The public title now uses concrete shorter wording (Run your own Sentinel workspace) and inner-hero headings can wrap long tokens without clipping or reducing font size. Saved versions2 and3 were not deployed; live version1 awaits a fully passing replacement.
