@@ -1,0 +1,56 @@
+{
+  "origin": "https://veycord-sentinel.nyikonathanmabasa.chatgpt.site",
+  "checks": [
+    {
+      "route": "/get-started",
+      "status": 200,
+      "rendered": true,
+      "sameOriginCsp": true
+    },
+    {
+      "route": "/connections",
+      "status": 200,
+      "rendered": true,
+      "sameOriginCsp": true
+    },
+    {
+      "route": "/connections/http",
+      "status": 200,
+      "rendered": true,
+      "sameOriginCsp": true
+    },
+    {
+      "route": "/demo",
+      "status": 200,
+      "rendered": true,
+      "sameOriginCsp": true
+    },
+    {
+      "commandOriginUpdate": true,
+      "syntheticDownload": true
+    },
+    {
+      "route": "/",
+      "mobile320NoOverflow": true
+    },
+    {
+      "route": "/get-started",
+      "mobile320NoOverflow": true
+    },
+    {
+      "route": "/connections",
+      "mobile320NoOverflow": true
+    },
+    {
+      "route": "/connections/http",
+      "mobile320NoOverflow": true
+    },
+    {
+      "route": "/workspace",
+      "mobile320NoOverflow": true
+    },
+    {
+      "privateApiAbsent": true
+    }
+  ]
+}

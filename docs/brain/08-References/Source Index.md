@@ -1,5 +1,14 @@
 # Source Index
 
+## Huntress commercial feature research (2026-10-28)
+
+See [[../01-Research/Huntress and Commercial Product Roadmap]] and batch010. Public vendor claims are not independent validation.
+
+- [Huntress platform](https://www.huntress.com/), [Managed SIEM](https://www.huntress.com/platform/siem), [Managed ITDR](https://www.huntress.com/platform/managed-itdr), [Managed EDR](https://www.huntress.com/platform/managed-edr), [Managed ISPM](https://www.huntress.com/platform/managed-ispm).
+- [Microsoft Graph sign-in API](https://learn.microsoft.com/en-us/graph/api/signin-list?view=graph-rest-1.0), [Graph security API](https://learn.microsoft.com/en-us/graph/api/resources/security-api-overview?view=graph-rest-1.0): endpoint contracts/permissions, not approval of a Sentinel connector.
+- [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/): collector responsibilities and mixed component maturity; explicit Sentinel mapping still needed.
+- [Sigma ecosystem](https://sigmahq.io/docs/guide/about.html): format, tools and collections are separate; import support and licenses require specific review.
+
 Research checked 2026-10-23. Prefer primary sources. Verify again before publication because product versions and terms change.
 
 ## Product workflows and licensing

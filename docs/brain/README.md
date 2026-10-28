@@ -14,6 +14,10 @@ An Obsidian-compatible knowledge base for planning an open-source security analy
 - Decisions: [[07-Decisions/Decision Register]]
 - Sources: [[08-References/Source Index]]
 
+Commercial feature research (2026-10-28): [[01-Research/Huntress and Commercial Product Roadmap]] compares public Huntress workflows with the actual Sentinel foundation. Proposed build slices are in `docs/tickets/BUILD-BATCH-010.md`; these are pending proposals, not shipped features or commercial approval.
+
+Sprint delivery: [[04-Roadmap/Commercial Sprint Plan]] sequences the commercial work and existing release gates; `docs/tickets/SPRINT-BACKLOG.md` contains actionable child tickets, dependencies and acceptance evidence. Cadence is proposed; dates/capacity are not committed.
+
 ## How to use this brain
 
 Treat market findings as dated snapshots, standards as versioned inputs, and product decisions as proposals until accepted. Every implementation requirement should link to a security control, user job, or explicit decision. Revisit the source index before making licensing, legal, or procurement claims.

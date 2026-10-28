@@ -1,5 +1,7 @@
 # Phased Roadmap
 
+For the current commercial feature decomposition, follow [[Commercial Sprint Plan]] and `docs/tickets/SPRINT-BACKLOG.md`. This older roadmap describes broad phases, not a current implementation checklist. The commercial plan explicitly requires identity/MFA and workspace authorization before multi-user access; later SSO options here do not defer that gate. Historical OpenSearch spikes below are proposals; the private PostgreSQL foundation is implemented and the high-volume backend decision remains benchmark-gated.
+
 ## Phase 0 — Decide and prove
 
 - Confirm product name/license and initial deployment target.
