@@ -582,7 +582,7 @@ export function DocsPage() {
           </section>
           <section id="api">
             <h2>API reference and request explorer</h2>
-            <p>The local development and preview servers now expose a read-only Hono API over synthetic fixtures. It returns no customer data and has no accounts or ingest endpoint. A static-only deployment does not include this API.</p>
+            <p>The development server and public Worker deployment expose a read-only API over synthetic fixtures. It returns no customer data and has no accounts or ingest endpoint. A static-only deployment does not include this API.</p>
             <div className="api-route-list">
               <div><code>GET /api/v1/health</code><span>Demo mode and unauthenticated status.</span></div>
               <div><code>GET /api/v1/events</code><span>Validated fixture search with bounded pages, filters and cursors.</span></div>

@@ -35,7 +35,7 @@ export default function ApiExplorer() {
     } catch (error) {
       if (controller.current !== request) return
       setStatus('Request unavailable')
-      setResponse(error instanceof Error && error.name !== 'AbortError' ? error.message : 'Request cancelled or timed out. Try again when the local server is available.')
+      setResponse(error instanceof Error && error.name !== 'AbortError' ? error.message : 'Request cancelled or timed out. Try again when the service is available.')
     } finally {
       window.clearTimeout(timeout)
       if (controller.current === request) setLoading(false)
@@ -44,7 +44,7 @@ export default function ApiExplorer() {
 
   return <div className="api-explorer">
     <Link to="/docs" className="api-back"><ArrowLeft size={16} /> Back to documentation</Link>
-    <div className="notice-block"><p><b>Synthetic, read-only API</b><br />Available through the local development and preview servers. These endpoints serve bundled fixtures; they do not ingest logs or authenticate users. Static-only hosting requires a separately deployed API.</p></div>
+    <div className="notice-block"><p><b>Synthetic, read-only API</b><br />Available on the public Worker deployment and local development servers. These endpoints serve bundled fixtures; they do not ingest logs or authenticate users. Static-only hosting requires a separately deployed API.</p></div>
     <form className="api-request-form" onSubmit={event => { event.preventDefault(); void runRequest() }}>
       <label htmlFor="api-endpoint">Endpoint<select id="api-endpoint" value={endpoint} disabled={loading} onChange={event => setEndpoint(event.target.value as Endpoint)}><option value="events">Search sample events</option><option value="detections">List starter detections</option><option value="health">Check demo API status</option></select></label>
       <label htmlFor="api-query">Event search<input id="api-query" value={query} onChange={event => setQuery(event.target.value)} disabled={loading || endpoint !== 'events'} maxLength={120} placeholder="Try PowerShell or FIN-WS-042" /></label>

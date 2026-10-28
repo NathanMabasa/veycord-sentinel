@@ -8,6 +8,7 @@ An Obsidian-compatible knowledge base for planning an open-source security analy
 - Research: [[01-Research/Market and Product Landscape]], [[01-Research/Competitor Workflow Notes]], [[01-Research/What Makes a Strong Splunk Alternative]], [[01-Research/Free and Open Source Model]], [[01-Research/Detection Content and Data Rights]]
 - Architecture: [[02-Architecture/Proposed Architecture]], [[02-Architecture/Component Guide]], [[02-Architecture/Data and Detection Standards]], [[02-Architecture/Data Plane Decision and Benchmark]], [[02-Architecture/Deployment and Cost Model]], [[02-Architecture/Web Hosting Strategy]]
 - Security: [[03-Security/Security Requirements]], [[03-Security/POPIA and Government Readiness]], [[03-Security/Threat Model Starter]], [[03-Security/Cisco SDL Alignment and Assessment Path]]
+- Optional monitoring research: [[03-Security/Application Error Monitoring]] (deferred; Sentry is currently a product-flow reference)
 - Experience: [[05-UX/First Run and Learning Path]], [[05-UX/Information Architecture]], [[05-UX/Visual Design System]]
 - Delivery: [[04-Roadmap/Phased Roadmap]], [[06-Operations/Project Operations]], [[09-Engineering/Framework Decision and Research Plan]], [[09-Engineering/Recommended Stack and Libraries]], [[09-Engineering/Build Map and Traceability]], [[09-Engineering/Engineering Skills and Agent Guidance]]
 - Decisions: [[07-Decisions/Decision Register]]
@@ -22,6 +23,8 @@ Treat market findings as dated snapshots, standards as versioned inputs, and pro
 Build an open-source SIEM learning and investigation platform with both self-hosting and an optional, quota-bounded Cloudflare-hosted workspace for real telemetry. Publish source and releases on GitHub, and provide a Cloudflare-hosted landing page and synthetic demo. Hosted real-data service must pass security, privacy, residency, and cost gates. See [[00-Product/Product Thesis]], [[02-Architecture/Web Hosting Strategy]], [[09-Engineering/Build Map and Traceability]], and [[07-Decisions/Decision Register]].
 
 ## Current implementation snapshot (2026-10-24)
+
+Public web distribution update (2026-10-28): batch007 adds a database-free Worker deployment for the website, synthetic console and read-only fixture API, with explicit self-hosting guidance in place of the private connection form. See `docs/PUBLIC-WEB.md` and batch007 for the publication record. The private Node/PostgreSQL architecture and real-telemetry gates remain separate.
 
 The public `/demo` and `/api/v1` still use synthetic fixtures. An optional **single-operator private PostgreSQL workspace** now exists at `/workspace` with `/api/private/v1`: server-configured bearer credential/workspace, bounded event ingestion/search, six authored deterministic rules, findings and durable cases. Node.js runs the private gateway; it is disabled by default and is not a deployed Cloudflare Worker. Runtime-role checks, parameterized transactions, forced RLS and composite workspace references are defense in depth; they do not replace multi-user identity or prevent a database credential holder from choosing a workspace setting.
 

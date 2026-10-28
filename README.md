@@ -6,6 +6,12 @@ A security investigation workbench in early development. The current application
 
 ![Private workspace with synthetic PostgreSQL records](docs/audit/screenshots/private-workspace-overview-1440.png)
 
+## Web demo and GitHub source
+
+[Open the web demo](https://veycord-sentinel.nyikonathanmabasa.chatgpt.site/demo) or [browse the source on GitHub](https://github.com/NathanMabasa/veycord-sentinel). The web distribution contains synthetic data, browser-local case state and a read-only API. No account or installation is required. Real telemetry and database connections belong in a separately configured private installation; the public site does not collect logs or request operator keys.
+
+See [public deployment](docs/PUBLIC-WEB.md) for the database-free Worker build, publishing process and current limits. GitHub changes do not automatically redeploy the Site.
+
 ## Run locally
 
 Use Node.js 22+ and npm:

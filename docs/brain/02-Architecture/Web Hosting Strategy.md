@@ -2,6 +2,10 @@
 
 ## Product direction
 
+### Public distribution implementation (2026-10-28)
+
+Batch007 adds a database-free ESM Worker containing the existing synthetic Hono API and embedded React/Vite assets, published through Sites on Cloudflare infrastructure. GitHub remains the primary open-source repository. The public `/workspace` explains private self-hosting and never requests an operator credential. There are no D1/R2/database/connector bindings. Publication status and exact source/version evidence are recorded in `docs/tickets/BUILD-BATCH-007.md`; registration alone is not deployment success. See `docs/PUBLIC-WEB.md`. The public demo adapter does not deploy the private Node/PostgreSQL service or complete the real-telemetry gates below.
+
 Veycord Sentinel should support both self-hosting and an optional hosted application where users can send real security telemetry to their Sentinel workspace. The hosted service is a real product requirement, not only a synthetic demo. Keep the public demo separate and synthetic so prospective users can explore without creating an account or exposing data.
 
 The hosted service can be free to start with clearly stated per-workspace ingestion, storage, and retention quotas. Do not promise unlimited free real-log hosting: infrastructure costs grow with ingest and retention. A small free tier can be sustainable if quotas and automatic cost controls are enforced, with self-hosting remaining available for unlimited user-controlled infrastructure.

@@ -1,0 +1,24 @@
+{
+  "routes": [
+    {
+      "path": "/demo",
+      "status": 200,
+      "heading": "Security overview",
+      "textboxes": 0
+    },
+    {
+      "path": "/workspace",
+      "status": 200,
+      "heading": "Your workspace. Your infrastructure.",
+      "textboxes": 0
+    },
+    {
+      "path": "/docs/api",
+      "status": 200,
+      "heading": "Inspect the API, one request at a time.",
+      "textboxes": 1
+    }
+  ],
+  "apiExplorer": "HTTP 200 synthetic-demo",
+  "pageErrors": []
+}

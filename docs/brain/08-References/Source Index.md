@@ -142,3 +142,9 @@ The Hono app's Worker-compatible entry shape does not mean a Worker deployment e
 - [Watermelon UI](https://ui.watermelon.sh/free/react-components): React/Tailwind/shadcn patterns and declared MIT catalog; references are not blanket approval to run arbitrary registry scripts. No template/registry source imported in this pass.
 - [Cisco CSDL/hardening](https://www.cisco.com/c/en/us/products/collateral/servers-unified-computing/compute-security-hardening-guide-standalone-wp.html) and [industrial certification scope](https://www.cisco.com/c/en/us/products/collateral/security/isaiec-62443-3-3-wp.html): public practices and Cisco's own scoped certification; not transferred to Sentinel.
 - [CodeQL setup](https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/configure-code-scanning/configuring-advanced-setup-for-code-scanning), [official action source](https://github.com/github/codeql-action): static analysis for public source; actual scan/alerts tracked in assurance ledger.
+
+## Public web and error monitoring update (2026-10-28)
+
+The synthetic API is now publicly deployed in a database-free Worker, separate from the private Node/PostgreSQL gateway. See batch007 for exact publication evidence; earlier statements about only a local synthetic API are historical.
+
+[[../03-Security/Application Error Monitoring]] records official Sentry React, data collection/scrubbing, Cloudflare and GitHub-integration sources. No Sentry SDK/project/reporting is active. The selected SDK's actual version/license/runtime/advisories must be reviewed before adoption. GitHub integration has write permissions and is optional, so do not present it as a read-only requirement for error ingestion.

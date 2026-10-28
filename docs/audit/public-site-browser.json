@@ -1,0 +1,620 @@
+{
+  "checks": [
+    {
+      "name": "/ renders at 320px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": [
+          {
+            "tag": "B",
+            "cls": "",
+            "right": 233.46875,
+            "client": 179,
+            "scroll": 203,
+            "text": "PowerShell launched with encoded command"
+          },
+          {
+            "tag": "B",
+            "cls": "",
+            "right": 233.46875,
+            "client": 179,
+            "scroll": 187,
+            "text": "Seven failed sign-ins followed by success"
+          },
+          {
+            "tag": "I",
+            "cls": "",
+            "right": 45,
+            "client": 1,
+            "scroll": 5,
+            "text": ""
+          },
+          {
+            "tag": "I",
+            "cls": "",
+            "right": 45,
+            "client": 1,
+            "scroll": 5,
+            "text": ""
+          },
+          {
+            "tag": "I",
+            "cls": "",
+            "right": 45,
+            "client": 1,
+            "scroll": 5,
+            "text": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "/product renders at 320px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/docs renders at 320px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": [
+          {
+            "tag": "ASIDE",
+            "cls": "docs-toc",
+            "right": 300,
+            "client": 280,
+            "scroll": 552,
+            "text": "On this pageTry the demoInvestigation walkthroughRun locallyAPI contra"
+          },
+          {
+            "tag": "A",
+            "cls": "",
+            "right": 362.46875,
+            "client": 70,
+            "scroll": 70,
+            "text": "Run locally"
+          },
+          {
+            "tag": "A",
+            "cls": "",
+            "right": 453.15625,
+            "client": 80,
+            "scroll": 80,
+            "text": "API contract"
+          },
+          {
+            "tag": "A",
+            "cls": "",
+            "right": 572.078125,
+            "client": 108,
+            "scroll": 108,
+            "text": "Demo limitations"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/docs/api renders at 320px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/security renders at 320px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/roadmap renders at 320px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/community renders at 320px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/demo renders at 320px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": [
+          {
+            "tag": "SPAN",
+            "cls": "sr-only",
+            "right": -47.39373779296875,
+            "client": 1,
+            "scroll": 101,
+            "text": " unresolved alerts"
+          },
+          {
+            "tag": "DIV",
+            "cls": "table-scroll",
+            "right": 304,
+            "client": 288,
+            "scroll": 891,
+            "text": "Scroll horizontally to review all event fields.Sample event resultsTIM"
+          },
+          {
+            "tag": "P",
+            "cls": "sr-only",
+            "right": 16,
+            "client": 1,
+            "scroll": 278,
+            "text": "Scroll horizontally to review all event fields."
+          },
+          {
+            "tag": "TABLE",
+            "cls": "",
+            "right": 906.65625,
+            "client": 891,
+            "scroll": 891,
+            "text": "Sample event resultsTIMEEVENTSOURCEHOSTSEVERITYOUTCOME09:42:18PowerShe"
+          },
+          {
+            "tag": "CAPTION",
+            "cls": "sr-only",
+            "right": 16,
+            "client": 1,
+            "scroll": 135,
+            "text": "Sample event results"
+          },
+          {
+            "tag": "THEAD",
+            "cls": "",
+            "right": 906.65625,
+            "client": 891,
+            "scroll": 891,
+            "text": "TIMEEVENTSOURCEHOSTSEVERITYOUTCOME"
+          },
+          {
+            "tag": "TR",
+            "cls": "",
+            "right": 906.65625,
+            "client": 891,
+            "scroll": 891,
+            "text": "TIMEEVENTSOURCEHOSTSEVERITYOUTCOME"
+          },
+          {
+            "tag": "TH",
+            "cls": "",
+            "right": 449.53125,
+            "client": 353,
+            "scroll": 353,
+            "text": "EVENT"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/workspace renders at 320px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 320,
+        "scroll": 320,
+        "offenders": []
+      }
+    },
+    {
+      "name": "public workspace has no credential form at 320px",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "/ renders at 768px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": [
+          {
+            "tag": "I",
+            "cls": "",
+            "right": 415.09375,
+            "client": 1,
+            "scroll": 5,
+            "text": ""
+          },
+          {
+            "tag": "I",
+            "cls": "",
+            "right": 415.09375,
+            "client": 1,
+            "scroll": 5,
+            "text": ""
+          },
+          {
+            "tag": "I",
+            "cls": "",
+            "right": 415.09375,
+            "client": 1,
+            "scroll": 5,
+            "text": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "/product renders at 768px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/docs renders at 768px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/docs/api renders at 768px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/security renders at 768px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/roadmap renders at 768px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/community renders at 768px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/demo renders at 768px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": [
+          {
+            "tag": "B",
+            "cls": "",
+            "right": 196,
+            "client": 129,
+            "scroll": 136,
+            "text": "Learning workspace"
+          },
+          {
+            "tag": "SPAN",
+            "cls": "sr-only",
+            "right": 213.40625,
+            "client": 1,
+            "scroll": 101,
+            "text": " unresolved alerts"
+          },
+          {
+            "tag": "SECTION",
+            "cls": "panel activity-panel",
+            "right": 430.96875,
+            "client": 160,
+            "scroll": 228,
+            "text": "Sample events by sourceCounts grouped from the bundled example records"
+          },
+          {
+            "tag": "DIV",
+            "cls": "chart-wrap",
+            "right": 429.96875,
+            "client": 160,
+            "scroll": 228,
+            "text": "DNS resolver1Firewall audit1Identity audit1Linux auth1Web gateway1Wind"
+          },
+          {
+            "tag": "UL",
+            "cls": "source-count-list",
+            "right": 411.96875,
+            "client": 124,
+            "scroll": 210,
+            "text": "DNS resolver1Firewall audit1Identity audit1Linux auth1Web gateway1Wind"
+          },
+          {
+            "tag": "DIV",
+            "cls": "table-scroll",
+            "right": 743.96875,
+            "client": 474,
+            "scroll": 891,
+            "text": "Scroll horizontally to review all event fields.Sample event resultsTIM"
+          },
+          {
+            "tag": "P",
+            "cls": "sr-only",
+            "right": 270.03125,
+            "client": 1,
+            "scroll": 278,
+            "text": "Scroll horizontally to review all event fields."
+          },
+          {
+            "tag": "TABLE",
+            "cls": "",
+            "right": 1160.6875,
+            "client": 891,
+            "scroll": 891,
+            "text": "Sample event resultsTIMEEVENTSOURCEHOSTSEVERITYOUTCOME09:42:18PowerShe"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/workspace renders at 768px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 768,
+        "scroll": 768,
+        "offenders": []
+      }
+    },
+    {
+      "name": "public workspace has no credential form at 768px",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "/ renders at 1440px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": [
+          {
+            "tag": "I",
+            "cls": "",
+            "right": 724.453125,
+            "client": 1,
+            "scroll": 5,
+            "text": ""
+          },
+          {
+            "tag": "I",
+            "cls": "",
+            "right": 724.453125,
+            "client": 1,
+            "scroll": 5,
+            "text": ""
+          },
+          {
+            "tag": "I",
+            "cls": "",
+            "right": 724.453125,
+            "client": 1,
+            "scroll": 5,
+            "text": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "/product renders at 1440px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/docs renders at 1440px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/docs/api renders at 1440px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/security renders at 1440px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/roadmap renders at 1440px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/community renders at 1440px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": []
+      }
+    },
+    {
+      "name": "/demo renders at 1440px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": [
+          {
+            "tag": "SPAN",
+            "cls": "sr-only",
+            "right": 235.40625,
+            "client": 1,
+            "scroll": 101,
+            "text": " unresolved alerts"
+          },
+          {
+            "tag": "P",
+            "cls": "sr-only",
+            "right": 311,
+            "client": 1,
+            "scroll": 278,
+            "text": "Scroll horizontally to review all event fields."
+          },
+          {
+            "tag": "CAPTION",
+            "cls": "sr-only",
+            "right": 311,
+            "client": 1,
+            "scroll": 135,
+            "text": "Sample event results"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/workspace renders at 1440px without horizontal overflow",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "width": 1440,
+        "scroll": 1440,
+        "offenders": []
+      }
+    },
+    {
+      "name": "public workspace has no credential form at 1440px",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "header GitHub action points to the public source",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "public API explorer filters actual fixture responses",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "direct demo link selects Events",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "demo event search works in the public build",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "private API is not enabled",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "homepage scope link wraps with enlarged text at 320px without clipping its icon",
+      "passed": true,
+      "detail": {
+        "right": 300,
+        "width": 320,
+        "scroll": 320,
+        "whiteSpace": "normal",
+        "iconWidth": 16
+      }
+    },
+    {
+      "name": "self-hosting action wraps enlarged text within a 320px viewport",
+      "passed": true,
+      "detail": {
+        "right": 300,
+        "textRight": 234,
+        "scroll": 320,
+        "whiteSpace": "normal"
+      }
+    },
+    {
+      "name": "no uncaught browser errors",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "browserErrors": []
+}

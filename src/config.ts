@@ -5,6 +5,7 @@ const validRepository = configuredRepository && /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-
 export const appConfig = {
   hasRepository: Boolean(validRepository),
   name: 'Veycord Sentinel',
+  publicDemo: import.meta.env.VITE_PUBLIC_DEMO === 'true',
   // Override for forks; the default public repository was verified at publication.
   githubUrl: validRepository ? `https://github.com/${validRepository}` : '',
 }

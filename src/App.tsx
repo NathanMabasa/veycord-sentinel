@@ -4,6 +4,7 @@ import { Landing,PageFrame,ProductPage,DocsPage,RoadmapPage,SecurityPage,Communi
 import Console from "./features/demo/Console";
 import ApiExplorer from "./ApiExplorer";
 import PrivateWorkspace from "./PrivateWorkspace";
+import { appConfig } from "./config";
 function RoutePosition() {
   const { pathname, hash } = useLocation();
   const previousPath = useRef(pathname);
@@ -35,10 +36,23 @@ function App() {
         <Route path="/security" element={<SecurityPage />} />
         <Route path="/community" element={<CommunityPage />} />
         <Route path="/demo" element={<Console />} />
-        <Route path="/workspace" element={<PageFrame compact eyebrow="Private workspace" title="Investigation workspace" lead="Review stored events, investigate findings, and track cases in your private database."><PrivateWorkspace /></PageFrame>} />
+        <Route path="/workspace" element={appConfig.publicDemo ? <SelfHosting /> : <PageFrame compact eyebrow="Private workspace" title="Investigation workspace" lead="Review stored events, investigate findings, and track cases in your private database."><PrivateWorkspace /></PageFrame>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
+  );
+}
+function SelfHosting() {
+  return (
+    <PageFrame eyebrow="SELF-HOSTING" title="Run your own Sentinel workspace." lead="This public site runs the synthetic demo. To connect a database, run Veycord Sentinel in your own private environment.">
+      <section className="docs-article self-hosting-guide">
+        <h2>Start with the open-source application</h2>
+        <p>The GitHub project includes the application, PostgreSQL schema, migrations, API and setup instructions. Keep credentials and records in your own environment.</p>
+        <p>The private workspace is an early single-operator foundation. Use synthetic data while the documented security and operational release gates remain open.</p>
+        <p><a className="button button-primary" href={`${appConfig.githubUrl}/blob/main/docs/PRIVATE-WORKSPACE.md`} target="_blank" rel="noreferrer">Read the self-hosting guide</a></p>
+        <p><Link className="button button-dark-outline" to="/demo">Return to the demo</Link></p>
+      </section>
+    </PageFrame>
   );
 }
 function NotFound() {

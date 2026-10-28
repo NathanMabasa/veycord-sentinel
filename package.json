@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && tsc --noEmit -p tsconfig.server.json && tsc -p tsconfig.runtime.json && vite build",
+    "build:public": "node scripts/build-public-site.mjs",
+    "preview:public": "node scripts/preview-public-site.mjs",
+    "test:public": "node --test tests/public-worker.test.mjs",
     "preview": "vite preview",
     "test:api": "tsx --test tests/api.test.ts",
     "start": "node --env-file-if-exists=.env.runtime build/server/node.js",
