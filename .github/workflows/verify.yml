@@ -60,5 +60,24 @@ jobs:
           python scripts/dashboard_accessibility.py
           python scripts/navigation_audit.py
       - run: npm audit --audit-level=high
+      - name: Build and check database-free public Worker
+        run: |
+          npm run build:public
+          npm run test:public
+          npm run preview:public > /tmp/sentinel-public-worker.log 2>&1 &
+          sentinel_public_pid=$!
+          trap 'kill "$sentinel_public_pid"' EXIT
+          python - <<'PY'
+          import time, urllib.request
+          for attempt in range(40):
+              try:
+                  urllib.request.urlopen('http://127.0.0.1:4173/api/v1/health', timeout=1)
+                  break
+              except OSError:
+                  time.sleep(0.25)
+          else:
+              raise SystemExit('Public Worker preview failed to start')
+          PY
+          python scripts/public_site_audit.py
       - name: Generate dependency SBOM for local release review
         run: npm sbom --sbom-format cyclonedx > /tmp/veycord-sbom.json

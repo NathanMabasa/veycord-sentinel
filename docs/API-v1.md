@@ -2,7 +2,7 @@
 
 **Status: implemented synthetic read-only slice.** `server/app.ts` exports the shared Hono app and its Fetch-compatible `app.fetch` entry point. Vite development and preview middleware dispatch `/api/v1` requests to that same app. The API reads only deterministic synthetic fixtures from `src/data/demo.ts`; it is not connected to users, tenants, storage, or customer telemetry.
 
-This API is unauthenticated and exists for local demo integration. `GET /api/v1/health` reports `mode: "synthetic-demo"` and `authenticated: false`. Do not use it with real telemetry or treat it as a hosted service. No CORS headers are enabled. Responses carry `Cache-Control: no-store` and `X-Content-Type-Options: nosniff`.
+This API is unauthenticated and serves synthetic demo integration locally and in the database-free public Worker distribution. `GET /api/v1/health` reports `mode: "synthetic-demo"` and `authenticated: false`. It is not a hosted real-telemetry service. No CORS headers are enabled. Responses carry `Cache-Control: no-store` and `X-Content-Type-Options: nosniff`. See [public deployment](PUBLIC-WEB.md).
 
 ## Implemented endpoints
 

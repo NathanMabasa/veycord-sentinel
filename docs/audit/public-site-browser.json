@@ -1,0 +1,149 @@
+{
+  "checks": [
+    {
+      "name": "/ renders at 320px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/product renders at 320px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/docs renders at 320px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/docs/api renders at 320px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/security renders at 320px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/roadmap renders at 320px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/community renders at 320px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/demo renders at 320px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/workspace renders at 320px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "public workspace has no credential form at 320px",
+      "passed": true
+    },
+    {
+      "name": "/ renders at 768px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/product renders at 768px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/docs renders at 768px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/docs/api renders at 768px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/security renders at 768px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/roadmap renders at 768px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/community renders at 768px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/demo renders at 768px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/workspace renders at 768px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "public workspace has no credential form at 768px",
+      "passed": true
+    },
+    {
+      "name": "/ renders at 1440px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/product renders at 1440px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/docs renders at 1440px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/docs/api renders at 1440px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/security renders at 1440px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/roadmap renders at 1440px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/community renders at 1440px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/demo renders at 1440px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "/workspace renders at 1440px without horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "public workspace has no credential form at 1440px",
+      "passed": true
+    },
+    {
+      "name": "header GitHub action points to the public source",
+      "passed": true
+    },
+    {
+      "name": "public API explorer filters actual fixture responses",
+      "passed": true
+    },
+    {
+      "name": "direct demo link selects Events",
+      "passed": true
+    },
+    {
+      "name": "demo event search works in the public build",
+      "passed": true
+    },
+    {
+      "name": "private API is not enabled",
+      "passed": true
+    },
+    {
+      "name": "no uncaught browser errors",
+      "passed": true
+    }
+  ],
+  "browserErrors": []
+}

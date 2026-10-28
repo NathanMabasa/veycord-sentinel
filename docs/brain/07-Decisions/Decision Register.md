@@ -30,6 +30,10 @@
 
 ## Decision gates
 
+### D-023 — public web distribution (2026-10-28)
+
+Accepted direction from the owner: provide a no-install public website/demo and retain GitHub as the source/self-hosting path. Implement a separate public build importing only the synthetic API; embed built assets in an ESM Worker and publish through Sites. This implements the public part of D-009/D-013/D-015/D-016. It does not port the private PostgreSQL gateway to Workers. `.env` loading is disabled for this build; `/workspace` becomes a self-hosting guide. Publishing requires a pushed source snapshot, matching archive and successful native deployment. GitHub merges are not automatic deployment triggers. See batch007 and `docs/PUBLIC-WEB.md` for actual publication evidence.
+
 Remaining decisions and gates: benchmark the data plane; select first event format; verify public repository configuration and release provenance. The local synthetic API remains a demonstrator. D-017 selects PostgreSQL for the private bounded-event/control-store foundation; it does not resolve D-011 high-volume search or commit a hosted runtime. Before government-facing claims: independent security review and requirements mapping.
 
 ## Questions to resolve
