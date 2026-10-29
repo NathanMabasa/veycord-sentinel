@@ -8,6 +8,8 @@ Working implementation scope: small IT team, private single-node Node/Hono/Postg
 
 ## SEN-1009-B — In progress
 
+2026-10-29 update: protected PR14 merged at69de0447952e1dd503d7e46b3b7d0c51b0ab8a82 after exact head daa80907e05701520c29dd92bfd34e573cf84f5c passed verify40737877421 and CodeQL40737877176. Publication/research/sprint evidence is now on main. SEN-1009-B is **Done** for evidence reconciliation; this does not close the listed release gates or approve1009-A/C targets.
+
 Reconciled PR13 via GitHub CLI: final head dc973b297c592bdd98b346e869a3fc4c45750fbd, merge ddd966102d2ce091d20e484bb95108a230ccc527, merged2026-10-28T14:01:55Z. Final-head verify40701312513 and CodeQL40701312605 are the cited checks; conclusions are checked separately before PR review. Prior live evidence is docs/audit/live-onboarding-batch009.json:11 checks for routes/demo/CSP, origin update/download,320px layouts and absent private API. This is historical publication evidence, not a new live scan.
 
 Release-gate reconciliation:
@@ -47,5 +49,7 @@ These are proposed laboratory acceptance targets, not measured capacities, prici
 If the budget fails, reduce supported scope or make a benchmark-backed architecture change; do not hide failed samples. Tests/benchmarks have not been run as part of this documentation slice.
 
 ## Next implementation
+
+2026-10-29: SEN-208A-1 selection is in review in [[../02-Architecture/Identity Provider Decision]]. The preferred self-managed Better Auth direction addresses the required MFA/self-hosting combination; dependency inspection is isolated and application authentication remains unchanged. Next code slice is SEN-208A-2 with reviewed schema/role/configuration first.
 
 Refine SEN-208A-1: inspect installed authentication guidance, compare maintained identity options against both self-host/private Node and optional hosted constraints, and write the session/threat model and provider input requirements. Keep current private mode disabled by default and synthetic public build independent. Do not retrofit an unreviewed homemade password/session scheme.

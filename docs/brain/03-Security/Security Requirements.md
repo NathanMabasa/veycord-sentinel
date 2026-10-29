@@ -6,7 +6,7 @@ Use OWASP ASVS 5.0 as a verification checklist for Veycord's web/API controls, c
 
 - No default production credentials.
 - First-run admin enrollment is time-bounded and local-only, then disabled.
-- Strong password hashing through a maintained library; MFA support is a later priority.
+- Strong password hashing through a maintained library. Verified MFA is required before multi-user access under the commercial sprint baseline; early single-operator lab work does not satisfy that gate. See [[../02-Architecture/Identity Provider Decision]].
 - RBAC with least privilege; separate admin, analyst, viewer, and service roles.
 - Secure session cookies, CSRF protections, rate limits, lockout/throttling, secure reset flows.
 - Every API checks authorization server-side; test cross-user and cross-case access.

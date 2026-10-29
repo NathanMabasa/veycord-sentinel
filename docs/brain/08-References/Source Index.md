@@ -157,3 +157,7 @@ The Hono app's Worker-compatible entry shape does not mean a Worker deployment e
 The synthetic API is now publicly deployed in a database-free Worker, separate from the private Node/PostgreSQL gateway. See batch007 for exact publication evidence; earlier statements about only a local synthetic API are historical.
 
 [[../03-Security/Application Error Monitoring]] records official Sentry React, data collection/scrubbing, Cloudflare and GitHub-integration sources. No Sentry SDK/project/reporting is active. The selected SDK's actual version/license/runtime/advisories must be reviewed before adoption. GitHub integration has write permissions and is optional, so do not present it as a read-only requirement for error ingestion.
+
+## Identity selection (2026-10-29)
+
+[[../02-Architecture/Identity Provider Decision]] records current Neon supported plugins/roadmap, Better Auth Hono/PostgreSQL/2FA/session/security documentation and Keycloak deployment/OIDC sources. Package/license/engine/advisory evidence is in docs/audit/identity-selection-dependencies.json. Better Auth1.7.14 was installed only in ignored isolated selection state with scripts disabled; the application package/lockfile and active identity are unchanged. No runtime or MFA verification is implied.

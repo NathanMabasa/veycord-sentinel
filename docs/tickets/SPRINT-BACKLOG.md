@@ -6,7 +6,7 @@ P0 = prerequisite/release boundary; P1 = initial product capability; P2 = later 
 
 ## Active execution — 2026-10-28
 
-Owner authorized beginning the updates. Codex owns the current implementation work. [Sprint0 execution](../brain/04-Roadmap/Sprint%200%20Execution.md) records working scope, historical evidence and proposed measurement budgets. SEN-1009-A and C are **In review** pending scope/target agreement; SEN-1009-B is **In progress** until its protected evidence PR is reviewed/merged. All other tickets remain Backlog. No application code or readiness gate is completed by this record.
+Owner authorized beginning the updates. Codex owns the current implementation work. [Sprint0 execution](../brain/04-Roadmap/Sprint%200%20Execution.md) records working scope, historical evidence and proposed measurement budgets. SEN-1009-A and C remain **In review** pending scope/target agreement. SEN-1009-B is **Done** after protected PR14 merged with final-head checks. SEN-208A-1 is **In review** with the [identity selection](../brain/02-Architecture/Identity%20Provider%20Decision.md); auth installation/flows in the application are not complete. Other tickets remain Backlog. No readiness gate is completed by this record.
 
 ## Sprint0 — Scope and baseline
 
@@ -31,6 +31,8 @@ Owner authorized beginning the updates. Codex owns the current implementation wo
 ## Sprint1 — Identity and permissions
 
 ### SEN-208A-1 — Select and document maintained identity [P0]
+
+- Execution2026-10-29: **In review**, owner Codex. Self-managed Better Auth selected for the private Node/PostgreSQL implementation; current managed MFA limitation and Keycloak alternative documented. Installed isolated1.7.14 plugin, license, engine and35-package audit inspection recorded in `docs/audit/identity-selection-dependencies.json`. No application dependency/database/authentication change or runtime tests yet. PR/merge evidence to be appended after protected review.
 
 - Parent: SEN-208A. Depends:1009-A.
 - Scope: compare candidates against runtime, self-host/hosted path, MFA/recovery, residency, license and operating cost; document session/data flows and migration from shared operator access.
