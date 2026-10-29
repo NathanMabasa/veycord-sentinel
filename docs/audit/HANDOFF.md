@@ -20,4 +20,6 @@ After protected review/merge of selection, progress SEN-208A-2: exact app depend
 
 Preserve .env/.env.runtime, .data/postgres and external backup key; never print secrets. Existing private mode and CSP unchanged. A transient GitHub CLI checkout conflict after PR14 remote merge was resolved by copying the local handoff to ignored .data/handoff-before-sprint1.md, restoring only that file for checkout and reapplying its saved contents before updating this handoff; no local history was lost.
 
-Check usage first and stop before10% remains. The one-time resume-sentinel-commercial-sprint follow-up must be deleted after this usable continuation. No recurring unattended implementation is implied beyond the owner's existing authorization. Save final PR/check/merge outcome before finishing.
+Check usage first and stop before10% remains. The one-time resume-sentinel-commercial-sprint follow-up was deleted successfully after this usable continuation. No recurring unattended implementation is implied beyond the owner's existing authorization. Save final PR/check/merge outcome before finishing.
+
+PR15 https://github.com/NathanMabasa/veycord-sentinel/pull/15 contains the identity-selection review. Final required checks and protected merge must be verified against its current exact head, not an earlier documentation revision. No new auth flows are activated by this PR.
