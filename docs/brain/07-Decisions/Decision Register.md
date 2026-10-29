@@ -1,5 +1,9 @@
 # Decision Register
 
+## D-026 — maintained identity for the private application (2026-10-29)
+
+Selected implementation direction in SEN-208A-1: self-managed Better Auth on existing Node/Hono with isolated PostgreSQL identity tables. Mandatory MFA and portable self-hosting rule out the current managed default for this slice; current Neon roadmap still lists MFA as forthcoming. Isolated installed1.7.14 plugin/license/dependency inspection supports the choice, not activation or runtime assurance. Preserve existing database and disabled-by-default private mode; no cloud account, paid service, schema migration or app dependency is added by selection. Full session/MFA/membership evidence remains SEN-208A-2/B and commercial gates. See [[../02-Architecture/Identity Provider Decision]] and `docs/audit/identity-selection-dependencies.json`. Implementation PR review must confirm this direction before adoption in application code.
+
 ## Decisions and proposals
 
 | ID | Decision | Proposal | Why | Status |

@@ -12,6 +12,7 @@ An Obsidian-compatible knowledge base for planning an open-source security analy
 - Experience: [[05-UX/Hosted and Self-Hosted Onboarding]], [[05-UX/First Run and Learning Path]], [[05-UX/Information Architecture]], [[05-UX/Visual Design System]]
 - Delivery: [[04-Roadmap/Phased Roadmap]], [[06-Operations/Project Operations]], [[09-Engineering/Framework Decision and Research Plan]], [[09-Engineering/Recommended Stack and Libraries]], [[09-Engineering/Build Map and Traceability]], [[09-Engineering/Engineering Skills and Agent Guidance]]
 - Decisions: [[07-Decisions/Decision Register]]
+- Identity implementation direction: [[02-Architecture/Identity Provider Decision]] (SEN-208A-1; session/MFA/membership implementation remains open).
 - Sources: [[08-References/Source Index]]
 
 Commercial feature research (2026-10-28): [[01-Research/Huntress and Commercial Product Roadmap]] compares public Huntress workflows with the actual Sentinel foundation. Proposed build slices are in `docs/tickets/BUILD-BATCH-010.md`; these are pending proposals, not shipped features or commercial approval.

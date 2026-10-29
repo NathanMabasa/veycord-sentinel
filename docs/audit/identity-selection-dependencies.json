@@ -1,0 +1,115 @@
+{
+  "date": "2026-10-29",
+  "scope": "Isolated dependency selection inspection; application package.json/lockfile unchanged; no authentication runtime or database started",
+  "package": {
+    "name": "better-auth",
+    "version": "1.7.14",
+    "license": "MIT",
+    "integrity": "sha512-QxDCI0pOCCHDYmruisKhKyrvOJ6Icv9xg0RA6ZUysfKFXENYwhNNpwUlkE/NmViH2nDMgkKcymmLr55pnpR9vw==",
+    "lockSha256": "00fc803ee6e2f9e0de7ca7c8cda5a1012684233faee3e9523853bdbee6394a2f",
+    "licenseSha256": "7a07f7d9085cb3157e4377d944988c9712933141b0f7201955ceccfac92abde4"
+  },
+  "install": {
+    "ignoreScripts": true,
+    "nodeVersion": "v24.16.0",
+    "npmVersion": "11.13.0"
+  },
+  "packageInspection": {
+    "twoFactorExport": {
+      "dev-source": "./src/plugins/two-factor/index.ts",
+      "types": "./dist/plugins/two-factor/index.d.mts",
+      "default": "./dist/plugins/two-factor/index.mjs"
+    },
+    "sourceReviewed": [
+      "dist/plugins/two-factor/index.mjs",
+      "dist/plugins/two-factor/index.d.mts"
+    ],
+    "licenseFile": "LICENSE.md"
+  },
+  "audit": {
+    "source": "npm audit --prefix .data/identity-selection --json",
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "dependencies": {
+      "prod": 35,
+      "dev": 0,
+      "optional": 1,
+      "peer": 0,
+      "peerOptional": 0,
+      "total": 35
+    },
+    "limitation": "Dated registry advisory snapshot, not an independent security assessment or runtime verification"
+  },
+  "transitiveDeclaredLicenses": {
+    "MIT": 33,
+    "ISC": 2
+  },
+  "nodeEngineDeclarations": [
+    {
+      "package": "@noble/ciphers",
+      "node": ">= 20.19.0"
+    },
+    {
+      "package": "@noble/hashes",
+      "node": ">= 20.19.0"
+    },
+    {
+      "package": "kysely",
+      "node": ">=22.0.0"
+    },
+    {
+      "package": "nanostores",
+      "node": "^20.0.0 || >=22.0.0"
+    },
+    {
+      "package": "pg",
+      "node": ">= 16.0.0"
+    },
+    {
+      "package": "pg-int8",
+      "node": ">=4.0.0"
+    },
+    {
+      "package": "pg-types",
+      "node": ">=4"
+    },
+    {
+      "package": "postgres-array",
+      "node": ">=4"
+    },
+    {
+      "package": "postgres-bytea",
+      "node": ">=0.10.0"
+    },
+    {
+      "package": "postgres-date",
+      "node": ">=0.10.0"
+    },
+    {
+      "package": "postgres-interval",
+      "node": ">=0.10.0"
+    },
+    {
+      "package": "split2",
+      "node": ">= 10.x"
+    },
+    {
+      "package": "xtend",
+      "node": ">=0.4"
+    }
+  ],
+  "verificationNotPerformed": [
+    "Sign-in/sign-out/session restoration",
+    "TOTP enrollment/challenge/recovery",
+    "PostgreSQL schema/role compatibility",
+    "CSRF/cookie/revocation integration",
+    "Workspace membership authorization",
+    "Cloudflare/Sites authentication deployment"
+  ]
+}
