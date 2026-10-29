@@ -1,0 +1,1 @@
+export const IDENTITY_SCHEMA_VERSION = 2

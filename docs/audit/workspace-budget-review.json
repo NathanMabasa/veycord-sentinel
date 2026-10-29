@@ -1,0 +1,45 @@
+{
+  "environment": "Disposable synthetic SCRAM PostgreSQL16, two real Node processes, actual Chromium; preserved synthetic lab schema upgraded separately",
+  "localChecks": {
+    "build": "passed",
+    "unitPassed": 48,
+    "identityResultsPassed": 26,
+    "identityScenarios": 25,
+    "identityBrowserChecks": 19,
+    "postgresPrivateBrowserResults": 2,
+    "publicWorkerResults": 5
+  },
+  "observations": {
+    "burstRequests": 80,
+    "seededPriorReadCount": 1,
+    "allowedReads": 59,
+    "limitedReads": 21,
+    "saturatedCounter": 61,
+    "restartedProcessStillLimited": true,
+    "newSessionStillLimited": true,
+    "otherAccountAllowed": true,
+    "budgetFailureNoCaseStored": true,
+    "versionOneUpgradeAndRepeatSetup": "passed",
+    "unknownSchemaVersionThree": "rejected"
+  },
+  "sourceSha256": {
+    "server/workspace-budget.ts": "1d8ae4b230894aa5b17310a5b4c5978ce5c3adfb37237937cd29e4815a80c71d",
+    "server/private-api.ts": "1e150509a7d8a36c8eba694f7c53d404c1051427ad7d1b14bf6a83c107340882",
+    "server/gateway.ts": "03a48336dbc1b278fa45975aabf9a2bf56ba690bacebdbdf851ea744f6a96c24",
+    "server/identity/service.ts": "b5715d65fd4bbeb9078968219aafb32ebcf121f25462b7e0528c55e93c21d4eb",
+    "server/identity/schema-version.ts": "45658cbc736f58d0e6fb2385e4b644d0340932338de4ac3b1419f19c4f21ddf0",
+    "db/identity/setup.ts": "12a0254377c2b6225b4b01ffd90ced8750114cf966d309a50d7499493fe84aea",
+    "db/identity/002_workspace_budgets.sql": "e92cc62d8ac5c41eb8610267c01e0bb44e22459769befd54722d671f96f8c710",
+    "src/PrivateWorkspace.tsx": "d1647368d71d143b9645bc4810bee7bf0f01ca94f2bdcf0764448f503a4927ca",
+    "tests/identity.test.ts": "be09a192c2bc1ccaf7576ae7a2debe53fab1264783a28addc8fdf416610c2268",
+    "scripts/identity_browser_audit.py": "9e01ba7074e3b4b8e240da0ed70d12a2314e41da29f00be0b64233d88f8f5764"
+  },
+  "limitations": [
+    "final-head CI pending",
+    "independent review open",
+    "operator API retains process-local limits",
+    "anonymous/authentication/global concurrency/physical disk limits remain open",
+    "fixed-window boundary bursts",
+    "no hosted telemetry or public publication"
+  ]
+}

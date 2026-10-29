@@ -1,3 +1,4 @@
+import type { BudgetConsumer } from './workspace-budget.js'
 import publicApp from './app.js'
 import { createPrivateApi } from './private-api.js'
 import { identityConfig } from './identity/config.js'
@@ -30,8 +31,13 @@ export function createGateway(env: ServerEnvironment = process.env) {
       try {
         const authorization = await (await getIdentity()).authorize(c.req.raw)
         if (authorization.response) return authorization.response
+        c.set('workspaceBudget', authorization.consumeBudget)
         await dataStore.runAsActor(authorization.userId, async()=>{await next()})
       } catch { return identityError(503,'WORKSPACE_UNAVAILABLE','The private workspace is temporarily unavailable') }
+    },consumeBudget:async(kind,c)=>{
+      const consume=c.get('workspaceBudget') as BudgetConsumer | undefined
+      if(!consume)throw new Error('Verified workspace budget missing')
+      return consume(kind)
     }})
   }
   return {

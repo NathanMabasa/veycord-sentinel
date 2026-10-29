@@ -1,4 +1,6 @@
 import { Pool } from 'pg'
+import { consumeWorkspaceBudget, type WorkspaceBudgetKind } from '../workspace-budget.js'
+import { IDENTITY_SCHEMA_VERSION } from './schema-version.js'
 import { createHash } from 'node:crypto'
 import { identityPoolOptions, type IdentityConfig } from './config.js'
 import { makeIdentity } from './options.js'
@@ -33,6 +35,8 @@ export async function createIdentityService(config: IdentityConfig) {
       ) AS unsafe FROM pg_roles r WHERE r.rolname = current_user
     `)).rows[0]
     if (!row || row.unsafe) throw new Error('Identity role must be restricted')
+    const versions = (await pool.query<{version:number}>('SELECT version FROM sentinel_identity.schema_version ORDER BY version')).rows.map(row=>row.version)
+    if (versions.length!==IDENTITY_SCHEMA_VERSION || versions.some((version,index)=>version!==index+1)) throw new Error('Identity schema upgrade required')
   } catch { await pool.end(); throw new Error('Identity database schema or runtime privileges are invalid') }
   const auth = makeIdentity(config, pool)
   async function audit(action: string, userId: string | null, success: boolean) {
@@ -114,7 +118,7 @@ export async function createIdentityService(config: IdentityConfig) {
       await audit('workspace.denied', current.userId, false)
       return { response: identityError(403, 'ACCESS_DENIED', 'Your workspace role does not allow this action') }
     }
-    return { userId: current.userId, role: current.role }
+    return { userId: current.userId, role: current.role, consumeBudget: (kind:WorkspaceBudgetKind)=>consumeWorkspaceBudget(pool,config.workspaceId,current.userId,kind) }
   }
   return {handle,authorize,close:()=>pool.end()}
 }

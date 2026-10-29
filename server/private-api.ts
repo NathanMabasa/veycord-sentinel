@@ -1,4 +1,5 @@
 import { Hono, type Context, type MiddlewareHandler } from "hono";
+import type { BudgetDecision, WorkspaceBudgetKind } from "./workspace-budget.js";
 import { HTTPException } from "hono/http-exception";
 import { bearerAuth } from "hono/bearer-auth";
 import { bodyLimit } from "hono/body-limit";
@@ -78,11 +79,13 @@ export function createPrivateApi({
   token,
   prefix = "/api/private/v1",
   authenticate,
+  consumeBudget,
 }: {
   store: DataStore;
   token: string;
   prefix?: "/api/private/v1" | "/api/workspace/v1";
   authenticate?: MiddlewareHandler;
+  consumeBudget?: (kind: WorkspaceBudgetKind, context: Context) => Promise<BudgetDecision>;
 }): Hono {
   const PREFIX = prefix;
   if (!TOKEN_PATTERN.test(token))
@@ -129,8 +132,19 @@ export function createPrivateApi({
   });
 
   const rateLimit =
-    (kind: "read" | "ingest" | "case-write"): MiddlewareHandler =>
+    (kind: WorkspaceBudgetKind): MiddlewareHandler =>
     async (c, next) => {
+      if (consumeBudget) {
+        let decision: BudgetDecision;
+        try { decision = await consumeBudget(kind, c); }
+        catch { return errorResponse(c, 503, "BUDGET_UNAVAILABLE", "Request limits are temporarily unavailable. Try again later."); }
+        if (!decision.allowed) {
+          c.header("Retry-After", String(decision.retryAfterSeconds));
+          return errorResponse(c, 429, "RATE_LIMITED", "Request rate limit exceeded. Wait before trying again.");
+        }
+        await next();
+        return;
+      }
       const now = Date.now();
       const limit = kind === "read" ? 60 : 10;
       let bucket = buckets.get(kind);

@@ -549,3 +549,30 @@ test('public setup commands authenticate and ingest their downloaded sample over
     await rm(directory, { recursive: true, force: true });
   }
 });
+
+test('injected durable budgets replace local counters and return a bounded wait', async () => {
+  const store = new FakeStore();
+  let allowed = true;
+  const kinds: string[] = [];
+  const app = createPrivateApi({ store, token: TOKEN, consumeBudget: async (kind) => {
+    kinds.push(kind);
+    return { allowed, retryAfterSeconds: 17 };
+  } });
+  const request = () => app.request('/api/private/v1/rules', { headers: { Authorization: `Bearer ${TOKEN}` } });
+  for (let index=0; index<65; index++) assert.equal((await request()).status, 200);
+  allowed = false;
+  const denied = await request();
+  assert.equal(denied.status, 429);
+  assert.equal(denied.headers.get('retry-after'), '17');
+  assert.equal(denied.headers.get('cache-control'), 'no-store');
+  assert.ok(kinds.every(kind=>kind==='read'));
+});
+
+test('budget failures deny data operations rather than falling back to memory', async () => {
+  const store = new FakeStore();
+  const app = createPrivateApi({ store, token: TOKEN, consumeBudget: async () => { throw new Error('Synthetic budget outage'); } });
+  const response = await app.request('/api/private/v1/summary', { headers: { Authorization: `Bearer ${TOKEN}` } });
+  assert.equal(response.status, 503);
+  assert.equal((await response.json()).error.code, 'BUDGET_UNAVAILABLE');
+  assert.equal(store.calls, 0);
+});

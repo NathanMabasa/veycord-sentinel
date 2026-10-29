@@ -9,7 +9,7 @@ import { Pool } from 'pg'
 import { createGateway } from '../server/gateway.js'
 import { createIdentityService } from '../server/identity/service.js'
 import { identityConfig, identityPoolOptions } from '../server/identity/config.js'
-import { identityFixture } from './helpers/identity-fixture.js'
+import { identityFixture, freePort } from './helpers/identity-fixture.js'
 const execFile=promisify(execCallback)
 // Fixture-only RFC6238 generator; the application delegates verification to Better Auth.
 function totp(secret:string){
@@ -29,7 +29,7 @@ test('private identity integration: MFA, recovery, revocation, roles, expiry and
   const gateway=createGateway(env)
   // Each scenario starts with fresh limiter state in this disposable test database.
   const resetBudgets=()=>admin.query('TRUNCATE sentinel_identity."rateLimit",sentinel_identity.request_budget')
-  t.beforeEach(async()=>{await resetBudgets()})
+  t.beforeEach(async()=>{await resetBudgets();await admin.query('TRUNCATE sentinel_identity.workspace_budget')})
   class Client {
     cookies=new Map<string,string>()
     async request(path:string,body?:unknown,headers:Record<string,string>={},method=body===undefined?'GET':'POST'){
@@ -41,6 +41,14 @@ test('private identity integration: MFA, recovery, revocation, roles, expiry and
   const users:Record<string,{email:string;password:string;id:string;secret:string;codes:string[];client:Client}>={}
   async function signIn(role:string){await resetBudgets();const user=users[role];const client=new Client();const login=await client.request('/api/auth/sign-in/email',{email:user.email,password:user.password,trustDevice:true});assert.equal(login.status,200);assert.equal((await login.json()).twoFactorRedirect,true);assert.equal((await client.request('/api/workspace/v1/summary')).status,401);assert.equal((await client.request('/api/auth/two-factor/verify-totp',{code:totp(user.secret),trustDevice:true})).status,200);return client}
   try {
+    await t.test('identity schema upgrades from version one, is idempotent and rejects unknown versions',async()=>{
+      await admin.query('DROP TABLE sentinel_identity.workspace_budget');await admin.query('DELETE FROM sentinel_identity.schema_version WHERE version=2')
+      await assert.rejects(createIdentityService(identityConfig(env)!),/runtime privileges/)
+      await fixture.setup();await fixture.setup()
+      assert.deepEqual((await admin.query('SELECT version FROM sentinel_identity.schema_version ORDER BY version')).rows.map(r=>r.version),[1,2])
+      await admin.query('INSERT INTO sentinel_identity.schema_version VALUES (3)')
+      try{await assert.rejects(fixture.setup());await assert.rejects(createIdentityService(identityConfig(env)!),/runtime privileges/)}finally{await admin.query('DELETE FROM sentinel_identity.schema_version WHERE version=3')}
+    })
     await t.test('anonymous, alternative routes, origin, content type and body bounds fail closed',async()=>{
       const client=new Client();assert.equal((await client.request('/api/workspace/v1/summary')).status,401)
       for(const path of ['/sign-up/email','/sign-in/social','/sign-in/magic-link','/two-factor/disable','/get-session','/two-factor/send-otp'])assert.equal((await client.request('/api/auth'+path,{})).status,404)
@@ -89,6 +97,57 @@ test('private identity integration: MFA, recovery, revocation, roles, expiry and
     })
     await t.test('encoded admin-only routes cannot bypass role checks',async()=>{
       for(const role of ['analyst','viewer'])for(const path of ['/%61udit','/%6fperations'])assert.equal((await users[role].client.request('/api/workspace/v1'+path)).status,400)
+    })
+    await t.test('workspace limits coordinate across actual Node processes, persist on restart and isolate accounts',async()=>{
+      const user=users.admin
+      // Hold the fixture window in the next minute so a wall-clock rollover cannot split this burst.
+      await admin.query("INSERT INTO sentinel_identity.workspace_budget(workspace_id,user_id,kind,window_start,attempts) VALUES ($1,$2,'read',date_trunc('minute',now())+interval '1 minute',1)",[fixture.workspaceId,user.id])
+      const ports=[await freePort(),await freePort()];const children:ReturnType<typeof spawn>[]=[]
+      const cookie=[...user.client.cookies].map(([k,v])=>`${k}=${v}`).join('; ')
+      async function start(port:number){
+        const runtime={...env} as Record<string,string|undefined>
+        for(const key of ['DATABASE_ADMIN_URL','DATABASE_ADMIN_ALLOW_LOCAL_INSECURE','SENTINEL_APP_PASSWORD','SENTINEL_AUTH_RUNTIME_PASSWORD'])delete runtime[key]
+        const base=`http://127.0.0.1:${port}`
+        const child=spawn(process.execPath,['build/server/node.js'],{env:{...runtime,SENTINEL_PORT:String(port),SENTINEL_AUTH_ORIGIN:base},stdio:'ignore'});children.push(child)
+        let ready=false;for(let i=0;i<60;i++){try{ready=(await fetch(base+'/api/v1/health')).ok}catch{}if(ready)break;await new Promise(r=>setTimeout(r,100))}assert.ok(ready,'budget test Node instance must start')
+        return child
+      }
+      async function stop(child:ReturnType<typeof spawn>){child.kill('SIGTERM');await new Promise<void>(resolve=>{if(child.exitCode!==null)resolve();else child.once('exit',()=>resolve())})}
+      try{
+        await start(ports[0]);await start(ports[1])
+        const responses=await Promise.all(Array.from({length:80},(_,index)=>fetch(`http://127.0.0.1:${ports[index%2]}/api/workspace/v1/rules`,{headers:{cookie}})))
+        assert.equal(responses.filter(r=>r.status===200).length,59);assert.equal(responses.filter(r=>r.status===429).length,21)
+        for(const response of responses)if(response.status===429){assert.ok(Number(response.headers.get('retry-after'))>=1&&Number(response.headers.get('retry-after'))<=60);assert.equal(response.headers.get('cache-control'),'no-store')}
+        assert.equal((await admin.query("SELECT attempts FROM sentinel_identity.workspace_budget WHERE workspace_id=$1 AND user_id=$2 AND kind='read'",[fixture.workspaceId,user.id])).rows[0].attempts,61)
+        assert.equal((await users.viewer.client.request('/api/workspace/v1/summary')).status,200)
+        await stop(children[0]);await start(ports[0])
+        assert.equal((await fetch(`http://127.0.0.1:${ports[0]}/api/workspace/v1/rules`,{headers:{cookie}})).status,429)
+        // A fresh cookie for the same account does not provide a new allowance.
+        const fresh=await signIn('admin');assert.equal((await fresh.request('/api/workspace/v1/rules')).status,429)
+        const spoof=await users.viewer.client.request('/api/workspace/v1/rules',undefined,{'x-user-id':user.id,'x-workspace-id':randomUUID()});assert.equal(spoof.status,200)
+      }finally{for(const child of children)if(child.exitCode===null)await stop(child)}
+    })
+    await t.test('read, case-write and ingest budgets are separate and roll over without key growth',async()=>{
+      const client=await signIn('admin');const findingId=(await client.request('/api/workspace/v1/findings')).ok;assert.ok(findingId)
+      const body={title:'Bounded quota regression',note:''}
+      const outcomes=[];for(let i=0;i<12;i++)outcomes.push((await client.request('/api/workspace/v1/cases',body)).status)
+      assert.equal(outcomes.filter(status=>status===201).length,10);assert.equal(outcomes.filter(status=>status===429).length,2)
+      assert.equal((await client.request('/api/workspace/v1/rules')).status,200)
+      const ingest=[];for(let i=0;i<12;i++)ingest.push((await client.request('/api/workspace/v1/events',{events:[]})).status)
+      assert.equal(ingest.filter(status=>status===400).length,10);assert.equal(ingest.filter(status=>status===429).length,2)
+      const rows=await admin.query('SELECT kind FROM sentinel_identity.workspace_budget WHERE user_id=$1',[users.admin.id]);assert.equal(rows.rowCount,3)
+      await admin.query("UPDATE sentinel_identity.workspace_budget SET window_start=now()-interval '2 minutes' WHERE user_id=$1",[users.admin.id])
+      assert.equal((await client.request('/api/workspace/v1/cases',body)).status,201)
+      assert.equal((await admin.query('SELECT kind FROM sentinel_identity.workspace_budget WHERE user_id=$1',[users.admin.id])).rowCount,3)
+    })
+    await t.test('budget storage failure blocks mutations without a process-local fallback',async()=>{
+      const before=(await admin.query('SELECT count(*) FROM public.cases WHERE workspace_id=$1',[fixture.workspaceId])).rows[0].count
+      await admin.query('REVOKE INSERT,UPDATE ON sentinel_identity.workspace_budget FROM sentinel_identity_app')
+      try{
+        const result=await users.admin.client.request('/api/workspace/v1/cases',{title:'Must not be stored'})
+        assert.equal(result.status,503);assert.equal((await result.json()).error.code,'BUDGET_UNAVAILABLE')
+      }finally{await admin.query('GRANT INSERT,UPDATE ON sentinel_identity.workspace_budget TO sentinel_identity_app')}
+      assert.equal((await admin.query('SELECT count(*) FROM public.cases WHERE workspace_id=$1',[fixture.workspaceId])).rows[0].count,before)
     })
     await t.test('concurrent user mutations retain distinct server audit attribution',async()=>{
       const findings=await (await users.admin.client.request('/api/workspace/v1/findings')).json();const findingId=findings.data[0].id

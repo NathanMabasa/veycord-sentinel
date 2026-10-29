@@ -1,3 +1,4 @@
+import { IDENTITY_SCHEMA_VERSION } from '../../server/identity/schema-version.js'
 import { readFile } from 'node:fs/promises'
 import { createAdminPool, requiredEnv, localInsecureFromEnv } from '../admin-connection.js'
 
@@ -15,12 +16,16 @@ try {
     await client.query('CREATE SCHEMA IF NOT EXISTS sentinel_identity')
     await client.query('REVOKE ALL ON SCHEMA sentinel_identity FROM PUBLIC')
     await client.query('CREATE TABLE IF NOT EXISTS sentinel_identity.schema_version (version integer PRIMARY KEY)')
-    if(!(await client.query('SELECT 1 FROM sentinel_identity.schema_version WHERE version=1')).rowCount) {
-      await client.query(await readFile(new URL('./001_schema.sql',import.meta.url),'utf8'))
-      await client.query('INSERT INTO sentinel_identity.schema_version VALUES (1)')
+    const applied = (await client.query<{version:number}>('SELECT version FROM sentinel_identity.schema_version ORDER BY version')).rows.map(row=>row.version)
+    if (applied.some((version,index)=>version!==index+1) || applied.length>IDENTITY_SCHEMA_VERSION) throw new Error('Unsupported identity schema version')
+    const migrations = ['001_schema.sql', '002_workspace_budgets.sql']
+    for (let index=applied.length;index<IDENTITY_SCHEMA_VERSION;index++) {
+      await client.query(await readFile(new URL(migrations[index],import.meta.url),'utf8'))
+      await client.query('INSERT INTO sentinel_identity.schema_version VALUES ($1)',[index+1])
     }
     await client.query('GRANT USAGE ON SCHEMA sentinel_identity TO sentinel_identity_app')
     await client.query('GRANT SELECT,INSERT,UPDATE,DELETE ON sentinel_identity."user",sentinel_identity.session,sentinel_identity.account,sentinel_identity.verification,sentinel_identity."twoFactor",sentinel_identity."rateLimit",sentinel_identity.request_budget TO sentinel_identity_app')
+    await client.query('GRANT SELECT,INSERT,UPDATE ON sentinel_identity.workspace_budget TO sentinel_identity_app')
     await client.query('GRANT SELECT ON sentinel_identity.memberships,sentinel_identity.schema_version TO sentinel_identity_app')
     await client.query('GRANT INSERT ON sentinel_identity.security_audit TO sentinel_identity_app')
     await client.query('COMMIT')

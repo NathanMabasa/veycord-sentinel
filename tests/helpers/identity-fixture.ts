@@ -30,6 +30,6 @@ export async function identityFixture(){
     await cli('db/seed-synthetic.ts');await cli('db/identity/setup.ts')
     const input=join(temp,'operator.json')
     async function operator(action:string,body:Record<string,unknown>){await writeFile(input,JSON.stringify(body),{mode:0o600});return cli('db/identity/operator.ts',[action],{SENTINEL_BOOTSTRAP_FILE:input})}
-    return {temp,admin,env,workspaceId,operator,close}
+    return {temp,admin,env,workspaceId,operator,setup:()=>cli('db/identity/setup.ts'),close}
   }catch{await close();throw new Error('Disposable identity fixture setup failed; secret diagnostics suppressed')}
 }

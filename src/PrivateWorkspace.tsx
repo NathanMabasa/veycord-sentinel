@@ -36,11 +36,13 @@ type EventRange = { from: string; to: string };
 
 class PrivateApiError extends Error {
   status: number;
+  retryAfterSeconds?: number;
 
-  constructor(status: number, message: string) {
+  constructor(status: number, message: string, retryAfterSeconds?: number) {
     super(message);
     this.name = "PrivateApiError";
     this.status = status;
+    this.retryAfterSeconds = retryAfterSeconds;
   }
 }
 
@@ -48,6 +50,9 @@ function messageFor(error: unknown) {
   if (error instanceof PrivateApiError) {
     if (error.status === 401 || error.status === 403) {
       return "Your access was not accepted. Sign in again or check the operator service key.";
+    }
+    if (error.status === 429) {
+      return error.retryAfterSeconds ? `Request limit reached. Wait ${error.retryAfterSeconds} ${error.retryAfterSeconds === 1 ? "second" : "seconds"}, then try again.` : "Request limit reached. Wait a minute, then try again.";
     }
     if (error.status === 404) {
       return "The private workspace API is not available at this address. Start the local service or check its configuration.";
@@ -90,7 +95,13 @@ async function fetchWorkspace<T>(
     if (signal.aborted) throw error;
     throw new PrivateApiError(0, "Network request failed");
   }
-  if (!response.ok) throw new PrivateApiError(response.status, "Request failed");
+  if (!response.ok) {
+    const header = response.headers.get("Retry-After") ?? "";
+    const retryAfter = /^\d{1,2}$/.test(header) && Number(header) >= 1 && Number(header) <= 60 ? Number(header) : undefined;
+    // Release unread error bodies before surfacing the status to the UI.
+    await response.body?.cancel().catch(() => {});
+    throw new PrivateApiError(response.status, "Request failed", retryAfter);
+  }
   try {
     return (await response.json()) as T;
   } catch {

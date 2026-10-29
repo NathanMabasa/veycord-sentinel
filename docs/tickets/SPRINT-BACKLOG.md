@@ -164,6 +164,8 @@ Owner authorized beginning the updates. Codex owns the current implementation wo
 
 ### SEN-208C-2 — Enforce service-wide resource bounds [P0]
 
+- **Partial / In review**, batch012 / draft PR16: cookie workspace allowances are PostgreSQL-backed per account and operation class. Real two-process concurrency, restart/session persistence, account isolation, rollover, unavailable-budget denial and browser429 guidance are exercised. Operator/anonymous/authentication quotas, global concurrency/disk controls and broader overload acceptance remain open.
+
 - Parent: SEN-208C. Depends:1001-C,1009-C.
 - Scope: distributed rate/concurrency limits, non-idempotent mutation handling, physical storage monitoring and explicit overload responses.
 - Accept: multi-process synthetic abuse/retry exercises cannot bypass limits or exhaust unbounded resources; logical quota versus disk limits clear; secrets/tenants remain isolated under errors.
