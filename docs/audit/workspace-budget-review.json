@@ -41,7 +41,7 @@
     "scripts/identity_browser_audit.py": "8989456d069ea7309f2738f2e6d6c204ea579cd7cc2ef45165f4a566658df9db"
   },
   "limitations": [
-    "final-head CI pending",
+    "Source head passed required verify/CodeQL; any later head must independently pass protected checks",
     "independent review open",
     "operator API retains process-local limits",
     "anonymous/authentication/global concurrency/physical disk limits remain open",
@@ -62,5 +62,38 @@
     "eventReadStatus": 200,
     "logoutStatus": 401,
     "privateConfigurationModified": false
-  }
+  },
+  "verifiedSourceHead": "978b93edb323a585bc935b06cc3c3515917b33b6",
+  "sourceHeadCi": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-29T19:53:43Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/NathanMabasa/veycord-sentinel/actions/runs/40943986961/job/123694391335",
+      "name": "CodeQL JavaScript and TypeScript",
+      "startedAt": "2026-10-29T19:52:38Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL security analysis"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-29T19:55:34Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/NathanMabasa/veycord-sentinel/actions/runs/40943986954/job/123694391799",
+      "name": "verify",
+      "startedAt": "2026-10-29T19:52:38Z",
+      "status": "COMPLETED",
+      "workflowName": "Verify Sentinel"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-29T19:53:35Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/NathanMabasa/veycord-sentinel/runs/123694882537",
+      "name": "CodeQL",
+      "startedAt": "2026-10-29T19:53:33Z",
+      "status": "COMPLETED",
+      "workflowName": ""
+    }
+  ]
 }
