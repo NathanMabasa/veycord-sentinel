@@ -1,6 +1,6 @@
 # Identity Provider Decision
 
-SEN-208A-1 / D-026, researched2026-10-29. **Implementation direction: self-managed Better Auth on the existing private Node/Hono host, backed by isolated PostgreSQL identity tables.** This is selection/design evidence, not an enabled authentication service or release approval. No application dependency, database, private environment or public Site is changed by this slice.
+SEN-208A-1 / D-026, researched2026-10-29. **Implementation direction: self-managed Better Auth on the existing private Node/Hono host, backed by isolated PostgreSQL identity tables.** This note records the original selection/design slice, which changed no application runtime. Subsequent disabled-by-default implementation and verification now live in draft PR16 and [Private accounts and MFA](../../IDENTITY.md) / `docs/tickets/BUILD-BATCH-011.md`. The public Site has no account service; this is not commercial release approval.
 
 ## Existing boundary and requirements
 
@@ -77,7 +77,7 @@ These requirements deliberately describe work not yet built. A valid session wit
 
 No tests or runtime sign-in/MFA flows were run in this selection slice. Full next-slice evidence must include login/logout, reload, enrollment/challenge/recovery, cookie/CSRF behavior, revocation/expiry, role isolation, safe failure, schema/role compatibility and unchanged public build separation. Follow chosen ASVS planning baseline and independent review gates; no certification claim.
 
-## Next implementation inputs and order
+## Implementation sequence and remaining production inputs
 
 1. Add exact dependency only in a reviewed implementation PR; review generated schema and create restricted auth runtime/migration roles in an isolated synthetic database.
 2. Build disabled-by-default private auth configuration/handler and local bootstrap. Keep existing private service mode explicit and public Worker unchanged.

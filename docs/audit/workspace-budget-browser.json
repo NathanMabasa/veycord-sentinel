@@ -1,0 +1,93 @@
+{
+  "checks": [
+    {
+      "name": "workspace routes to the real account screen",
+      "passed": true
+    },
+    {
+      "name": "password alone cannot read stored events",
+      "passed": true
+    },
+    {
+      "name": "setup returns recovery codes",
+      "passed": true
+    },
+    {
+      "name": "setup requires saved-code acknowledgement",
+      "passed": true
+    },
+    {
+      "name": "viewer write control disabled",
+      "passed": true
+    },
+    {
+      "name": "verified session reads synthetic PostgreSQL events",
+      "passed": true
+    },
+    {
+      "name": "no operator key field in account workspace",
+      "passed": true
+    },
+    {
+      "name": "workspace fits 1440px",
+      "passed": true
+    },
+    {
+      "name": "workspace fits 768px",
+      "passed": true
+    },
+    {
+      "name": "workspace fits 390px",
+      "passed": true
+    },
+    {
+      "name": "workspace fits 320px",
+      "passed": true
+    },
+    {
+      "name": "mobile event text stays readable",
+      "passed": true
+    },
+    {
+      "name": "mobile record detail opens",
+      "passed": true
+    },
+    {
+      "name": "cookie session restores after reload",
+      "passed": true
+    },
+    {
+      "name": "loaded nonempty summary displays a real timestamp",
+      "passed": true
+    },
+    {
+      "name": "successful empty summary reports no events",
+      "passed": true
+    },
+    {
+      "name": "actual account quota returns429",
+      "passed": true
+    },
+    {
+      "name": "quota response includes bounded Retry-After",
+      "passed": true
+    },
+    {
+      "name": "workspace explains the wait after429",
+      "passed": true
+    },
+    {
+      "name": "rate-limited summary is unavailable rather than empty",
+      "passed": true
+    },
+    {
+      "name": "logout revokes workspace access",
+      "passed": true
+    },
+    {
+      "name": "no browser errors",
+      "passed": true
+    }
+  ],
+  "browserErrors": []
+}

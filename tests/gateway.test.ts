@@ -6,6 +6,10 @@ test('private routes fail closed by default while public fixtures remain separat
   const gateway=createGateway({})
   assert.equal((await gateway.fetch(new Request('http://localhost/api/private/v1/summary'))).status,503)
   assert.equal((await gateway.fetch(new Request('http://localhost/api/v1/health'))).status,200)
+  for(const path of ['/api/session/v1','/api/auth/sign-in/email','/api/workspace/v1/summary']){
+    const response=await gateway.fetch(new Request('http://localhost'+path));assert.equal(response.status,503)
+    assert.equal((await response.json()).error.code,'AUTH_DISABLED')
+  }
   await gateway.close()
 })
 test('enabling private mode requires complete server-only configuration and verified TLS',()=>{

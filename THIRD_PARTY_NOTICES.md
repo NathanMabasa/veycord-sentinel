@@ -25,6 +25,15 @@ GSAP uses its separate [Standard no-charge license](https://gsap.com/standard-li
 | @babel/template | 7.29.7 | MIT | Development |
 | @babel/traverse | 7.29.10 | MIT | Development |
 | @babel/types | 7.29.8 | MIT | Development |
+| @better-auth/core | 1.7.14 | MIT | Runtime |
+| @better-auth/drizzle-adapter | 1.7.14 | MIT | Runtime |
+| @better-auth/kysely-adapter | 1.7.14 | MIT | Runtime |
+| @better-auth/memory-adapter | 1.7.14 | MIT | Runtime |
+| @better-auth/mongo-adapter | 1.7.14 | MIT | Runtime |
+| @better-auth/prisma-adapter | 1.7.14 | MIT | Runtime |
+| @better-auth/telemetry | 1.7.14 | MIT | Runtime |
+| @better-auth/utils | 0.5.1 | MIT | Runtime |
+| @better-fetch/fetch | 1.3.3 | MIT | Runtime |
 | @esbuild/aix-ppc64 | 0.25.12 | MIT | Development |
 | @esbuild/aix-ppc64 | 0.28.2 | MIT | Development |
 | @esbuild/android-arm | 0.25.12 | MIT | Development |
@@ -84,6 +93,8 @@ GSAP uses its separate [Standard no-charge license](https://gsap.com/standard-li
 | @jridgewell/sourcemap-codec | 1.6.0 | MIT | Development |
 | @jridgewell/trace-mapping | 0.3.31 | MIT | Development |
 | @napi-rs/lzma-linux-x64-gnu | 1.5.1 | MIT | Development |
+| @noble/ciphers | 2.4.0 | MIT | Runtime |
+| @noble/hashes | 2.4.0 | MIT | Runtime |
 | @rolldown/pluginutils | 1.0.0-beta.27 | MIT | Development |
 | @rollup/rollup-android-arm-eabi | 4.65.0 | MIT | Development |
 | @rollup/rollup-android-arm64 | 4.65.0 | MIT | Development |
@@ -110,6 +121,7 @@ GSAP uses its separate [Standard no-charge license](https://gsap.com/standard-li
 | @rollup/rollup-win32-ia32-msvc | 4.65.0 | MIT | Development |
 | @rollup/rollup-win32-x64-gnu | 4.65.0 | MIT | Development |
 | @rollup/rollup-win32-x64-msvc | 4.65.0 | MIT | Development |
+| @standard-schema/spec | 1.1.0 | MIT | Runtime |
 | @types/babel__core | 7.20.5 | MIT | Development |
 | @types/babel__generator | 7.27.0 | MIT | Development |
 | @types/babel__template | 7.4.4 | MIT | Development |
@@ -122,12 +134,15 @@ GSAP uses its separate [Standard no-charge license](https://gsap.com/standard-li
 | @vitejs/plugin-react | 4.7.0 | MIT | Development |
 | axe-core | 4.14.0 | MPL-2.0 | Development |
 | baseline-browser-mapping | 2.11.32 | Apache-2.0 | Development |
+| better-auth | 1.7.14 | MIT | Runtime |
+| better-call | 1.4.4 | MIT | Runtime |
 | browserslist | 4.29.4 | MIT | Development |
 | caniuse-lite | 1.0.30001819 | CC-BY-4.0 | Development |
 | convert-source-map | 2.0.0 | MIT | Development |
 | cookie | 1.1.1 | MIT | Runtime |
 | csstype | 3.2.3 | MIT | Development |
 | debug | 4.4.3 | MIT | Development |
+| defu | 6.1.7 | MIT | Runtime |
 | electron-to-chromium | 1.5.464 | ISC | Development |
 | esbuild | 0.25.12 | MIT | Development |
 | esbuild | 0.28.2 | MIT | Development |
@@ -137,13 +152,16 @@ GSAP uses its separate [Standard no-charge license](https://gsap.com/standard-li
 | gensync | 1.0.0-beta.2 | MIT | Development |
 | gsap | 3.15.0 | Standard 'no charge' license: https://gsap.com/standard-license. | Runtime |
 | hono | 4.13.13 | MIT | Runtime |
+| jose | 6.2.14 | MIT | Runtime |
 | js-tokens | 4.0.0 | MIT | Development |
 | jsesc | 3.1.0 | MIT | Development |
 | json5 | 2.2.3 | MIT | Development |
+| kysely | 0.29.7 | MIT | Runtime |
 | lru-cache | 5.1.1 | ISC | Development |
 | lucide-react | 0.468.0 | ISC | Runtime |
 | ms | 2.1.3 | MIT | Development |
 | nanoid | 3.3.20 | MIT | Development |
+| nanostores | 1.5.5 | MIT | Runtime |
 | node-releases | 2.0.60 | MIT | Development |
 | pg | 8.23.1 | MIT | Runtime |
 | pg-cloudflare | 1.4.1 | MIT | Runtime |
@@ -166,9 +184,11 @@ GSAP uses its separate [Standard no-charge license](https://gsap.com/standard-li
 | react-router | 7.18.4 | MIT | Runtime |
 | react-router-dom | 7.18.4 | MIT | Runtime |
 | rollup | 4.65.0 | MIT | Development |
+| rou3 | 0.9.2 | MIT | Runtime |
 | scheduler | 0.28.0 | MIT | Runtime |
 | semver | 6.3.1 | ISC | Development |
 | set-cookie-parser | 2.7.2 | MIT | Runtime |
+| set-cookie-parser | 3.2.1 | MIT | Runtime |
 | source-map-js | 1.2.2 | BSD-3-Clause | Development |
 | split2 | 4.2.0 | ISC | Runtime |
 | tinyglobby | 0.2.17 | MIT | Development |
@@ -179,3 +199,4 @@ GSAP uses its separate [Standard no-charge license](https://gsap.com/standard-li
 | vite | 6.4.5 | MIT | Development |
 | xtend | 4.0.2 | MIT | Runtime |
 | yallist | 3.1.1 | ISC | Development |
+| zod | 4.6.7 | MIT | Runtime |

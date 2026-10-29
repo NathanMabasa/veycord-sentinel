@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { BrowserRouter, Link, Route, Routes, useLocation } from "react-router-dom";
 import { Landing,PageFrame,ProductPage,DocsPage,RoadmapPage,SecurityPage,CommunityPage } from "./features/site/SitePages";
 import Console from "./features/demo/Console";
@@ -6,6 +6,12 @@ import ApiExplorer from "./ApiExplorer";
 import PrivateWorkspace from "./PrivateWorkspace";
 import { appConfig } from "./config";
 import { GetStartedPage, ConnectionsPage, HttpSetupPage } from "./features/site/OnboardingPages";
+const AccountPage = lazy(() => import('./features/account/AccountPage'));
+function PrivateAccess() {
+  const [mode,setMode] = useState<'loading'|'operator'|'account'>('loading');
+  useEffect(()=>{const controller=new AbortController();void fetch('/api/session/v1',{cache:'no-store',credentials:'same-origin',signal:controller.signal}).then(async response=>{const data=await response.json();if(!controller.signal.aborted)setMode(data.error?.code==='AUTH_DISABLED'?'operator':'account')}).catch(()=>{if(!controller.signal.aborted)setMode('account')});return()=>controller.abort()},[]);
+  return mode==='loading'?<PageFrame compact title="Investigation workspace" eyebrow="Private workspace" lead="Checking account access…"><p role="status">Loading workspace access…</p></PageFrame>:mode==='operator'?<PageFrame compact eyebrow="Private workspace" title="Investigation workspace" lead="Review stored events, investigate findings, and track cases in your private database."><p><Link to="/account">Account sign-in and setup</Link></p><PrivateWorkspace/></PageFrame>:<Suspense fallback={<p role="status">Loading account access…</p>}><AccountPage/></Suspense>;
+}
 function RoutePosition() {
   const { pathname, hash } = useLocation();
   const previousPath = useRef(pathname);
@@ -40,7 +46,9 @@ function App() {
         <Route path="/security" element={<SecurityPage />} />
         <Route path="/community" element={<CommunityPage />} />
         <Route path="/demo" element={<Console />} />
-        <Route path="/workspace" element={appConfig.publicDemo ? <SelfHosting /> : <PageFrame compact eyebrow="Private workspace" title="Investigation workspace" lead="Review stored events, investigate findings, and track cases in your private database."><PrivateWorkspace /></PageFrame>} />
+        <Route path="/account" element={appConfig.publicDemo ? <SelfHosting/> : <Suspense fallback={<p role="status">Loading account access…</p>}><AccountPage/></Suspense>} />
+        <Route path="/operator" element={appConfig.publicDemo ? <SelfHosting/> : <PageFrame compact title="Operator workspace" eyebrow="Private workspace" lead="Service-key access for the configured local operator."><PrivateWorkspace/></PageFrame>} />
+        <Route path="/workspace" element={appConfig.publicDemo ? <SelfHosting /> : <PrivateAccess />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

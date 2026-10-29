@@ -664,3 +664,6 @@
 .private-workspace__chart-times { display: flex; justify-content: space-between; padding: 0 2.5% 8px 6.3%; }
 .private-workspace__activity-figure svg { min-height: 0; height: auto; aspect-ratio: 760 / 175; }
 .private-workspace__hourly-details summary { min-height: 44px; padding-block: 12px; color: #435168; font-size: 14px; font-weight: 600; cursor: pointer; }
+
+/* Permission-sensitive regions must remain hidden despite layout display rules. */
+.private-workspace [hidden]{display:none!important}

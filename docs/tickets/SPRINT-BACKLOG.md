@@ -6,7 +6,7 @@ P0 = prerequisite/release boundary; P1 = initial product capability; P2 = later 
 
 ## Active execution — 2026-10-28
 
-Owner authorized beginning the updates. Codex owns the current implementation work. [Sprint0 execution](../brain/04-Roadmap/Sprint%200%20Execution.md) records working scope, historical evidence and proposed measurement budgets. SEN-1009-A and C remain **In review** pending scope/target agreement. SEN-1009-B is **Done** after protected PR14 merged with final-head checks. SEN-208A-1 is **In review** with the [identity selection](../brain/02-Architecture/Identity%20Provider%20Decision.md); auth installation/flows in the application are not complete. Other tickets remain Backlog. No readiness gate is completed by this record.
+Owner authorized beginning the updates. Codex owns the current implementation work. [Sprint0 execution](../brain/04-Roadmap/Sprint%200%20Execution.md) records working scope, historical evidence and proposed measurement budgets. SEN-1009-A and C remain **In review** pending scope/target agreement. SEN-1009-B is **Done** after protected PR14 merged with final-head checks. SEN-208A-1 is **Done** for selection/design after protected PR15 merged at2400b0a20fdb598f4af376064093a3de9464d1c8; see the [identity selection](../brain/02-Architecture/Identity%20Provider%20Decision.md); auth installation/flows in the application are not complete. Other tickets remain Backlog. No readiness gate is completed by this record.
 
 ## Sprint0 — Scope and baseline
 
@@ -32,7 +32,7 @@ Owner authorized beginning the updates. Codex owns the current implementation wo
 
 ### SEN-208A-1 — Select and document maintained identity [P0]
 
-- Execution2026-10-29: **In review**, owner Codex. Self-managed Better Auth selected for the private Node/PostgreSQL implementation; current managed MFA limitation and Keycloak alternative documented. Installed isolated1.7.14 plugin, license, engine and35-package audit inspection recorded in `docs/audit/identity-selection-dependencies.json`. No application dependency/database/authentication change or runtime tests yet. Review: https://github.com/NathanMabasa/veycord-sentinel/pull/15 . Final-head required checks and protected merge remain the completion boundary; application authentication is separate.
+- Execution2026-10-29: **Done** for selection/design, owner Codex. Self-managed Better Auth selected for the private Node/PostgreSQL implementation; current managed MFA limitation and Keycloak alternative documented. Installed isolated1.7.14 plugin, license, engine and35-package audit inspection recorded in `docs/audit/identity-selection-dependencies.json`. No application dependency/database/authentication change or runtime tests yet. Review: https://github.com/NathanMabasa/veycord-sentinel/pull/15 . Final head7e25d5172ecf9ecfe25b8f56d4ed89bf57e2fc64 passed verify40836629970 and CodeQL40836629946, then protected-squash merged to2400b0a20fdb598f4af376064093a3de9464d1c8. Application authentication in208A-2/B remains separate and incomplete.
 
 - Parent: SEN-208A. Depends:1009-A.
 - Scope: compare candidates against runtime, self-host/hosted path, MFA/recovery, residency, license and operating cost; document session/data flows and migration from shared operator access.
@@ -40,17 +40,23 @@ Owner authorized beginning the updates. Codex owns the current implementation wo
 
 ### SEN-208A-2 — Implement session and MFA lifecycle [P0]
 
+- **In review**, Codex, batch011 / draft PR16. Private account/MFA implementation has reproducible disposable-PostgreSQL and real-browser regression coverage, including recovery reuse/concurrency, revocation, expiry and negative access. Source head a69366f passed required verify40929488686 and CodeQL40929488279, including the new Linux identity/browser step. Independent review remains open; production hosting/proxy/operations are deferred. Later PR heads must still pass required CI. See BUILD-BATCH-011.md.
+
 - Parent: SEN-208A. Depends:208A-1 and provider configuration.
 - Scope: login/logout, secure session handling, MFA, recovery and revocation, with understandable degraded/error states.
 - Accept: appropriate integration evidence covers session expiry/revocation, recovery and rejected requests; CSRF/session protections follow the chosen architecture; secrets never enter client bundles/logs.
 
 ### SEN-208B-1 — Enforce workspace membership and roles [P0]
 
+- **Partial / In review** for one fixed workspace in batch011. Three roles, stale-session revocation, encoded-route rejection and foreign-workspace membership negatives are covered. Hosted/multiple-workspace lifecycle and future jobs/exports remain open.
+
 - Parent: SEN-208B. Depends:208A-2.
 - Scope: admin/analyst/viewer/service boundaries and membership lifecycle; server-derived identity/workspace across existing APIs and future jobs/exports; invalidate removed access.
 - Accept: an authorization matrix and cross-role/workspace denial evidence cover every implemented operation, including stale sessions; RLS remains defense in depth, not the sole authorization layer.
 
 ### SEN-208B-2 — Attribute security-relevant actions [P0]
+
+- **Partial / In review** in batch011. Concurrent user mutations retain server-derived actors; identity audit is append-only for its runtime role and permission denials are recorded. External anchoring and additional event families remain open.
 
 - Parent: SEN-208B/D. Depends:208B-1.
 - Scope: record actual user/service actor, membership/access changes and appropriate denied access without logging credentials or raw sensitive payloads.
@@ -157,6 +163,8 @@ Owner authorized beginning the updates. Codex owns the current implementation wo
 - Accept: synthetic lifecycle proof covers all stores and denied requests; retention/legal exceptions and backup re-deletion behavior documented and reviewed; no compliance claim from implementation alone.
 
 ### SEN-208C-2 — Enforce service-wide resource bounds [P0]
+
+- **Partial / In review**, batch012 / draft PR16: cookie workspace allowances are PostgreSQL-backed per account and operation class. Real two-process concurrency, restart/session persistence, account isolation, rollover, unavailable-budget denial and browser429 guidance are exercised. Operator/anonymous/authentication quotas, global concurrency/disk controls and broader overload acceptance remain open.
 
 - Parent: SEN-208C. Depends:1001-C,1009-C.
 - Scope: distributed rate/concurrency limits, non-idempotent mutation handling, physical storage monitoring and explicit overload responses.

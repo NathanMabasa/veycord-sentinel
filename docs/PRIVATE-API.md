@@ -48,6 +48,8 @@ The API applies per-process fixed-window limits of 60 authenticated reads per mi
 
 Errors use a stable safe envelope: `{ "error": { "code": "...", "message": "..." } }`. The API uses `400` for validation, `401` for authentication, `403` for a foreign mutation origin, `404` for missing resources/routes, `405` for unsupported methods, `409` with `QUOTA_EXCEEDED` when a configured workspace storage limit prevents a write, `413` for oversized bodies, `429` for rate limits, `503` for store failures, and a generic `500` for unexpected errors. Internal errors and credentials are not returned. When a quota response occurs, check `/operations` for current usage and retention eligibility, then have the local operator adjust the configured limit or retention policy before retrying.
 
+Cookie-backed account requests use the separate `/api/workspace/v1` route and persistent per-account PostgreSQL limits documented in [private identity](IDENTITY.md). Those changes do not make the shared operator-service API distributed or user-attributed.
+
 ## Deployment and security gaps
 
 This private API is not a claim of production readiness or multi-tenant support. The service key has no rotation endpoint, role separation, user attribution, or fine-grained authorization. The per-process limits do not coordinate across instances. Before real telemetry is exposed, deployment must add secret management and rotation, TLS and network restrictions, tenant authorization if multi-tenant, audit, retention/deletion, durable quotas, operational monitoring, and independent security review. Follow the gates in the product brain; do not claim compliance or government approval from this implementation.

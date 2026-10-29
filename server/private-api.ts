@@ -1,4 +1,5 @@
 import { Hono, type Context, type MiddlewareHandler } from "hono";
+import type { BudgetDecision, WorkspaceBudgetKind } from "./workspace-budget.js";
 import { HTTPException } from "hono/http-exception";
 import { bearerAuth } from "hono/bearer-auth";
 import { bodyLimit } from "hono/body-limit";
@@ -19,7 +20,6 @@ import {
   ValidationError,
 } from "./private-validation.js";
 
-const PREFIX = "/api/private/v1";
 const TOKEN_PATTERN = /^[A-Za-z0-9_-]{43,128}$/;
 const NO_STORE_HEADERS = {
   "Cache-Control": "no-store",
@@ -77,10 +77,17 @@ async function parseJson(c: Context): Promise<unknown> {
 export function createPrivateApi({
   store,
   token,
+  prefix = "/api/private/v1",
+  authenticate,
+  consumeBudget,
 }: {
   store: DataStore;
   token: string;
+  prefix?: "/api/private/v1" | "/api/workspace/v1";
+  authenticate?: MiddlewareHandler;
+  consumeBudget?: (kind: WorkspaceBudgetKind, context: Context) => Promise<BudgetDecision>;
 }): Hono {
+  const PREFIX = prefix;
   if (!TOKEN_PATTERN.test(token))
     throw new Error("Private API requires a strong base64url service token");
 
@@ -89,7 +96,7 @@ export function createPrivateApi({
     "read" | "ingest" | "case-write",
     { windowStart: number; count: number }
   >();
-  const authentication = bearerAuth({
+  const authentication = authenticate ?? bearerAuth({
     token,
     realm: "veycord-private-api",
     noAuthenticationHeader: { message: "Authentication required" },
@@ -125,8 +132,19 @@ export function createPrivateApi({
   });
 
   const rateLimit =
-    (kind: "read" | "ingest" | "case-write"): MiddlewareHandler =>
+    (kind: WorkspaceBudgetKind): MiddlewareHandler =>
     async (c, next) => {
+      if (consumeBudget) {
+        let decision: BudgetDecision;
+        try { decision = await consumeBudget(kind, c); }
+        catch { return errorResponse(c, 503, "BUDGET_UNAVAILABLE", "Request limits are temporarily unavailable. Try again later."); }
+        if (!decision.allowed) {
+          c.header("Retry-After", String(decision.retryAfterSeconds));
+          return errorResponse(c, 429, "RATE_LIMITED", "Request rate limit exceeded. Wait before trying again.");
+        }
+        await next();
+        return;
+      }
       const now = Date.now();
       const limit = kind === "read" ? 60 : 10;
       let bucket = buckets.get(kind);

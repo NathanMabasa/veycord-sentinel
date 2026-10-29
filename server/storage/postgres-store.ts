@@ -1,3 +1,5 @@
+import { assertDatabaseUrlParameters } from '../database-url-policy.js'
+import { AsyncLocalStorage } from 'node:async_hooks'
 import { createHash, randomUUID } from 'node:crypto'
 import { Pool, type PoolClient } from 'pg'
 import type {
@@ -242,6 +244,7 @@ function makePoolOptions(connectionString: string, allowLocalInsecure: boolean) 
     throw new Error('Database connection configuration is invalid')
   }
   if (parsed.protocol !== 'postgres:' && parsed.protocol !== 'postgresql:') throw new Error('Database connection configuration is invalid')
+  assertDatabaseUrlParameters(parsed)
   const host = parsed.hostname.toLowerCase()
   const isLoopback = host === 'localhost' || host === '127.0.0.1' || host === '[::1]' || host === '::1'
   const sslmode = parsed.searchParams.get('sslmode')
@@ -274,6 +277,11 @@ export class PostgresStore implements DataStore {
   private readonly pool: Pool
   private readonly workspaceId: string
 
+  private readonly actorContext = new AsyncLocalStorage<string>()
+  runAsActor<T>(userId: string, operation: () => Promise<T>): Promise<T> {
+    if (!userId || userId.length > 128) throw new StoreInputError('Actor is invalid')
+    return this.actorContext.run(userId, operation)
+  }
   constructor(options: { connectionString: string; workspaceId: string; allowLocalInsecure?: boolean }) {
     if (!options || typeof options.connectionString !== 'string' || !isUuid(options.workspaceId)) {
       throw new Error('Storage configuration is invalid')
@@ -357,7 +365,7 @@ export class PostgresStore implements DataStore {
     await client.query(
       `INSERT INTO audit_entries (id, workspace_id, action, actor, resource_id, details)
        VALUES ($1, $2, $3, $4, $5, $6::jsonb)`,
-      [randomUUID(), this.workspaceId, action, actor, resourceId, JSON.stringify(details)],
+      [randomUUID(), this.workspaceId, action, this.actorContext.getStore() ? 'user' : actor, resourceId, JSON.stringify(this.actorContext.getStore() ? { ...details, actorId:this.actorContext.getStore() } : details)],
     )
   }
 

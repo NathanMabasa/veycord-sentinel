@@ -12,7 +12,7 @@
     "preview": "vite preview",
     "test:api": "tsx --test tests/api.test.ts",
     "start": "node --env-file-if-exists=.env.runtime build/server/node.js",
-    "test:unit": "tsx --test tests/api.test.ts tests/private-api.test.ts tests/detections.test.ts tests/gateway.test.ts tests/runtime-config.test.ts tests/navigation.test.ts tests/connection-setup.test.ts",
+    "test:unit": "tsx --test tests/api.test.ts tests/private-api.test.ts tests/detections.test.ts tests/gateway.test.ts tests/runtime-config.test.ts tests/navigation.test.ts tests/connection-setup.test.ts tests/identity-config.test.ts",
     "test:db": "tsx --test tests/postgres.test.ts",
     "db:bootstrap": "node --env-file-if-exists=.env --import tsx db/bootstrap-runtime-role.ts",
     "db:migrate": "node --env-file-if-exists=.env --import tsx db/migrate.ts",
@@ -24,10 +24,14 @@
     "db:limits": "node --env-file-if-exists=.env --import tsx db/limits.ts",
     "config:runtime": "node --env-file-if-exists=.env scripts/create-runtime-env.mjs",
     "test:a11y": "python3 scripts/dashboard_accessibility.py",
-    "licenses:inventory": "node scripts/dependency-notices.mjs"
+    "licenses:inventory": "node scripts/dependency-notices.mjs",
+    "identity:setup": "node --env-file-if-exists=.env --import tsx db/identity/setup.ts",
+    "identity:operator": "node --env-file-if-exists=.env --import tsx db/identity/operator.ts",
+    "test:identity": "tsx --test tests/identity.test.ts"
   },
   "dependencies": {
     "@hono/node-server": "^2.1.5",
+    "better-auth": "1.7.14",
     "gsap": "^3.15.0",
     "hono": "^4.13.13",
     "lucide-react": "^0.468.0",

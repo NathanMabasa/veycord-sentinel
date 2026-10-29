@@ -1,0 +1,99 @@
+{
+  "environment": "Disposable synthetic SCRAM PostgreSQL16, two real Node processes, actual Chromium; preserved synthetic lab schema upgraded separately",
+  "localChecks": {
+    "build": "passed",
+    "unitPassed": 48,
+    "identityResultsPassed": 26,
+    "identityScenarios": 25,
+    "identityBrowserChecks": 22,
+    "postgresPrivateBrowserResults": 2,
+    "publicWorkerResults": 5
+  },
+  "observations": {
+    "burstRequests": 80,
+    "seededPriorReadCount": 1,
+    "allowedReads": 59,
+    "limitedReads": 21,
+    "saturatedCounter": 61,
+    "restartedProcessStillLimited": true,
+    "newSessionStillLimited": true,
+    "otherAccountAllowed": true,
+    "budgetFailureNoCaseStored": true,
+    "versionOneUpgradeAndRepeatSetup": "passed",
+    "unknownSchemaVersionThree": "rejected",
+    "summaryStates": [
+      "loaded timestamp",
+      "successful empty: No events recorded",
+      "quota unavailable: Unavailable"
+    ],
+    "browserWindowControl": "Test-only filesystem coordinator holds the disposable PostgreSQL quota window; no application test endpoint or clock override"
+  },
+  "sourceSha256": {
+    "server/workspace-budget.ts": "1d8ae4b230894aa5b17310a5b4c5978ce5c3adfb37237937cd29e4815a80c71d",
+    "server/private-api.ts": "1e150509a7d8a36c8eba694f7c53d404c1051427ad7d1b14bf6a83c107340882",
+    "server/gateway.ts": "03a48336dbc1b278fa45975aabf9a2bf56ba690bacebdbdf851ea744f6a96c24",
+    "server/identity/service.ts": "b5715d65fd4bbeb9078968219aafb32ebcf121f25462b7e0528c55e93c21d4eb",
+    "server/identity/schema-version.ts": "45658cbc736f58d0e6fb2385e4b644d0340932338de4ac3b1419f19c4f21ddf0",
+    "db/identity/setup.ts": "12a0254377c2b6225b4b01ffd90ced8750114cf966d309a50d7499493fe84aea",
+    "db/identity/002_workspace_budgets.sql": "e92cc62d8ac5c41eb8610267c01e0bb44e22459769befd54722d671f96f8c710",
+    "src/PrivateWorkspace.tsx": "af2e36cc739ed765ff551f4bb6af53b9234ff5187437a33a2b7936706cb13fdb",
+    "tests/identity.test.ts": "68585b2e10dbc4c524af5537003709a439390df04d669ae6eba84232fd87bee5",
+    "scripts/identity_browser_audit.py": "8989456d069ea7309f2738f2e6d6c204ea579cd7cc2ef45165f4a566658df9db"
+  },
+  "limitations": [
+    "Source head passed required verify/CodeQL; any later head must independently pass protected checks",
+    "independent review open",
+    "operator API retains process-local limits",
+    "anonymous/authentication/global concurrency/physical disk limits remain open",
+    "fixed-window boundary bursts",
+    "no hosted telemetry or public publication"
+  ],
+  "priorHeadCi": {
+    "head": "cc48e3d226fee250f4da5a7b1d52d42a23655560",
+    "verifyRun": 40933798032,
+    "verify": "FAILURE",
+    "cause": "quota minute rolled over before reload; rendered successful populated summary",
+    "codeqlRun": 40933798036,
+    "codeql": "SUCCESS"
+  },
+  "preservedLabAfterV2Upgrade": {
+    "environment": "Preserved synthetic auth lab after identity-v2 upgrade; actual Vite5178",
+    "passed": true,
+    "eventReadStatus": 200,
+    "logoutStatus": 401,
+    "privateConfigurationModified": false
+  },
+  "verifiedSourceHead": "978b93edb323a585bc935b06cc3c3515917b33b6",
+  "sourceHeadCi": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-29T19:53:43Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/NathanMabasa/veycord-sentinel/actions/runs/40943986961/job/123694391335",
+      "name": "CodeQL JavaScript and TypeScript",
+      "startedAt": "2026-10-29T19:52:38Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL security analysis"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-29T19:55:34Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/NathanMabasa/veycord-sentinel/actions/runs/40943986954/job/123694391799",
+      "name": "verify",
+      "startedAt": "2026-10-29T19:52:38Z",
+      "status": "COMPLETED",
+      "workflowName": "Verify Sentinel"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-29T19:53:35Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/NathanMabasa/veycord-sentinel/runs/123694882537",
+      "name": "CodeQL",
+      "startedAt": "2026-10-29T19:53:33Z",
+      "status": "COMPLETED",
+      "workflowName": ""
+    }
+  ]
+}
