@@ -40,7 +40,7 @@ Owner authorized beginning the updates. Codex owns the current implementation wo
 
 ### SEN-208A-2 — Implement session and MFA lifecycle [P0]
 
-- **In review**, Codex, batch011 / draft PR16. Private account/MFA implementation has reproducible disposable-PostgreSQL and real-browser regression coverage, including recovery reuse/concurrency, revocation, expiry and negative access. Final-head CI and independent review remain gates; production hosting/proxy/operations are deferred. See BUILD-BATCH-011.md.
+- **In review**, Codex, batch011 / draft PR16. Private account/MFA implementation has reproducible disposable-PostgreSQL and real-browser regression coverage, including recovery reuse/concurrency, revocation, expiry and negative access. Source head a69366f passed required verify40929488686 and CodeQL40929488279, including the new Linux identity/browser step. Independent review remains open; production hosting/proxy/operations are deferred. Later PR heads must still pass required CI. See BUILD-BATCH-011.md.
 
 - Parent: SEN-208A. Depends:208A-1 and provider configuration.
 - Scope: login/logout, secure session handling, MFA, recovery and revocation, with understandable degraded/error states.

@@ -141,11 +141,51 @@
     ".github/workflows/verify.yml": "6ce891292659a464e44b74cd4be441d3377cb03b04a312b2e2734136e216d757"
   },
   "boundaries": [
-    "Final-head CI pending this commit",
+    "Source head passed required verify and CodeQL; any later head must independently pass required checks",
     "PR16 remains draft/unmerged",
     "No public deployment",
     "Production proxy/TLS topology and independent review remain open",
     "No hosted multi-workspace lifecycle",
     "Original private installation/configuration preserved"
-  ]
+  ],
+  "verifiedSourceHead": "a69366f8185d28355c66c8d64f5a56cf39d038f0",
+  "sourceHeadCi": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-29T18:19:13Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/NathanMabasa/veycord-sentinel/actions/runs/40929488279/job/123643818053",
+      "name": "CodeQL JavaScript and TypeScript",
+      "startedAt": "2026-10-29T18:18:09Z",
+      "status": "COMPLETED",
+      "workflowName": "CodeQL security analysis"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-29T18:21:24Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/NathanMabasa/veycord-sentinel/actions/runs/40929488686/job/123643821995",
+      "name": "verify",
+      "startedAt": "2026-10-29T18:18:10Z",
+      "status": "COMPLETED",
+      "workflowName": "Verify Sentinel"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-29T18:19:05Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/NathanMabasa/veycord-sentinel/runs/123644335116",
+      "name": "CodeQL",
+      "startedAt": "2026-10-29T18:19:02Z",
+      "status": "COMPLETED",
+      "workflowName": ""
+    }
+  ],
+  "preservedLabReview": {
+    "environment": "Preserved synthetic auth lab, actual Vite5178",
+    "passed": true,
+    "eventReadStatus": 200,
+    "logoutStatus": 401,
+    "privateConfigurationModified": false
+  }
 }
