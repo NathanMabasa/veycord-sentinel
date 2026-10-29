@@ -19,7 +19,6 @@ import {
   ValidationError,
 } from "./private-validation.js";
 
-const PREFIX = "/api/private/v1";
 const TOKEN_PATTERN = /^[A-Za-z0-9_-]{43,128}$/;
 const NO_STORE_HEADERS = {
   "Cache-Control": "no-store",
@@ -77,10 +76,15 @@ async function parseJson(c: Context): Promise<unknown> {
 export function createPrivateApi({
   store,
   token,
+  prefix = "/api/private/v1",
+  authenticate,
 }: {
   store: DataStore;
   token: string;
+  prefix?: "/api/private/v1" | "/api/workspace/v1";
+  authenticate?: MiddlewareHandler;
 }): Hono {
+  const PREFIX = prefix;
   if (!TOKEN_PATTERN.test(token))
     throw new Error("Private API requires a strong base64url service token");
 
@@ -89,7 +93,7 @@ export function createPrivateApi({
     "read" | "ingest" | "case-write",
     { windowStart: number; count: number }
   >();
-  const authentication = bearerAuth({
+  const authentication = authenticate ?? bearerAuth({
     token,
     realm: "veycord-private-api",
     noAuthenticationHeader: { message: "Authentication required" },

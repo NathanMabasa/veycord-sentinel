@@ -1,0 +1,213 @@
+{
+  "environment": "Isolated synthetic PostgreSQL and loopback private Node/Vite",
+  "checks": [
+    {
+      "name": "Anonymous workspace access rejected",
+      "passed": true
+    },
+    {
+      "name": "Registration endpoint is unavailable",
+      "passed": true
+    },
+    {
+      "name": "admin password-only session cannot access workspace",
+      "passed": true
+    },
+    {
+      "name": "admin receives setup key and recovery codes",
+      "passed": true
+    },
+    {
+      "name": "admin event HTTP status",
+      "status": 200
+    },
+    {
+      "name": "admin verified session reads stored events",
+      "passed": true
+    },
+    {
+      "name": "admin session metadata omits raw token",
+      "passed": true
+    },
+    {
+      "name": "admin session cookie HttpOnly",
+      "passed": true
+    },
+    {
+      "name": "admin operations permission",
+      "passed": true
+    },
+    {
+      "name": "admin case permission",
+      "passed": true
+    },
+    {
+      "name": "admin cross-origin mutation rejected",
+      "passed": true
+    },
+    {
+      "name": "admin cookie session restores after reload",
+      "passed": true
+    },
+    {
+      "name": "admin workspace fits 320",
+      "passed": true
+    },
+    {
+      "name": "admin workspace fits 768",
+      "passed": true
+    },
+    {
+      "name": "admin workspace fits 1440",
+      "passed": true
+    },
+    {
+      "name": "admin logout revokes workspace access",
+      "passed": true
+    },
+    {
+      "name": "admin has no browser errors",
+      "passed": true
+    },
+    {
+      "name": "analyst password-only session cannot access workspace",
+      "passed": true
+    },
+    {
+      "name": "analyst receives setup key and recovery codes",
+      "passed": true
+    },
+    {
+      "name": "analyst event HTTP status",
+      "status": 200
+    },
+    {
+      "name": "analyst verified session reads stored events",
+      "passed": true
+    },
+    {
+      "name": "analyst session metadata omits raw token",
+      "passed": true
+    },
+    {
+      "name": "analyst session cookie HttpOnly",
+      "passed": true
+    },
+    {
+      "name": "analyst operations permission",
+      "passed": true
+    },
+    {
+      "name": "analyst case permission",
+      "passed": true
+    },
+    {
+      "name": "analyst cross-origin mutation rejected",
+      "passed": true
+    },
+    {
+      "name": "analyst cookie session restores after reload",
+      "passed": true
+    },
+    {
+      "name": "analyst workspace fits 320",
+      "passed": true
+    },
+    {
+      "name": "analyst workspace fits 768",
+      "passed": true
+    },
+    {
+      "name": "analyst workspace fits 1440",
+      "passed": true
+    },
+    {
+      "name": "analyst logout revokes workspace access",
+      "passed": true
+    },
+    {
+      "name": "analyst has no browser errors",
+      "passed": true
+    },
+    {
+      "name": "viewer password-only session cannot access workspace",
+      "passed": true
+    },
+    {
+      "name": "viewer receives setup key and recovery codes",
+      "passed": true
+    },
+    {
+      "name": "viewer event HTTP status",
+      "status": 200
+    },
+    {
+      "name": "viewer verified session reads stored events",
+      "passed": true
+    },
+    {
+      "name": "viewer session metadata omits raw token",
+      "passed": true
+    },
+    {
+      "name": "viewer session cookie HttpOnly",
+      "passed": true
+    },
+    {
+      "name": "viewer operations permission",
+      "passed": true
+    },
+    {
+      "name": "viewer case permission",
+      "passed": true
+    },
+    {
+      "name": "viewer cross-origin mutation rejected",
+      "passed": true
+    },
+    {
+      "name": "viewer cookie session restores after reload",
+      "passed": true
+    },
+    {
+      "name": "viewer workspace fits 320",
+      "passed": true
+    },
+    {
+      "name": "viewer workspace fits 768",
+      "passed": true
+    },
+    {
+      "name": "viewer workspace fits 1440",
+      "passed": true
+    },
+    {
+      "name": "Viewer case actions disabled",
+      "passed": true
+    },
+    {
+      "name": "viewer logout revokes workspace access",
+      "passed": true
+    },
+    {
+      "name": "viewer has no browser errors",
+      "passed": true
+    },
+    {
+      "name": "Enrolled account requires MFA on fresh sign-in",
+      "passed": true
+    },
+    {
+      "name": "Unused recovery code signs in",
+      "passed": true
+    },
+    {
+      "name": "Auth rejects oversized body",
+      "passed": true
+    },
+    {
+      "name": "Auth rejects foreign origin",
+      "passed": true
+    }
+  ]
+}

@@ -47,7 +47,7 @@ class PrivateApiError extends Error {
 function messageFor(error: unknown) {
   if (error instanceof PrivateApiError) {
     if (error.status === 401 || error.status === 403) {
-      return "The service key was not accepted. Check it and try again.";
+      return "Your access was not accepted. Sign in again or check the operator service key.";
     }
     if (error.status === 404) {
       return "The private workspace API is not available at this address. Start the local service or check its configuration.";
@@ -66,24 +66,25 @@ function messageFor(error: unknown) {
   return "Could not reach the private workspace service. Check that it is running.";
 }
 
-async function requestJson<T>(
+async function fetchWorkspace<T>(
   path: string,
   key: string,
   signal: AbortSignal,
   init?: RequestInit,
+  sessionMode = false,
 ): Promise<T> {
   const headers = new Headers(init?.headers);
   headers.set("Accept", "application/json");
-  headers.set("Authorization", `Bearer ${key}`);
+  if (!sessionMode) headers.set("Authorization", `Bearer ${key}`);
   if (init?.body) headers.set("Content-Type", "application/json");
   let response: Response;
   try {
-    response = await fetch(`${API_BASE}${path}`, {
+    response = await fetch(`${sessionMode ? "/api/workspace/v1" : API_BASE}${path}`, {
       ...init,
       headers,
       signal,
       cache: "no-store",
-      credentials: "omit",
+      credentials: sessionMode ? "same-origin" : "omit",
     });
   } catch (error) {
     if (signal.aborted) throw error;
@@ -134,9 +135,14 @@ function severityLabel(value: string) {
   return value.slice(0, 1).toUpperCase() + value.slice(1);
 }
 
-export default function PrivateWorkspace() {
+export default function PrivateWorkspace({ sessionAccess }: { sessionAccess?: { name: string; role: 'admin' | 'analyst' | 'viewer' } } = {}) {
+  const sessionMode = Boolean(sessionAccess);
+  const administrator = !sessionAccess || sessionAccess.role === 'admin';
+  const canWrite = !sessionAccess || sessionAccess.role !== 'viewer';
+  const requestJson = useCallback(<T,>(path:string,key:string,signal:AbortSignal,init?:RequestInit) => fetchWorkspace<T>(path,key,signal,init,sessionMode),[sessionMode]);
   const [keyDraft, setKeyDraft] = useState("");
-  const [serviceKey, setServiceKey] = useState("");
+  // Non-secret mode marker; session requests never attach this value as a credential.
+  const [serviceKey, setServiceKey] = useState(sessionMode ? "cookie-session" : "");
   const [summary, setSummary] = useState<StoreSummary | null>(null);
   const [operations, setOperations] = useState<OperationsStatus | null>(null);
   const [audit, setAudit] = useState<AuditEntry[]>([]);
@@ -238,8 +244,8 @@ export default function PrivateWorkspace() {
           loadEvents(key, activeFilters, controller.signal, range),
           requestJson<ApiPage<StoredFinding>>("/findings", key, controller.signal),
           requestJson<ApiPage<StoredCase>>("/cases", key, controller.signal),
-          requestJson<ApiData<OperationsStatus>>("/operations", key, controller.signal),
-          requestJson<ApiPage<AuditEntry>>("/audit", key, controller.signal),
+          administrator ? requestJson<ApiData<OperationsStatus>>("/operations", key, controller.signal) : Promise.resolve({data:null}),
+          administrator ? requestJson<ApiPage<AuditEntry>>("/audit", key, controller.signal) : Promise.resolve({data:[]}),
           analyticsRequest,
         ]);
         if (sequenceRef.current !== sequence) return;
@@ -262,8 +268,14 @@ export default function PrivateWorkspace() {
         if (sequenceRef.current === sequence) setPending(null);
       }
     },
-    [cancelRequest, filters, loadEvents],
+    [cancelRequest, filters, loadEvents, requestJson, administrator],
   );
+
+  const sessionRefresh = useRef(refreshWorkspace);
+  sessionRefresh.current = refreshWorkspace;
+  useEffect(() => {
+    if(sessionMode) void sessionRefresh.current("cookie-session");
+  },[sessionMode]);
 
   async function connect(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -499,12 +511,13 @@ export default function PrivateWorkspace() {
   }
 
   async function refreshOperationsAndAudit(key: string) {
+    if (!administrator) return;
     const controller = new AbortController();
     const sequence = sequenceRef.current;
     try {
       const [nextOperations, nextAudit] = await Promise.all([
-        requestJson<ApiData<OperationsStatus>>("/operations", key, controller.signal),
-        requestJson<ApiPage<AuditEntry>>("/audit", key, controller.signal),
+        administrator ? requestJson<ApiData<OperationsStatus>>("/operations", key, controller.signal) : Promise.resolve({data:null}),
+        administrator ? requestJson<ApiPage<AuditEntry>>("/audit", key, controller.signal) : Promise.resolve({data:[]}),
       ]);
       if (sequenceRef.current !== sequence || serviceKey !== key) return;
       setOperations(nextOperations.data);
@@ -537,7 +550,7 @@ export default function PrivateWorkspace() {
         </div>
       </header>
 
-      <section className="private-workspace__connect" aria-labelledby="private-connect-title">
+      <section className="private-workspace__connect" hidden={sessionMode} aria-labelledby="private-connect-title">
         <div className="private-workspace__connect-copy">
           <span className="private-workspace__icon"><LockKeyhole size={19} /></span>
           <div>
@@ -670,7 +683,7 @@ export default function PrivateWorkspace() {
                 className="private-workspace__button is-secondary"
                 type="button"
                 onClick={() => void addSyntheticSamples()}
-                disabled={pending !== null}
+                disabled={pending !== null || !administrator}
                 title="Uses only the bundled synthetic sample fixtures"
               >
                 <Plus size={16} /> Add synthetic sample events
@@ -767,7 +780,7 @@ export default function PrivateWorkspace() {
                   <dl><div><dt>Host</dt><dd>{finding.host || "Unknown"}</dd></div><div><dt>Rule</dt><dd className="is-mono">{finding.ruleId} · {finding.ruleVersion ? `v${finding.ruleVersion}` : "Version unknown"}</dd></div><div><dt>Technique</dt><dd className="is-mono">{finding.techniqueId || "—"}</dd></div></dl>
                   {finding.evidence?.length > 0 && <details className="private-workspace__evidence"><summary>Evidence ({finding.evidence.length})</summary><ul>{finding.evidence.slice(0, 20).map((item, index) => <li key={`${finding.id}-${index}`}>{item}</li>)}</ul></details>}
                   <div className="private-workspace__finding-actions">
-                    <button className="private-workspace__button is-secondary" type="button" onClick={() => { setCaseFinding(finding); setCaseTitle(`Review: ${finding.name}`); setCaseNote(""); }} disabled={pending !== null}>
+                    <button className="private-workspace__button is-secondary" type="button" onClick={() => { setCaseFinding(finding); setCaseTitle(`Review: ${finding.name}`); setCaseNote(""); }} disabled={pending !== null || !canWrite}>
                       <Plus size={16} /> Create case
                     </button>
                     <span>Event <code>{finding.eventId}</code></span>
@@ -789,12 +802,12 @@ export default function PrivateWorkspace() {
                   </div>
                   <p className="private-workspace__case-meta">Updated {isoDate(item.updatedAt)}{item.findingId ? <> · Finding <code>{item.findingId}</code></> : null}</p>
                   <label htmlFor={`case-note-${item.id}`}>Investigation notes</label>
-                  <textarea id={`case-note-${item.id}`} value={caseNotes[item.id] ?? ""} maxLength={4000} disabled={pending === `case:${item.id}`} onChange={(event) => setCaseNotes((notes) => ({ ...notes, [item.id]: event.target.value }))} />
+                  <textarea id={`case-note-${item.id}`} value={caseNotes[item.id] ?? ""} maxLength={4000} disabled={pending === `case:${item.id}` || !canWrite} onChange={(event) => setCaseNotes((notes) => ({ ...notes, [item.id]: event.target.value }))} />
                   <div className="private-workspace__case-actions">
-                    <button className="private-workspace__button is-primary" type="button" onClick={() => void updateCase(item)} disabled={pending !== null}>
+                    <button className="private-workspace__button is-primary" type="button" onClick={() => void updateCase(item)} disabled={pending !== null || !canWrite}>
                       <Check size={16} /> {pending === `case:${item.id}` ? "Saving…" : "Save notes"}
                     </button>
-                    <button className="private-workspace__button is-secondary" type="button" onClick={() => void updateCase(item, item.status === "open" ? "closed" : "open")} disabled={pending !== null}>
+                    <button className="private-workspace__button is-secondary" type="button" onClick={() => void updateCase(item, item.status === "open" ? "closed" : "open")} disabled={pending !== null || !canWrite}>
                       {item.status === "open" ? <X size={16} /> : <RefreshCw size={16} />}
                       {item.status === "open" ? "Close case" : "Reopen case"}
                     </button>
@@ -805,7 +818,7 @@ export default function PrivateWorkspace() {
             </div>
           </section>
 
-          <section className="private-workspace__section private-workspace__operations" aria-labelledby="private-operations-title">
+          <section hidden={!administrator} className="private-workspace__section private-workspace__operations" aria-labelledby="private-operations-title">
             <div className="private-workspace__section-heading">
               <div><p className="private-workspace__eyebrow">CAPACITY</p><h2 id="private-operations-title">Operations</h2><p>Usage and retention values reported by the configured data store.</p></div>
             </div>
@@ -823,18 +836,18 @@ export default function PrivateWorkspace() {
             </> : <p className="private-workspace__operation-caveat">Operations status is not available yet.</p>}
           </section>
 
-          <section className="private-workspace__section private-workspace__audit" aria-labelledby="private-audit-title">
+          <section hidden={!administrator} className="private-workspace__section private-workspace__audit" aria-labelledby="private-audit-title">
             <div className="private-workspace__section-heading"><div><p className="private-workspace__eyebrow">ACTIVITY</p><h2 id="private-audit-title">Recent audit activity</h2><p>Latest recorded actions for this configured workspace.</p></div></div>
             {audit.length ? <ol className="private-workspace__audit-list">
               {audit.map((entry) => <li key={entry.id}>
                 <div><strong>{auditActionLabel(entry.action)}</strong><time dateTime={entry.occurredAt}>{isoDate(entry.occurredAt)}</time></div>
-                <span>{entry.actor === "operator-service" ? "Service operator" : "Maintenance"}</span>
+                <span>{entry.actor === "user" ? `Account ${entry.details.actorId ?? "unknown"}` : entry.actor === "operator-service" ? "Service operator" : "Maintenance"}</span>
                 {entry.resourceId && <code>{entry.resourceId}</code>}
               </li>)}
             </ol> : <p className="private-workspace__operation-caveat">No audit entries have been recorded.</p>}
           </section>
 
-          <p className="private-workspace__footer-note"><LockKeyhole size={15} /> Private data is served by the local service. This is a single-operator workflow, not multi-user or hosted tenant authentication.</p>
+          <p className="private-workspace__footer-note"><LockKeyhole size={15} /> {sessionMode ? "Private account access is checked on the server for every request. This installation serves one configured workspace." : "Private data is served by the local service using the configured operator key."}</p>
         </div>
       )}
 

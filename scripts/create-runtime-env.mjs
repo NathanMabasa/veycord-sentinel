@@ -2,7 +2,7 @@ import { open } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const runtimeFields = ['DATABASE_URL', 'SENTINEL_PRIVATE_ENABLED', 'SENTINEL_WORKSPACE_ID', 'SENTINEL_API_TOKEN', 'SENTINEL_ALLOW_LOCAL_DATABASE', 'SENTINEL_HOST', 'SENTINEL_PORT', 'SENTINEL_ALLOW_NETWORK_BIND'];
+const runtimeFields = ['DATABASE_URL', 'SENTINEL_PRIVATE_ENABLED', 'SENTINEL_WORKSPACE_ID', 'SENTINEL_API_TOKEN', 'SENTINEL_ALLOW_LOCAL_DATABASE', 'SENTINEL_HOST', 'SENTINEL_PORT', 'SENTINEL_ALLOW_NETWORK_BIND', 'SENTINEL_AUTH_ENABLED', 'SENTINEL_AUTH_ORIGIN', 'SENTINEL_AUTH_SECRET', 'SENTINEL_AUTH_DATABASE_URL', 'SENTINEL_AUTH_ALLOW_LOCAL'];
 export async function createRuntimeEnv(env = process.env, directory = process.cwd()) {
   const lines = ['# Runtime-only secrets. No migration, restore or encryption keys belong here.'];
   if (env.SENTINEL_PRIVATE_ENABLED === 'true' && (!env.DATABASE_URL || !env.SENTINEL_WORKSPACE_ID || !env.SENTINEL_API_TOKEN)) throw new Error('Private runtime configuration is incomplete');
