@@ -14,6 +14,15 @@ output.mkdir(parents=True, exist_ok=True)
 def check(name, passed):
     checks.append({'name': name, 'passed': bool(passed)})
     assert passed, name
+def fixture_action(action):
+    # Local test coordinator controls only this disposable synthetic database.
+    control=Path(fixture['control'])
+    control.write_text(action);control.chmod(0o600)
+    for attempt in range(100):
+        if Path(str(control)+'.ack').exists() and Path(str(control)+'.ack').read_text()==action:
+            return
+        time.sleep(0.05)
+    raise AssertionError('Synthetic fixture coordinator did not acknowledge '+action)
 def otp(secret):
     key=base64.b32decode(secret+'='*((8-len(secret)%8)%8))
     digest=hmac.new(key,struct.pack('>Q',int(time.time())//30),hashlib.sha1).digest()
@@ -70,6 +79,16 @@ with sync_playwright() as p:
         page.reload(wait_until='networkidle')
         expect(page.get_by_role('heading',name='Events',exact=True)).to_be_visible()
         check('cookie session restores after reload',True)
+        latest=page.get_by_role('region',name='Stored data summary').locator('article').filter(has_text='Latest event')
+        expect(latest.locator('strong')).not_to_have_text('Unavailable')
+        expect(latest.locator('strong')).not_to_have_text('No events recorded')
+        check('loaded nonempty summary displays a real timestamp',True)
+        fixture_action('empty')
+        page.reload(wait_until='networkidle')
+        expect(latest.locator('strong')).to_have_text('No events recorded')
+        check('successful empty summary reports no events',True)
+        page.screenshot(path=str(output/'empty-summary-320.png'),full_page=False)
+        fixture_action('lock')
         # Bounded synthetic burst against the actual backend, not a mocked 429.
         limited=None
         for attempt in range(125):
@@ -88,6 +107,8 @@ with sync_playwright() as p:
             raise
         expect(page.locator('.private-workspace__message.is-error')).to_contain_text('Request limit reached.')
         check('workspace explains the wait after429',True)
+        expect(latest.locator('strong')).to_have_text('Unavailable')
+        check('rate-limited summary is unavailable rather than empty',True)
         page.locator('.private-workspace__message.is-error').scroll_into_view_if_needed()
         page.screenshot(path=str(output/'rate-limited-320.png'),full_page=False)
         page.get_by_role('button',name='Sign out',exact=True).click()

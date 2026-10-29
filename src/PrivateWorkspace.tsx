@@ -637,7 +637,7 @@ export default function PrivateWorkspace({ sessionAccess }: { sessionAccess?: { 
             <article><span>Stored events</span><strong>{summary?.eventCount ?? "—"}</strong><small>In the configured data store</small></article>
             <article><span>Findings</span><strong>{summary?.findingCount ?? "—"}</strong><small>Detection matches recorded</small></article>
             <article><span>Open cases</span><strong>{summary?.openCaseCount ?? "—"}</strong><small>Cases needing follow-up</small></article>
-            <article><span>Latest event</span><strong className="is-date">{isoDate(summary?.latestEventAt ?? null)}</strong><small>Server-reported timestamp</small></article>
+            <article><span>Latest event</span><strong className="is-date">{summary ? isoDate(summary.latestEventAt) : "Unavailable"}</strong><small>Server-reported timestamp</small></article>
           </section>
 
           <section className="private-workspace__section private-workspace__analytics" aria-labelledby="private-analytics-title">

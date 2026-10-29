@@ -5,7 +5,7 @@
     "unitPassed": 48,
     "identityResultsPassed": 26,
     "identityScenarios": 25,
-    "identityBrowserChecks": 19,
+    "identityBrowserChecks": 22,
     "postgresPrivateBrowserResults": 2,
     "publicWorkerResults": 5
   },
@@ -20,7 +20,13 @@
     "otherAccountAllowed": true,
     "budgetFailureNoCaseStored": true,
     "versionOneUpgradeAndRepeatSetup": "passed",
-    "unknownSchemaVersionThree": "rejected"
+    "unknownSchemaVersionThree": "rejected",
+    "summaryStates": [
+      "loaded timestamp",
+      "successful empty: No events recorded",
+      "quota unavailable: Unavailable"
+    ],
+    "browserWindowControl": "Test-only filesystem coordinator holds the disposable PostgreSQL quota window; no application test endpoint or clock override"
   },
   "sourceSha256": {
     "server/workspace-budget.ts": "1d8ae4b230894aa5b17310a5b4c5978ce5c3adfb37237937cd29e4815a80c71d",
@@ -30,9 +36,9 @@
     "server/identity/schema-version.ts": "45658cbc736f58d0e6fb2385e4b644d0340932338de4ac3b1419f19c4f21ddf0",
     "db/identity/setup.ts": "12a0254377c2b6225b4b01ffd90ced8750114cf966d309a50d7499493fe84aea",
     "db/identity/002_workspace_budgets.sql": "e92cc62d8ac5c41eb8610267c01e0bb44e22459769befd54722d671f96f8c710",
-    "src/PrivateWorkspace.tsx": "d1647368d71d143b9645bc4810bee7bf0f01ca94f2bdcf0764448f503a4927ca",
-    "tests/identity.test.ts": "be09a192c2bc1ccaf7576ae7a2debe53fab1264783a28addc8fdf416610c2268",
-    "scripts/identity_browser_audit.py": "9e01ba7074e3b4b8e240da0ed70d12a2314e41da29f00be0b64233d88f8f5764"
+    "src/PrivateWorkspace.tsx": "af2e36cc739ed765ff551f4bb6af53b9234ff5187437a33a2b7936706cb13fdb",
+    "tests/identity.test.ts": "68585b2e10dbc4c524af5537003709a439390df04d669ae6eba84232fd87bee5",
+    "scripts/identity_browser_audit.py": "8989456d069ea7309f2738f2e6d6c204ea579cd7cc2ef45165f4a566658df9db"
   },
   "limitations": [
     "final-head CI pending",
@@ -41,5 +47,20 @@
     "anonymous/authentication/global concurrency/physical disk limits remain open",
     "fixed-window boundary bursts",
     "no hosted telemetry or public publication"
-  ]
+  ],
+  "priorHeadCi": {
+    "head": "cc48e3d226fee250f4da5a7b1d52d42a23655560",
+    "verifyRun": 40933798032,
+    "verify": "FAILURE",
+    "cause": "quota minute rolled over before reload; rendered successful populated summary",
+    "codeqlRun": 40933798036,
+    "codeql": "SUCCESS"
+  },
+  "preservedLabAfterV2Upgrade": {
+    "environment": "Preserved synthetic auth lab after identity-v2 upgrade; actual Vite5178",
+    "passed": true,
+    "eventReadStatus": 200,
+    "logoutStatus": 401,
+    "privateConfigurationModified": false
+  }
 }

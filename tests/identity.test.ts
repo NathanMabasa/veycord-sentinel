@@ -3,7 +3,7 @@ import test from 'node:test'
 import { createHash, createHmac, randomBytes, randomUUID } from 'node:crypto'
 import { promisify } from 'node:util'
 import { execFile as execCallback, spawn } from 'node:child_process'
-import { writeFile } from 'node:fs/promises'
+import { readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { Pool } from 'pg'
 import { createGateway } from '../server/gateway.js'
@@ -261,13 +261,31 @@ test('private identity integration: MFA, recovery, revocation, roles, expiry and
     })
     if(process.env.SENTINEL_BROWSER_AUDIT==='true')await t.test('standalone account browser workflow and readable mobile viewport',async()=>{
       const password=randomBytes(24).toString('base64url');const email='browser@example.test';await operator('provision',{email,name:'Browser fixture',password,role:'viewer'})
-      const input=join(fixture.temp,'browser.json');await writeFile(input,JSON.stringify({email,password}),{mode:0o600})
+      const input=join(fixture.temp,'browser.json');const control=join(fixture.temp,'browser-control')
+      await writeFile(input,JSON.stringify({email,password,control}),{mode:0o600})
+      const completed=new Set<string>();let applying=false;let controlFailure:unknown
+      const timer=setInterval(()=>{void (async()=>{
+        if(applying)return;applying=true
+        try{
+          const action=await readFile(control,'utf8').catch(()=>'')
+          if(completed.has(action)||!['empty','lock'].includes(action))return
+          if(action==='empty'){
+            const client=await admin.connect()
+            try{await client.query('BEGIN');for(const table of ['cases','findings','events'])await client.query(`DELETE FROM public.${table} WHERE workspace_id=$1`,[fixture.workspaceId]);await client.query('COMMIT')}catch{await client.query('ROLLBACK');throw new Error('Synthetic empty-state setup failed')}finally{client.release()}
+          }else{
+            // Test-only fixed window prevents a legitimate minute rollover between429 and reload.
+            await admin.query(`UPDATE sentinel_identity.workspace_budget SET window_start=date_trunc('minute',now())+interval '1 minute',attempts=1 WHERE workspace_id=$1 AND user_id=(SELECT id FROM sentinel_identity."user" WHERE email=$2) AND kind='read'`,[fixture.workspaceId,email])
+          }
+          completed.add(action);await writeFile(control+'.ack',action,{mode:0o600})
+        }catch(error){controlFailure=error}finally{applying=false}
+      })()},50)
+
       const runtime={...env} as Record<string,string|undefined>;delete runtime.DATABASE_ADMIN_URL;delete runtime.SENTINEL_APP_PASSWORD;delete runtime.SENTINEL_AUTH_RUNTIME_PASSWORD;delete runtime.DATABASE_ADMIN_ALLOW_LOCAL_INSECURE
       const child=spawn(process.execPath,['build/server/node.js'],{env:{...runtime,SENTINEL_PORT:new URL(origin).port},stdio:'ignore'})
       try {
         let ready=false;for(let i=0;i<50;i++){try{ready=(await fetch(origin+'/api/v1/health')).ok}catch{}if(ready)break;await new Promise(r=>setTimeout(r,100))}assert.ok(ready,'standalone server must start')
-        const result=await execFile(process.env.SENTINEL_TEST_PYTHON??'python3',['scripts/identity_browser_audit.py'],{env:{...process.env,VEYCORD_AUDIT_URL:origin,SENTINEL_IDENTITY_FIXTURE:input},timeout:45000});assert.match(result.stdout,/"passed": true/)
-      } finally{child.kill('SIGTERM');await new Promise<void>(resolve=>{if(child.exitCode!==null)resolve();else child.once('exit',()=>resolve())})}
+        const result=await execFile(process.env.SENTINEL_TEST_PYTHON??'python3',['scripts/identity_browser_audit.py'],{env:{...process.env,VEYCORD_AUDIT_URL:origin,SENTINEL_IDENTITY_FIXTURE:input},timeout:45000});assert.match(result.stdout,/"passed": true/);if(controlFailure)throw controlFailure
+      } finally{clearInterval(timer);child.kill('SIGTERM');await new Promise<void>(resolve=>{if(child.exitCode!==null)resolve();else child.once('exit',()=>resolve())})}
     })
   } finally{await gateway.close();await fixture.close()}
 })
