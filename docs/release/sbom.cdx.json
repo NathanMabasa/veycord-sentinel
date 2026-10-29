@@ -2,10 +2,10 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:6558d3b0-6cfc-40c8-99bf-3203b5b89345",
+  "serialNumber": "urn:uuid:d54d921c-6db8-4312-bd2e-690fa027a89b",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-10-25T05:54:36.509Z",
+    "timestamp": "2026-10-29T18:13:06.098Z",
     "lifecycles": [
       {
         "phase": "build"
@@ -849,6 +849,335 @@
       ]
     },
     {
+      "bom-ref": "@better-auth/core@1.7.14",
+      "type": "library",
+      "name": "@better-auth/core",
+      "version": "1.7.14",
+      "scope": "required",
+      "description": "The most comprehensive authentication framework for TypeScript.",
+      "purl": "pkg:npm/%40better-auth/core@1.7.14",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@better-auth/core/-/core-1.7.14.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/better-auth/better-auth.git"
+        },
+        {
+          "type": "website",
+          "url": "https://www.better-auth.com"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "07285dac6570a7f7a5fa1a1360a495387207db7fe5423f53435b717467163a0db6b677ebde127aba4cf24a8a1e623fd1dfa5ec420061909a88a7c98ab0d784ac"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@better-auth/drizzle-adapter@1.7.14",
+      "type": "library",
+      "name": "@better-auth/drizzle-adapter",
+      "version": "1.7.14",
+      "scope": "required",
+      "description": "Drizzle adapter for Better Auth",
+      "purl": "pkg:npm/%40better-auth/drizzle-adapter@1.7.14",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@better-auth/drizzle-adapter/-/drizzle-adapter-1.7.14.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/better-auth/better-auth.git"
+        },
+        {
+          "type": "website",
+          "url": "https://www.better-auth.com/docs/adapters/drizzle"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/better-auth/better-auth/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "e510bc11ce54af5e455ac4b802cf7f56b9516c1dfef447d287122903903515c0fa2203f116fcd0364026dbe158c7d2d44aac78ecd3dff610531b619408c3fd22"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@better-auth/kysely-adapter@1.7.14",
+      "type": "library",
+      "name": "@better-auth/kysely-adapter",
+      "version": "1.7.14",
+      "scope": "required",
+      "description": "Kysely adapter for Better Auth",
+      "purl": "pkg:npm/%40better-auth/kysely-adapter@1.7.14",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@better-auth/kysely-adapter/-/kysely-adapter-1.7.14.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/better-auth/better-auth.git"
+        },
+        {
+          "type": "website",
+          "url": "https://www.better-auth.com/docs/adapters/kysely"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "e3092a8fc6bc255a560d82e58337db93b78e69608590be871d077a08b6a614a682f2f36c5dec35c78bf9744e4ee9d1abf23e20e6a308492f8102f3ae22f05ebe"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@better-auth/memory-adapter@1.7.14",
+      "type": "library",
+      "name": "@better-auth/memory-adapter",
+      "version": "1.7.14",
+      "scope": "required",
+      "description": "Memory adapter for Better Auth",
+      "purl": "pkg:npm/%40better-auth/memory-adapter@1.7.14",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@better-auth/memory-adapter/-/memory-adapter-1.7.14.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/better-auth/better-auth.git"
+        },
+        {
+          "type": "website",
+          "url": "https://www.better-auth.com"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "3a3bfd05c985c87b931e16bd64cfcd516d6eb7d27ce302e782d6bed3b12cd048e7f247a4a8fe5a1c1a5977967c02f003b3988950e5af4061661a53d600a26006"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@better-auth/mongo-adapter@1.7.14",
+      "type": "library",
+      "name": "@better-auth/mongo-adapter",
+      "version": "1.7.14",
+      "scope": "required",
+      "description": "Mongo adapter for Better Auth",
+      "purl": "pkg:npm/%40better-auth/mongo-adapter@1.7.14",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@better-auth/mongo-adapter/-/mongo-adapter-1.7.14.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/better-auth/better-auth.git"
+        },
+        {
+          "type": "website",
+          "url": "https://www.better-auth.com/docs/adapters/mongodb"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "e880344523d914c751c309cb67da169c32220f4cb4a346b34c751f6b4d41354d8014980c0e47a2012515ddb29c241b24cd0a3242b7dfef8785613b1349e79551"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@better-auth/prisma-adapter@1.7.14",
+      "type": "library",
+      "name": "@better-auth/prisma-adapter",
+      "version": "1.7.14",
+      "scope": "required",
+      "description": "Prisma adapter for Better Auth",
+      "purl": "pkg:npm/%40better-auth/prisma-adapter@1.7.14",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@better-auth/prisma-adapter/-/prisma-adapter-1.7.14.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/better-auth/better-auth.git"
+        },
+        {
+          "type": "website",
+          "url": "https://www.better-auth.com/docs/adapters/prisma"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "985eade71a9e64d5b351ed04ae6ad2773426b6c949b1c9aef57f0ca7942644e9699e7033bd273bd1120bbbc9479acf0278fb7b377e3e2911f542f623185ad519"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@better-auth/telemetry@1.7.14",
+      "type": "library",
+      "name": "@better-auth/telemetry",
+      "version": "1.7.14",
+      "scope": "required",
+      "description": "Telemetry package for Better Auth",
+      "purl": "pkg:npm/%40better-auth/telemetry@1.7.14",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@better-auth/telemetry/-/telemetry-1.7.14.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/better-auth/better-auth.git"
+        },
+        {
+          "type": "website",
+          "url": "https://www.better-auth.com"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "3ed285cec1fb8237bf589b943c38dc90ea0d15acecabc34cb7701d89720fcc797bb5950b70d1932805fc2bbfb29f4ac6e9c3bfe26b4c8293a386d8a51253a79a"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@better-auth/utils@0.5.1",
+      "type": "library",
+      "name": "@better-auth/utils",
+      "version": "0.5.1",
+      "scope": "required",
+      "author": "Bereket Engida",
+      "description": "A collection of utilities for better-auth",
+      "purl": "pkg:npm/%40better-auth/utils@0.5.1",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@better-auth/utils/-/utils-0.5.1.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/better-auth/utils.git"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "5844eac39bd0e76b90ff1c1647813cad3813e9f0c4affc274bea2d0cd90109affaf76f35142177d8e28375051c6a13029e3b2fa9704d884bc0407141d0455146"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@better-fetch/fetch@1.3.3",
+      "type": "library",
+      "name": "@better-fetch/fetch",
+      "version": "1.3.3",
+      "scope": "required",
+      "purl": "pkg:npm/%40better-fetch/fetch@1.3.3",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@better-fetch/fetch/-/fetch-1.3.3.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/better-auth/better-fetch.git"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "53a4a50edfc6516b4ad890314bf3617686131229be10bd46e5bcb3d93523f372a32d9054a58cdbe52997d1a5da0a76c69008c52a757fa3fd3e7325cc6c472aaa"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
       "bom-ref": "@esbuild/darwin-arm64@0.25.12",
       "type": "library",
       "name": "@esbuild/darwin-arm64",
@@ -1132,6 +1461,82 @@
       ]
     },
     {
+      "bom-ref": "@noble/ciphers@2.4.0",
+      "type": "library",
+      "name": "@noble/ciphers",
+      "version": "2.4.0",
+      "scope": "required",
+      "author": "Paul Miller (https://paulmillr.com)",
+      "description": "Audited & minimal JS implementation of Salsa20, ChaCha and AES",
+      "purl": "pkg:npm/%40noble/ciphers@2.4.0",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@noble/ciphers/-/ciphers-2.4.0.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/paulmillr/noble-ciphers.git"
+        },
+        {
+          "type": "website",
+          "url": "https://paulmillr.com/noble/"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "0278c59f426ff7695a024bccae0865159ab8a9008837fe03c4557f7a8a2ab42d984e307b90178b312d93f4a257e039fe6555cb3b02b495282a0edc7d82fc6d8b"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@noble/hashes@2.4.0",
+      "type": "library",
+      "name": "@noble/hashes",
+      "version": "2.4.0",
+      "scope": "required",
+      "author": "Paul Miller (https://paulmillr.com)",
+      "description": "Audited & minimal 0-dependency JS implementation of SHA, RIPEMD, BLAKE, HMAC, HKDF, PBKDF & Scrypt",
+      "purl": "pkg:npm/%40noble/hashes@2.4.0",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@noble/hashes/-/hashes-2.4.0.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/paulmillr/noble-hashes.git"
+        },
+        {
+          "type": "website",
+          "url": "https://paulmillr.com/noble/"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "5f95da5566480424fb1c76469b923b6505c3c0b1be6c65ee4ab310016fbb66f97cee1d6499cd5907555244972951fa14ac6429e05928c66e6467e32cf9a5be78"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
       "bom-ref": "@rolldown/pluginutils@1.0.0-beta.27",
       "type": "library",
       "name": "@rolldown/pluginutils",
@@ -1201,6 +1606,44 @@
         {
           "alg": "SHA-512",
           "content": "cd642a507fbdcdabebd81c6ecdfa6ebf64881775f7d5caf9f13bd2402f68d468693af92a470afad0691975072e7724ff04481da5d49a7e381dd88d7731b4cbee"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "@standard-schema/spec@1.1.0",
+      "type": "library",
+      "name": "@standard-schema/spec",
+      "version": "1.1.0",
+      "scope": "required",
+      "author": "Colin McDonnell",
+      "description": "A family of specs for interoperable TypeScript",
+      "purl": "pkg:npm/%40standard-schema/spec@1.1.0",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/@standard-schema/spec/-/spec-1.1.0.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/standard-schema/standard-schema"
+        },
+        {
+          "type": "website",
+          "url": "https://standardschema.dev"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "976685cb98c02e19e21b91e0aab0fa8d72e2feb516acabea37fa89c7aca826c80a85b95577e8aaa94e110976af9bf8cf8adc83a394c2bca327a632a73ab8b2d3"
         }
       ],
       "licenses": [
@@ -1717,6 +2160,109 @@
       ]
     },
     {
+      "bom-ref": "better-auth@1.7.14",
+      "type": "library",
+      "name": "better-auth",
+      "version": "1.7.14",
+      "scope": "required",
+      "description": "The most comprehensive authentication framework for TypeScript.",
+      "purl": "pkg:npm/better-auth@1.7.14",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/better-auth/-/better-auth-1.7.14.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/better-auth/better-auth.git"
+        },
+        {
+          "type": "website",
+          "url": "https://better-auth.com"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "4310c2234a4e0821c3626aee8ac2a12b2aef389e8872ff71834440e99532b1f2855c4358c2134da70525904fcd995887da70cc82429cca698baf9e699e947dbf"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "better-call@1.4.4",
+      "type": "library",
+      "name": "better-call",
+      "version": "1.4.4",
+      "scope": "required",
+      "purl": "pkg:npm/better-call@1.4.4",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/better-call/-/better-call-1.4.4.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/better-auth/better-call.git"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "1aae17746172e1d994c451005f69e3d327057056c3f595a1f1844ea2e668c97785d4cd754e961ba65934a430724c517c5b3f8c61ae96f74e7673d9bb743fa67f"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "set-cookie-parser@3.2.1",
+      "type": "library",
+      "name": "set-cookie-parser",
+      "version": "3.2.1",
+      "scope": "required",
+      "author": "Nathan Friedly",
+      "description": "Parses set-cookie headers into objects",
+      "purl": "pkg:npm/set-cookie-parser@3.2.1",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/set-cookie-parser/-/set-cookie-parser-3.2.1.tgz"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/nfriedly/set-cookie-parser"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "3697753edfb8cdbdc1ad26433dddaa1704694ba6f511411ab11acef314b4ccc262d1f0295d72b962eccfd268a7c899f1c27147a15a09c00e79ab403472eeb781"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
       "bom-ref": "browserslist@4.29.4",
       "type": "library",
       "name": "browserslist",
@@ -1923,6 +2469,35 @@
         {
           "alg": "SHA-512",
           "content": "446c305a7c10be455f6af295b76d8518bc3ec5849dcc04709b4aeee83853540dee994e6165cdbc57790ee2cb6062bcab4e52e9baf808f468a28e5b408cd6dca8"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "defu@6.1.7",
+      "type": "library",
+      "name": "defu",
+      "version": "6.1.7",
+      "scope": "required",
+      "description": "Recursively assign default properties. Lightweight and Fast!",
+      "purl": "pkg:npm/defu@6.1.7",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/defu/-/defu-6.1.7.tgz"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "ef3db6426516890ff67742a475898035b45454006967d48d6321f9bf1e8f67e9c4e5b702d25eee16f11f1e5ca577f1dc1811532f9dfa0a50eddc311c4a510901"
         }
       ],
       "licenses": [
@@ -2254,6 +2829,40 @@
       ]
     },
     {
+      "bom-ref": "jose@6.2.14",
+      "type": "library",
+      "name": "jose",
+      "version": "6.2.14",
+      "scope": "required",
+      "author": "Filip Skokan <panva.ip@gmail.com>",
+      "description": "JWA, JWS, JWE, JWT, JWK, JWKS for Node.js, Browser, Cloudflare Workers, Deno, Bun, and other Web-interoperable runtimes",
+      "purl": "pkg:npm/jose@6.2.14",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/jose/-/jose-6.2.14.tgz"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/panva/jose"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "dc96ac2ee922d4d44b42f638c02a02dfb299938ab1a01c76936685a8bc53f3821ecea5b46e424a9cdb719d98ff16ed71b108afa1cfe5cadc5a44726818b8c9d4"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
       "bom-ref": "js-tokens@4.0.0",
       "type": "library",
       "name": "js-tokens",
@@ -2368,6 +2977,44 @@
         {
           "alg": "SHA-512",
           "content": "5e63967bb7b21d81f5e1c2dd54fa3283e18e1f7ad85fef8aa73af2949c125bdf2ddcd93e53c5ce97c15628e830b7375bf255c67facd8c035337873167f16acca"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "kysely@0.29.7",
+      "type": "library",
+      "name": "kysely",
+      "version": "0.29.7",
+      "scope": "required",
+      "author": "Sami Koskimäki <sami@jakso.me>",
+      "description": "Type safe SQL query builder",
+      "purl": "pkg:npm/kysely@0.29.7",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/kysely/-/kysely-0.29.7.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/kysely-org/kysely.git"
+        },
+        {
+          "type": "website",
+          "url": "https://kysely.dev"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "7e622afbb92fe166c59b6b5c7f39d1ce292a07872e369819e343d25367c0276fce3b95e1a23aa74cfae682b0a36124495700659f4dd77115c91a7c3d1f4f7d21"
         }
       ],
       "licenses": [
@@ -2510,6 +3157,36 @@
         {
           "alg": "SHA-512",
           "content": "b8a760d86dc63422909fd6f260ea716c6aab4f67c63b9291b7927ff1bde9a24f2b4faab119617a871332262118b407fe155c98b83f6145a0ea5f9b8f15827865"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "nanostores@1.5.5",
+      "type": "library",
+      "name": "nanostores",
+      "version": "1.5.5",
+      "scope": "required",
+      "author": "Andrey Sitnik <andrey@sitnik.es>",
+      "description": "A tiny (351 bytes) state manager for React/Preact/Vue/Svelte with many atomic tree-shakable stores",
+      "purl": "pkg:npm/nanostores@1.5.5",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/nanostores/-/nanostores-1.5.5.tgz"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "162c6d136dfd1a5e86cf464608ad16cef37039b342230553f8bef341c7f5420700e80cc1c5b973a9ef4e4fcf2a8ae70d921b2348eaa2a2049a1798d56c98aa48"
         }
       ],
       "licenses": [
@@ -3333,6 +4010,35 @@
       ]
     },
     {
+      "bom-ref": "rou3@0.9.2",
+      "type": "library",
+      "name": "rou3",
+      "version": "0.9.2",
+      "scope": "required",
+      "description": "Lightweight and fast router for JavaScript.",
+      "purl": "pkg:npm/rou3@0.9.2",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/rou3/-/rou3-0.9.2.tgz"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "dd23b3bda020f2b907ad7b518e90af0af6f23b9b68f6838edbb67f5ea1c46177cc4554b0fea30855d99a3a4f56da57112ed47a765a938e8f610de264ef440161"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
       "bom-ref": "scheduler@0.28.0",
       "type": "library",
       "name": "scheduler",
@@ -3936,6 +4642,48 @@
           }
         }
       ]
+    },
+    {
+      "bom-ref": "zod@4.6.7",
+      "type": "library",
+      "name": "zod",
+      "version": "4.6.7",
+      "scope": "required",
+      "author": "Colin McDonnell <zod@colinhacks.com>",
+      "description": "TypeScript-first schema declaration and validation library with static type inference",
+      "purl": "pkg:npm/zod@4.6.7",
+      "properties": [],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://registry.npmjs.org/zod/-/zod-4.6.7.tgz"
+        },
+        {
+          "type": "vcs",
+          "url": "git+https://github.com/colinhacks/zod.git"
+        },
+        {
+          "type": "website",
+          "url": "https://zod.dev"
+        },
+        {
+          "type": "issue-tracker",
+          "url": "https://github.com/colinhacks/zod/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-512",
+          "content": "83c5b60f6914e9af2e9ed734e777d7d6e5412b333bcaa0315bfdf3c24f37fba472176f9228eb95f9cd30043854c335753da19aa66647fab99c5333dffb7086c2"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
     }
   ],
   "dependencies": [
@@ -3943,6 +4691,7 @@
       "ref": "veycord-sentinel@0.1.0",
       "dependsOn": [
         "@hono/node-server@2.1.5",
+        "better-auth@1.7.14",
         "gsap@3.15.0",
         "hono@4.13.13",
         "lucide-react@0.468.0",
@@ -4104,6 +4853,73 @@
       ]
     },
     {
+      "ref": "@better-auth/core@1.7.14",
+      "dependsOn": [
+        "@better-auth/utils@0.5.1",
+        "@better-fetch/fetch@1.3.3",
+        "better-call@1.4.4",
+        "jose@6.2.14",
+        "kysely@0.29.7",
+        "nanostores@1.5.5",
+        "@standard-schema/spec@1.1.0",
+        "zod@4.6.7"
+      ]
+    },
+    {
+      "ref": "@better-auth/drizzle-adapter@1.7.14",
+      "dependsOn": [
+        "@better-auth/utils@0.5.1",
+        "@better-auth/core@1.7.14"
+      ]
+    },
+    {
+      "ref": "@better-auth/kysely-adapter@1.7.14",
+      "dependsOn": [
+        "@better-auth/utils@0.5.1",
+        "@better-auth/core@1.7.14",
+        "kysely@0.29.7"
+      ]
+    },
+    {
+      "ref": "@better-auth/memory-adapter@1.7.14",
+      "dependsOn": [
+        "@better-auth/utils@0.5.1",
+        "@better-auth/core@1.7.14"
+      ]
+    },
+    {
+      "ref": "@better-auth/mongo-adapter@1.7.14",
+      "dependsOn": [
+        "@better-auth/utils@0.5.1",
+        "@better-auth/core@1.7.14"
+      ]
+    },
+    {
+      "ref": "@better-auth/prisma-adapter@1.7.14",
+      "dependsOn": [
+        "@better-auth/utils@0.5.1",
+        "@better-auth/core@1.7.14"
+      ]
+    },
+    {
+      "ref": "@better-auth/telemetry@1.7.14",
+      "dependsOn": [
+        "@better-auth/utils@0.5.1",
+        "@better-fetch/fetch@1.3.3",
+        "@better-auth/core@1.7.14"
+      ]
+    },
+    {
+      "ref": "@better-auth/utils@0.5.1",
+      "dependsOn": [
+        "@noble/hashes@2.4.0"
+      ]
+    },
+    {
+      "ref": "@better-fetch/fetch@1.3.3",
+      "dependsOn": []
+    },
+    {
       "ref": "@esbuild/darwin-arm64@0.25.12",
       "dependsOn": []
     },
@@ -4143,11 +4959,23 @@
       ]
     },
     {
+      "ref": "@noble/ciphers@2.4.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "@noble/hashes@2.4.0",
+      "dependsOn": []
+    },
+    {
       "ref": "@rolldown/pluginutils@1.0.0-beta.27",
       "dependsOn": []
     },
     {
       "ref": "@rollup/rollup-darwin-arm64@4.65.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "@standard-schema/spec@1.1.0",
       "dependsOn": []
     },
     {
@@ -4230,6 +5058,45 @@
       "dependsOn": []
     },
     {
+      "ref": "better-auth@1.7.14",
+      "dependsOn": [
+        "pg@8.23.1",
+        "react@19.3.1",
+        "react-dom@19.3.1",
+        "@better-auth/utils@0.5.1",
+        "@better-fetch/fetch@1.3.3",
+        "@noble/ciphers@2.4.0",
+        "@noble/hashes@2.4.0",
+        "better-call@1.4.4",
+        "defu@6.1.7",
+        "jose@6.2.14",
+        "kysely@0.29.7",
+        "nanostores@1.5.5",
+        "zod@4.6.7",
+        "@better-auth/core@1.7.14",
+        "@better-auth/drizzle-adapter@1.7.14",
+        "@better-auth/kysely-adapter@1.7.14",
+        "@better-auth/memory-adapter@1.7.14",
+        "@better-auth/mongo-adapter@1.7.14",
+        "@better-auth/prisma-adapter@1.7.14",
+        "@better-auth/telemetry@1.7.14"
+      ]
+    },
+    {
+      "ref": "better-call@1.4.4",
+      "dependsOn": [
+        "zod@4.6.7",
+        "@better-auth/utils@0.5.1",
+        "@better-fetch/fetch@1.3.3",
+        "rou3@0.9.2",
+        "set-cookie-parser@3.2.1"
+      ]
+    },
+    {
+      "ref": "set-cookie-parser@3.2.1",
+      "dependsOn": []
+    },
+    {
       "ref": "browserslist@4.29.4",
       "dependsOn": [
         "baseline-browser-mapping@2.11.32",
@@ -4260,6 +5127,10 @@
       "dependsOn": [
         "ms@2.1.3"
       ]
+    },
+    {
+      "ref": "defu@6.1.7",
+      "dependsOn": []
     },
     {
       "ref": "electron-to-chromium@1.5.464",
@@ -4298,6 +5169,10 @@
       "dependsOn": []
     },
     {
+      "ref": "jose@6.2.14",
+      "dependsOn": []
+    },
+    {
       "ref": "js-tokens@4.0.0",
       "dependsOn": []
     },
@@ -4307,6 +5182,10 @@
     },
     {
       "ref": "json5@2.2.3",
+      "dependsOn": []
+    },
+    {
+      "ref": "kysely@0.29.7",
       "dependsOn": []
     },
     {
@@ -4327,6 +5206,10 @@
     },
     {
       "ref": "nanoid@3.3.20",
+      "dependsOn": []
+    },
+    {
+      "ref": "nanostores@1.5.5",
       "dependsOn": []
     },
     {
@@ -4457,6 +5340,10 @@
       ]
     },
     {
+      "ref": "rou3@0.9.2",
+      "dependsOn": []
+    },
+    {
       "ref": "scheduler@0.28.0",
       "dependsOn": []
     },
@@ -4536,6 +5423,10 @@
     },
     {
       "ref": "yallist@3.1.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "zod@4.6.7",
       "dependsOn": []
     }
   ]

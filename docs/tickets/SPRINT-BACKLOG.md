@@ -40,7 +40,7 @@ Owner authorized beginning the updates. Codex owns the current implementation wo
 
 ### SEN-208A-2 — Implement session and MFA lifecycle [P0]
 
-- **In progress**, Codex, batch011. Private account/MFA implementation exists on codex/private-authentication; isolated browser acceptance and additional negative/CI checks remain. See BUILD-BATCH-011.md.
+- **In review**, Codex, batch011 / draft PR16. Private account/MFA implementation has reproducible disposable-PostgreSQL and real-browser regression coverage, including recovery reuse/concurrency, revocation, expiry and negative access. Final-head CI and independent review remain gates; production hosting/proxy/operations are deferred. See BUILD-BATCH-011.md.
 
 - Parent: SEN-208A. Depends:208A-1 and provider configuration.
 - Scope: login/logout, secure session handling, MFA, recovery and revocation, with understandable degraded/error states.
@@ -48,11 +48,15 @@ Owner authorized beginning the updates. Codex owns the current implementation wo
 
 ### SEN-208B-1 — Enforce workspace membership and roles [P0]
 
+- **Partial / In review** for one fixed workspace in batch011. Three roles, stale-session revocation, encoded-route rejection and foreign-workspace membership negatives are covered. Hosted/multiple-workspace lifecycle and future jobs/exports remain open.
+
 - Parent: SEN-208B. Depends:208A-2.
 - Scope: admin/analyst/viewer/service boundaries and membership lifecycle; server-derived identity/workspace across existing APIs and future jobs/exports; invalidate removed access.
 - Accept: an authorization matrix and cross-role/workspace denial evidence cover every implemented operation, including stale sessions; RLS remains defense in depth, not the sole authorization layer.
 
 ### SEN-208B-2 — Attribute security-relevant actions [P0]
+
+- **Partial / In review** in batch011. Concurrent user mutations retain server-derived actors; identity audit is append-only for its runtime role and permission denials are recorded. External anchoring and additional event families remain open.
 
 - Parent: SEN-208B/D. Depends:208B-1.
 - Scope: record actual user/service actor, membership/access changes and appropriate denied access without logging credentials or raw sensitive payloads.

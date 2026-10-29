@@ -17,7 +17,7 @@ SENTINEL_AUTH_RUNTIME_PASSWORD=replace-with-another-generated-43-character-base6
 SENTINEL_AUTH_DATABASE_URL=postgresql://sentinel_identity_app:URL_ENCODED_IDENTITY_PASSWORD@127.0.0.1:54329/veycord?sslmode=disable
 ```
 
-The origin must exactly match the private browser address. HTTP is accepted only for explicit loopback development. Remote PostgreSQL requires verified TLS (`sslmode=verify-full`); remote app origins require HTTPS. No cloud provisioning is needed for local development.
+The origin must exactly match the private browser address. HTTP is accepted only for explicit loopback development. Remote PostgreSQL requires verified TLS (`sslmode=verify-full`); remote app origins require HTTPS. No cloud provisioning is needed for local development. Connection URLs support only `sslmode`; arbitrary driver query overrides (including host/user/TLS/pool options) and duplicates are rejected. Administrator tools additionally set a controlled search path for identity setup. Custom provider parameters need an explicit reviewed implementation.
 
 Run `npm run identity:setup` with your administrator configuration. This applies the reviewed identity SQL and grants a separate `sentinel_identity_app` role restricted to identity tables. The role cannot grant workspace membership or access telemetry directly. The web process never runs identity migrations. The normal telemetry migration005 adds attributed user mutations without changing old audit entries.
 
@@ -65,12 +65,20 @@ npm run identity:operator -- reset-password
 
 An explicit `"resetMfa":true` also removes the lost factor and revokes sessions; the user must enroll again before accessing data. Treat this as a privileged recovery procedure with identity verification by the operator. No recovery email or external message is sent. There is no self-service email reset without a configured, reviewed delivery path.
 
-To change/revoke membership, use email, role and boolean active in the private input and run `npm run identity:operator -- membership`. This revokes the user's sessions. The operator remains responsible for preserving a recoverable administrator account.
+To change/revoke membership, use email, role and boolean active in the private input and run `npm run identity:operator -- membership`. This revokes the user's sessions. The operator command refuses to remove or downgrade the last active administrator and rejects missing memberships. Keep a documented recovery operator; a role label alone does not prove a usable recovery path.
 
 ## Bounds and remaining gates
 
 Authentication JSON is capped at8KiB. Shared database-backed route budgets allow30 requests/minute per exposed auth operation; they deliberately fail closed. Existing workspace read/write limits remain process-local and shared by users, so aggressive simultaneous reloads can receive429. They are not a completed distributed SIEM quota model.
 
-Identity tables have closed-lab capacity guards (10,000 users/sessions/verifications;100,000 security audit entries). Reaching a cap fails closed and requires explicit administrator retention/maintenance. Scheduled identity cleanup, external audit anchoring, offsite recovery, public abuse controls, multi-workspace isolation, concurrency-sensitive recovery review and independent assessment remain release gates. Do not open customer telemetry access based only on a successful login.
+Identity tables have closed-lab capacity guards (10,000 users/sessions/verifications;100,000 security audit entries). Reaching a cap fails closed and requires explicit administrator retention/maintenance. Scheduled identity cleanup, external audit anchoring, offsite recovery, public abuse controls, multi-workspace isolation, broader recovery/abuse review and independent assessment remain release gates. Do not open customer telemetry access based only on a successful login.
 
 Selection/version evidence: Identity Provider Decision, `docs/audit/identity-selection-dependencies.json`. Current implementation/browser evidence and unfinished checks are tracked in BUILD-BATCH-011.md. No claim of certification or production readiness is made.
+
+## Reproducible verification
+
+Run `npm run build && npm run test:unit`, then `npm run test:identity` with PostgreSQL16 `initdb`/`pg_ctl` on PATH. CI requires the binaries and enables `SENTINEL_BROWSER_AUDIT=true`; install Python Playwright1.60.0 and Chromium for that path. The suite creates and removes its own synthetic cluster and secrets. It never loads the installation's `.env` for child operator commands. No preserved database is reset.
+
+The identity suite covers password-only/profile-flag rejection, actual enrollment/challenge, simultaneous one-use recovery, expired challenges, signed-cookie tampering, role changes/removal, password/session/operator revocation, idle/absolute expiry, concurrent audit attribution, identity ACL/startup negatives, cookie attributes and rejected Origin/body/route inputs. Each scenario resets only limiter tables in its disposable fixture; a separate case asserts exhausted-budget rejection. These resets are not available in application routes.
+
+Workspace permissions use an explicit read/action allowlist. Percent-encoded path aliases are rejected before Hono routing so route decoding cannot bypass a role check. HTTPS cookie assertions use real handler responses; they do not establish a production proxy/TLS deployment. Readable320px login/workspace/event-card viewport screenshots are recorded in `docs/audit/screenshots/account-*-viewport-320.png` and `account-viewport-320.png`. Browser-only fixture credentials and MFA secrets never enter those screenshots or the public source.

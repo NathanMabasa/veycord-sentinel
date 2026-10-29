@@ -1,4 +1,5 @@
 import type { PoolConfig } from 'pg'
+import { assertDatabaseUrlParameters } from '../database-url-policy.js'
 
 export type IdentityConfig = { origin: string; secret: string; database: string; local: boolean; workspaceId: string }
 export function identityConfig(env: Record<string, string | undefined>): IdentityConfig | null {
@@ -12,7 +13,7 @@ export function identityConfig(env: Record<string, string | undefined>): Identit
     const secret = env.SENTINEL_AUTH_SECRET ?? ''
     const database = env.SENTINEL_AUTH_DATABASE_URL ?? ''
     const workspaceId = env.SENTINEL_WORKSPACE_ID ?? ''
-    if (!/^[A-Za-z0-9_-]{43,128}$/.test(secret) || !database || !/^[a-f0-9-]{36}$/i.test(workspaceId) || secret === env.SENTINEL_API_TOKEN) throw new Error()
+    if (!/^[A-Za-z0-9_-]{43,128}$/.test(secret) || !database || !/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(workspaceId) || secret === env.SENTINEL_API_TOKEN) throw new Error()
     identityPoolOptions(database, local)
     return { origin: url.origin, secret, database, local, workspaceId }
   } catch { throw new Error('Identity configuration is incomplete or unsafe') }
@@ -21,6 +22,7 @@ export function identityConfig(env: Record<string, string | undefined>): Identit
 export function identityPoolOptions(connectionString: string, local: boolean): PoolConfig {
   const url = new URL(connectionString)
   if (!['postgres:', 'postgresql:'].includes(url.protocol) || url.searchParams.has('options') || ['sslkey','sslcert','sslrootcert'].some(key => url.searchParams.has(key))) throw new Error('Identity database configuration is invalid')
+  assertDatabaseUrlParameters(url)
   const loopback = ['127.0.0.1','localhost','[::1]','::1'].includes(url.hostname)
   const sslmode = url.searchParams.get('sslmode')
   const ssl = sslmode === 'verify-full' ? { rejectUnauthorized: true as const } : loopback && local && (sslmode === 'disable' || sslmode === null) ? false : null

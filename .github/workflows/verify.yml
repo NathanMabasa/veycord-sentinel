@@ -38,6 +38,10 @@ jobs:
         env:
           SENTINEL_BROWSER_AUDIT: 'true'
         run: npm run test:db
+      - name: Private identity regression and real browser integration
+        env:
+          SENTINEL_BROWSER_AUDIT: 'true'
+        run: npm run test:identity
       - run: npm run test:recovery
       - name: Public UI and startup regression
         run: |

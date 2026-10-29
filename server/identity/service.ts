@@ -3,6 +3,8 @@ import { createHash } from 'node:crypto'
 import { identityPoolOptions, type IdentityConfig } from './config.js'
 import { makeIdentity } from './options.js'
 
+const WORKSPACE_READ = new Set(['/health', '/rules', '/summary', '/analytics', '/events', '/findings', '/cases'])
+const CASE_ITEM = /^\/cases\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 const AUTH_POST = new Set(['/sign-in/email','/sign-out','/two-factor/enable','/two-factor/verify-totp','/two-factor/verify-backup-code','/change-password','/revoke-other-sessions'])
 export type WorkspaceRole = 'admin' | 'analyst' | 'viewer'
 export function identityError(status: number, code: string, message: string) {
@@ -11,7 +13,25 @@ export function identityError(status: number, code: string, message: string) {
 export async function createIdentityService(config: IdentityConfig) {
   const pool = new Pool(identityPoolOptions(config.database, config.local)); pool.on('error', () => {})
   try {
-    const row = (await pool.query<{ unsafe: boolean }>(`SELECT (r.rolsuper OR r.rolbypassrls OR r.rolcreatedb OR r.rolcreaterole OR r.rolinherit OR EXISTS(SELECT 1 FROM pg_auth_members WHERE member=r.oid) OR EXISTS(SELECT 1 FROM pg_class owned JOIN pg_namespace ns ON ns.oid=owned.relnamespace WHERE owned.relowner=r.oid AND ns.nspname IN ('sentinel_identity','public')) OR has_schema_privilege(current_user,'sentinel_identity','CREATE') OR has_table_privilege(current_user,'sentinel_identity.memberships','INSERT,UPDATE,DELETE') OR has_table_privilege(current_user,'public.events','SELECT,INSERT,UPDATE,DELETE')) AS unsafe FROM pg_roles r WHERE r.rolname=current_user`)).rows[0]
+    const row = (await pool.query<{ unsafe: boolean }>(`
+      SELECT (
+        r.rolsuper OR r.rolbypassrls OR r.rolcreatedb OR r.rolcreaterole OR r.rolinherit
+        OR EXISTS (SELECT 1 FROM pg_auth_members WHERE member = r.oid)
+        OR EXISTS (
+          SELECT 1 FROM pg_class owned JOIN pg_namespace ns ON ns.oid = owned.relnamespace
+          WHERE owned.relowner = r.oid AND ns.nspname IN ('sentinel_identity', 'public')
+        )
+        OR has_schema_privilege(current_user, 'sentinel_identity', 'CREATE')
+        OR has_schema_privilege(current_user, 'public', 'CREATE')
+        OR has_table_privilege(current_user, 'sentinel_identity.memberships', 'INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')
+        OR has_table_privilege(current_user, 'sentinel_identity.security_audit', 'UPDATE,DELETE,TRUNCATE,TRIGGER')
+        OR EXISTS (
+          SELECT 1 FROM pg_class telemetry JOIN pg_namespace ns ON ns.oid = telemetry.relnamespace
+          WHERE ns.nspname = 'public' AND telemetry.relkind IN ('r','p','v','m','f')
+            AND has_table_privilege(current_user, telemetry.oid, 'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')
+        )
+      ) AS unsafe FROM pg_roles r WHERE r.rolname = current_user
+    `)).rows[0]
     if (!row || row.unsafe) throw new Error('Identity role must be restricted')
   } catch { await pool.end(); throw new Error('Identity database schema or runtime privileges are invalid') }
   const auth = makeIdentity(config, pool)
@@ -75,17 +95,26 @@ export async function createIdentityService(config: IdentityConfig) {
       return new Response(JSON.stringify(data),{status:result.status,headers:responseHeaders})
     } catch {return identityError(503,'AUTH_UNAVAILABLE','Authentication is temporarily unavailable. Contact your operator.')}
   }
-  async function authorize(request:Request) {
-    const url=new URL(request.url)
-    if(url.origin!==config.origin || (!['GET','HEAD'].includes(request.method) && request.headers.get('origin')!==config.origin))return {response:identityError(403,'ORIGIN_FORBIDDEN','Workspace origin is not allowed')}
-    const current=await session(request)
-    if(!current)return {response:identityError(401,'AUTH_REQUIRED','Sign in to the private application')}
-    if(!current.mfa || !current.role)return {response:identityError(403,'ACCESS_DENIED','Verified MFA and workspace membership are required')}
-    const path=new URL(request.url).pathname.slice('/api/workspace/v1'.length)
-    const write=request.method!=='GET'&&request.method!=='HEAD'
-    const permitted=(current.role==='admin')||(!['/operations','/audit'].includes(path) && (current.role==='analyst' ? !write||path==='/cases'||path.startsWith('/cases/') : !write))
-    if(!permitted){await audit('workspace.denied',current.userId,false);return {response:identityError(403,'ACCESS_DENIED','Your workspace role does not allow this action')}}
-    return {userId:current.userId,role:current.role}
+  async function authorize(request: Request) {
+    const url = new URL(request.url)
+    // Hono decodes percent-encoded static paths. Reject aliases before evaluating
+    // permissions so the authorization policy and router cannot see different routes.
+    if (url.pathname.includes('%')) return { response: identityError(400, 'INVALID_REQUEST', 'Use a canonical workspace route') }
+    const read = request.method === 'GET' || request.method === 'HEAD'
+    if (url.origin !== config.origin || (!read && request.headers.get('origin') !== config.origin)) {
+      return { response: identityError(403, 'ORIGIN_FORBIDDEN', 'Workspace origin is not allowed') }
+    }
+    const current = await session(request)
+    if (!current) return { response: identityError(401, 'AUTH_REQUIRED', 'Sign in to the private application') }
+    if (!current.mfa || !current.role) return { response: identityError(403, 'ACCESS_DENIED', 'Verified MFA and workspace membership are required') }
+    const path = url.pathname.slice('/api/workspace/v1'.length)
+    const caseWrite = (request.method === 'POST' && path === '/cases') || (request.method === 'PATCH' && CASE_ITEM.test(path))
+    const permitted = current.role === 'admin' || (read && WORKSPACE_READ.has(path)) || (current.role === 'analyst' && caseWrite)
+    if (!permitted) {
+      await audit('workspace.denied', current.userId, false)
+      return { response: identityError(403, 'ACCESS_DENIED', 'Your workspace role does not allow this action') }
+    }
+    return { userId: current.userId, role: current.role }
   }
   return {handle,authorize,close:()=>pool.end()}
 }

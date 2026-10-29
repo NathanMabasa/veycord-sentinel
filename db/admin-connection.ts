@@ -1,4 +1,5 @@
 import { Pool } from 'pg'
+import { assertDatabaseUrlParameters } from '../server/database-url-policy.js'
 
 export function createAdminPool(connectionString: string, allowLocalInsecure: boolean): Pool {
   let parsed: URL
@@ -8,6 +9,7 @@ export function createAdminPool(connectionString: string, allowLocalInsecure: bo
     throw new Error('Database admin configuration is invalid')
   }
   if (parsed.protocol !== 'postgres:' && parsed.protocol !== 'postgresql:') throw new Error('Database admin configuration is invalid')
+  assertDatabaseUrlParameters(parsed, true)
   const host = parsed.hostname.toLowerCase()
   const loopback = host === 'localhost' || host === '127.0.0.1' || host === '::1' || host === '[::1]'
   const sslmode = parsed.searchParams.get('sslmode')

@@ -1,3 +1,4 @@
+import { assertDatabaseUrlParameters } from '../database-url-policy.js'
 import { AsyncLocalStorage } from 'node:async_hooks'
 import { createHash, randomUUID } from 'node:crypto'
 import { Pool, type PoolClient } from 'pg'
@@ -243,6 +244,7 @@ function makePoolOptions(connectionString: string, allowLocalInsecure: boolean) 
     throw new Error('Database connection configuration is invalid')
   }
   if (parsed.protocol !== 'postgres:' && parsed.protocol !== 'postgresql:') throw new Error('Database connection configuration is invalid')
+  assertDatabaseUrlParameters(parsed)
   const host = parsed.hostname.toLowerCase()
   const isLoopback = host === 'localhost' || host === '127.0.0.1' || host === '[::1]' || host === '::1'
   const sslmode = parsed.searchParams.get('sslmode')

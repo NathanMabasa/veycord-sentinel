@@ -1,0 +1,151 @@
+{
+  "recordedAt": "2026-10-29T18:17:24.808108+00:00",
+  "environment": "Owned macOS, disposable SCRAM PostgreSQL16, actual Better Auth1.7.14, standalone Node and isolated Chromium; synthetic data only",
+  "previousDraftHead": "a7e21f53fa45770dc8f44df91777543a0f35773c",
+  "previousCi": {
+    "verify": {
+      "run": 40880568325,
+      "conclusion": "FAILURE",
+      "cause": "Navigation audit checked operator field before async availability completed"
+    },
+    "codeql": {
+      "run": 40880568426,
+      "conclusion": "FAILURE",
+      "rule": "js/file-system-race",
+      "path": "db/identity/operator.ts"
+    }
+  },
+  "regressionsReproducedBeforeFix": [
+    {
+      "name": "Encoded analyst audit route bypass",
+      "actualStatus": 200,
+      "expectedStatusAfterFix": 400
+    },
+    {
+      "name": "pg query-string overrides",
+      "effectiveHost": "remote.example.test",
+      "effectiveTlsRejectUnauthorized": false,
+      "expectedAfterFix": "URL parameter rejected before constructing a pool"
+    }
+  ],
+  "localChecks": {
+    "unit": {
+      "passed": 46,
+      "skipped": 0
+    },
+    "identity": {
+      "passed": 22,
+      "scenarios": 21,
+      "skipped": 0
+    },
+    "identityBrowser": {
+      "checks": [
+        {
+          "name": "workspace routes to the real account screen",
+          "passed": true
+        },
+        {
+          "name": "password alone cannot read stored events",
+          "passed": true
+        },
+        {
+          "name": "setup returns recovery codes",
+          "passed": true
+        },
+        {
+          "name": "setup requires saved-code acknowledgement",
+          "passed": true
+        },
+        {
+          "name": "viewer write control disabled",
+          "passed": true
+        },
+        {
+          "name": "verified session reads synthetic PostgreSQL events",
+          "passed": true
+        },
+        {
+          "name": "no operator key field in account workspace",
+          "passed": true
+        },
+        {
+          "name": "workspace fits 1440px",
+          "passed": true
+        },
+        {
+          "name": "workspace fits 768px",
+          "passed": true
+        },
+        {
+          "name": "workspace fits 390px",
+          "passed": true
+        },
+        {
+          "name": "workspace fits 320px",
+          "passed": true
+        },
+        {
+          "name": "mobile event text stays readable",
+          "passed": true
+        },
+        {
+          "name": "mobile record detail opens",
+          "passed": true
+        },
+        {
+          "name": "cookie session restores after reload",
+          "passed": true
+        },
+        {
+          "name": "logout revokes workspace access",
+          "passed": true
+        },
+        {
+          "name": "no browser errors",
+          "passed": true
+        }
+      ],
+      "browserErrors": []
+    },
+    "postgres": {
+      "passed": 2,
+      "privateBrowserEnabled": true
+    },
+    "backupRestore": {
+      "passed": 2
+    },
+    "navigation": {
+      "passed": 38,
+      "accessibilityStates": 32,
+      "violationGroups": 0,
+      "browserErrors": []
+    },
+    "build": "passed",
+    "publicBuild": "passed",
+    "publicWorker": {
+      "passed": 5,
+      "databaseBindings": false
+    },
+    "npmAuditKnownVulnerabilities": 0
+  },
+  "sourceSha256": {
+    "server/database-url-policy.ts": "ef26f50227b8bbdf1b1a1837c5479511156410625f9f8b24ee7a4d4d3da14f9a",
+    "server/identity/config.ts": "64f931462c0b09155c00e9464a2adafbbd4a9a317ba4eacb41a31af4dc475027",
+    "server/identity/service.ts": "9f9c7550f77d2aad5b31a922e09af90539d605a9c44cfb377704026167230a13",
+    "db/identity/private-input.ts": "d35fa2f4a76133a3b144d43154416cbbd9f33d2940e1acd78a87299951cb5fa7",
+    "db/identity/operator.ts": "029dd190407159f8702b0ad16c0920c2bfac0c570e5f0374fdcdec18c38d881a",
+    "tests/identity.test.ts": "1c6d1071f615b73c77a7002da2adec522b708ce05a790a40aef0aaf94aa1f433",
+    "tests/identity-config.test.ts": "c838e389b2a5c012572ce148ee097f0ed86f786beab9037d268fe4deecf5c21a",
+    "tests/helpers/identity-fixture.ts": "defa16424976f8516ef96606c81122836c5ae810b17b69a77944da27319f106c",
+    "scripts/identity_browser_audit.py": "ccc30da866c1145f332b1b38ee26c7b0d6cf7e72b0fe2082124a92ecb4d44ac2",
+    ".github/workflows/verify.yml": "6ce891292659a464e44b74cd4be441d3377cb03b04a312b2e2734136e216d757"
+  },
+  "boundaries": [
+    "Final-head CI pending this commit",
+    "PR16 remains draft/unmerged",
+    "No public deployment",
+    "Production proxy/TLS topology and independent review remain open",
+    "No hosted multi-workspace lifecycle",
+    "Original private installation/configuration preserved"
+  ]
+}

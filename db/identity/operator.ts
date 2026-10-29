@@ -1,4 +1,4 @@
-import { readFile, stat } from 'node:fs/promises'
+import { readOperatorInput } from './private-input.js'
 import { createAdminPool, requiredEnv, localInsecureFromEnv } from '../admin-connection.js'
 import { makeIdentity } from '../../server/identity/options.js'
 import { identityConfig } from '../../server/identity/config.js'
@@ -7,9 +7,8 @@ import { hashPassword } from 'better-auth/crypto'
 async function main(){
   const action=process.argv[2]
   if(!['provision','reset-password','membership'].includes(action))throw new Error('Choose an explicit identity operator action')
-  const file=requiredEnv('SENTINEL_BOOTSTRAP_FILE'); const info=await stat(file)
-  if(!info.isFile() || info.size>4096 || (info.mode&0o077)!==0)throw new Error('Operator input must be a private mode0600 JSON file, at most4KiB')
-  const data=JSON.parse(await readFile(file,'utf8')) as {email?:string;password?:string;name?:string;role?:string;resetMfa?:boolean;active?:boolean}
+  const file=requiredEnv('SENTINEL_BOOTSTRAP_FILE')
+  const data=JSON.parse(await readOperatorInput(file)) as {email?:string;password?:string;name?:string;role?:string;resetMfa?:boolean;active?:boolean}
   if ((data.active!==undefined && typeof data.active!=='boolean') || (data.resetMfa!==undefined && typeof data.resetMfa!=='boolean'))throw new Error('Recovery and membership flags must be boolean')
   const email=data.email?.trim().toLowerCase()
   if(!email || email.length>254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))throw new Error('Email is invalid')
@@ -40,6 +39,12 @@ async function main(){
             if(data.resetMfa===true){await client.query('DELETE FROM sentinel_identity."twoFactor" WHERE "userId"=$1',[id]);await client.query('UPDATE sentinel_identity."user" SET "twoFactorEnabled"=false WHERE id=$1',[id])}
           } else {
             if(!['admin','analyst','viewer'].includes(data.role??''))throw new Error('Role is invalid')
+            const existing=(await client.query<{role:string;active:boolean}>('SELECT role,active FROM sentinel_identity.memberships WHERE user_id=$1 AND workspace_id=$2 FOR UPDATE',[id,config.workspaceId])).rows[0]
+            if(!existing)throw new Error('Membership was not found')
+            if(existing.role==='admin' && existing.active && (data.role!=='admin'||data.active===false)){
+              const others=await client.query("SELECT 1 FROM sentinel_identity.memberships WHERE workspace_id=$1 AND user_id<>$2 AND role='admin' AND active=true",[config.workspaceId,id])
+              if(!others.rowCount)throw new Error('Preserve an active administrator')
+            }
             await client.query('UPDATE sentinel_identity.memberships SET role=$1,active=$2 WHERE user_id=$3 AND workspace_id=$4',[data.role,data.active!==false,id,config.workspaceId])
           }
           await client.query('DELETE FROM sentinel_identity.session WHERE "userId"=$1',[id])
