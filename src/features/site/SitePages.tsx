@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import { ArrowRight, Bell, Database, BookOpen, Download, ExternalLink, FileSearch, Github, LayoutDashboard, LockKeyhole, Menu, Search, Shield, ShieldAlert } from "lucide-react";
 import gsap from "gsap";
@@ -6,6 +6,7 @@ import { Link, NavLink } from "react-router-dom";
 import { demoEvents } from "../../data/demo";
 import { appConfig } from "../../config";
 import Brand from "../../components/Brand";
+import "./finance-preview.css";
 function SiteHeader() {
   return (
     <header className="site-header">
@@ -16,6 +17,7 @@ function SiteHeader() {
         <NavLink to="/docs">Docs</NavLink>
         <NavLink to="/security">Security</NavLink>
         <NavLink to="/community">Community</NavLink>
+        <NavLink to="/product#finance">Veycord Financials</NavLink>
       </nav>
       <div className="site-actions">
         <GithubLink />
@@ -33,6 +35,7 @@ function SiteHeader() {
           <NavLink to="/docs">Docs</NavLink>
           <NavLink to="/security">Security</NavLink>
           <NavLink to="/community">Community</NavLink>
+        <NavLink to="/product#finance">Veycord Financials</NavLink>
           <Link to="/get-started" className="button button-primary">
             Get started <ArrowRight size={16} />
           </Link>
@@ -90,15 +93,20 @@ function SiteFooter() {
   );
 }
 function ProductPreview() {
+  const [finance, setFinance] = useState(false);
   return (
     <div
-      className="product-preview"
-      aria-label="Preview of the Veycord Sentinel event investigation console"
+      className={finance ? "product-preview finance-preview" : "product-preview"}
+      aria-label={finance ? "Synthetic Veycord Finance preview" : "Synthetic Veycord Sentinel preview"}
     >
+      <div className="preview-mode" role="group" aria-label="Choose dashboard preview">
+        <button type="button" aria-pressed={!finance} onClick={() => setFinance(false)}>Sentinel security</button>
+        <button type="button" aria-pressed={finance} onClick={() => setFinance(true)}>Veycord Finance</button>
+      </div>
       <div className="preview-window">
         <div className="preview-top">
-          <Brand />
-          <span className="preview-demo-tag">SAMPLE WORKSPACE</span>
+          <Brand variant={finance ? "finance" : "sentinel"} />
+          <span className="preview-demo-tag">Synthetic preview</span>
         </div>
         <div className="preview-layout">
           <div className="preview-nav">
@@ -109,11 +117,11 @@ function ProductPreview() {
             </span>
             <span>
               <Search size={15} />
-              Explore events
+              {finance ? "Transactions" : "Explore events"}
             </span>
             <span>
               <ShieldAlert size={15} />
-              Detections
+              {finance ? "Review signals" : "Detections"}
             </span>
             <span>
               <Bell size={15} />
@@ -128,30 +136,30 @@ function ProductPreview() {
             <div className="preview-title">
               <div>
                 <small>WORKSPACE OVERVIEW</small>
-                <h2>Security activity</h2>
+                <h2>{finance ? "Transaction review" : "Security activity"}</h2>
               </div>
               <span>Last 24 hours</span>
             </div>
             <div className="preview-counts">
               <div>
-                <small>Sample events</small>
-                <b>8</b>
+                <small>{finance ? "Sample transactions" : "Sample events"}</small>
+                <b>{finance ? "4" : "8"}</b>
               </div>
               <div>
-                <small>Open alerts</small>
-                <b>3</b>
+                <small>{finance ? "Need review" : "Open alerts"}</small>
+                <b>{finance ? "2" : "3"}</b>
               </div>
               <div>
-                <small>Detections</small>
-                <b>4</b>
+                <small>{finance ? "Review completed" : "Detections"}</small>
+                <b>{finance ? "1" : "4"}</b>
               </div>
             </div>
             <div className="preview-events">
               <div className="preview-section-title">
-                <b>Recent events</b>
+                <b>{finance ? "Review queue" : "Recent events"}</b>
                 <span>View all</span>
               </div>
-              {demoEvents.slice(0, 3).map((event) => (
+              {finance ? <div className="finance-preview-evidence" aria-live="polite"><strong>New beneficiary · R4,200</strong><p>A first payment to this beneficiary needs a closer look in this illustrative scenario.</p><ol><li>Compare with previous payments.</li><li>Check recent sign-in changes.</li><li>Record evidence and a review decision.</li></ol><span>Review lead · Not confirmed fraud</span></div> : demoEvents.slice(0, 3).map((event) => (
                 <div className="preview-event" key={event.id}>
                   <i
                     className={`severity-dot ${event.severity.toLowerCase()}`}
@@ -167,7 +175,7 @@ function ProductPreview() {
               ))}
             </div>
             <div className="preview-caption">
-              Synthetic data · Example interface, not a live service
+              {finance ? "Synthetic Finance concept · Authenticated service in development" : "Synthetic data · Example interface, not a live service"}
             </div>
           </div>
         </div>
@@ -227,6 +235,7 @@ export function Landing() {
               No account required. The demo runs on synthetic sample events in
               your browser.
             </p>
+            <p className="finance-product-intro">Sentinel for security investigations. Finance for guided transaction and fraud review. Switch the preview to see the difference.</p>
             <Link className="hero-connection-link" to="/connections">Set up a data connection <ArrowRight size={15} /></Link>
           </div>
           <ProductPreview />
@@ -501,6 +510,12 @@ export function ProductPage() {
           accounts, tenant membership and managed collectors remain pending.
         </p>
       </div>
+      <section id="finance" aria-labelledby="finance-product-title">
+        <h2 id="finance-product-title" className="subheading">Veycord Finance — hosted service in development</h2>
+        <p className="wide-copy">A planned signed-in workspace for transaction review and financial investigations, with clear reasons, supporting evidence and suggested analyst checks. The homepage preview uses synthetic examples.</p>
+        <p className="wide-copy">The Finance implementation is separate from this open-source security edition. No hosted Finance account service or bank connection is available yet.</p>
+        <div className="inline-links"><Link to="/">Explore the synthetic preview</Link><Link to="/roadmap">Follow product development</Link></div>
+      </section>
       <h2 className="subheading">Architecture direction</h2>
       <p className="wide-copy">
         React + TypeScript + Vite is the selected console framework. Cloudflare

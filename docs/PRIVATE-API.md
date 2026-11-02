@@ -65,3 +65,7 @@ Quota violations use409 and roll back the mutation and its audit together. Defau
 ## Rule revision evidence (batch005)
 
 The protected `/rules` catalog describes current-build authored, experimental single-event rules. Each record includes version, owner, license, required fields, false positives and primary references. It shares the read limit and accepts no query parameters. It does not establish database health. Findings expose `ruleVersion`: newly evaluated revisions are stored transactionally; legacy/manual findings return null. Do not substitute the current catalog version for a historical unknown. See [rule lifecycle](DETECTION-RULES.md) for review and rollback procedures and remaining correlation/suppression gaps.
+
+## Collector machine contract
+
+An opt-in private ingest-only endpoint now has a separate credential model: [COLLECTORS.md](COLLECTORS.md). It accepts the canonical event envelope, not GELF/OTLP unchanged. Collector credentials cannot authorize the account or operator APIs described above. This local slice does not enable hosted real-data collection.

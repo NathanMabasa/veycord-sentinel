@@ -82,6 +82,15 @@ BEGIN
   EXECUTE 'GRANT SELECT ON workspaces TO sentinel_app';
   EXECUTE 'GRANT SELECT, INSERT ON events, findings, audit_entries TO sentinel_app';
   EXECUTE 'GRANT SELECT, INSERT, UPDATE ON cases TO sentinel_app';
+  IF to_regclass('public.collector_credentials') IS NOT NULL THEN
+    IF NOT EXISTS (SELECT 1 FROM pg_class WHERE oid='public.collector_credentials'::regclass AND relrowsecurity AND relforcerowsecurity) THEN
+      RAISE EXCEPTION 'collector credentials require forced row security';
+    END IF;
+    EXECUTE 'GRANT SELECT ON collector_credentials TO sentinel_app';
+    EXECUTE 'GRANT UPDATE (window_start, request_count) ON collector_credentials TO sentinel_app';
+    -- Restoring an old snapshot must not resurrect a credential revoked after that snapshot.
+    EXECUTE 'UPDATE collector_credentials SET revoked_at=COALESCE(revoked_at,now())';
+  END IF;
 END
 $$;
 `;

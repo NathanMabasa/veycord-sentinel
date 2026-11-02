@@ -852,7 +852,7 @@ export default function PrivateWorkspace({ sessionAccess }: { sessionAccess?: { 
             {audit.length ? <ol className="private-workspace__audit-list">
               {audit.map((entry) => <li key={entry.id}>
                 <div><strong>{auditActionLabel(entry.action)}</strong><time dateTime={entry.occurredAt}>{isoDate(entry.occurredAt)}</time></div>
-                <span>{entry.actor === "user" ? `Account ${entry.details.actorId ?? "unknown"}` : entry.actor === "operator-service" ? "Service operator" : "Maintenance"}</span>
+                <span>{entry.actor === "user" ? `Account ${entry.details.actorId ?? "unknown"}` : entry.actor === "operator-service" ? "Service operator" : entry.actor === "collector" ? "Collector" : "Maintenance"}</span>
                 {entry.resourceId && <code>{entry.resourceId}</code>}
               </li>)}
             </ol> : <p className="private-workspace__operation-caveat">No audit entries have been recorded.</p>}
@@ -902,5 +902,7 @@ function auditActionLabel(action: AuditEntry["action"]) {
     case "case.updated": return "Case updated";
     case "retention.applied": return "Retention applied";
     case "limits.updated": return "Workspace limits updated";
+    case "collector.issued": return "Collector credential issued";
+    case "collector.revoked": return "Collector credential revoked";
   }
 }

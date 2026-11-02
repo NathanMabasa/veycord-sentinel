@@ -1,4 +1,5 @@
 import { assertDatabaseUrlParameters } from '../database-url-policy.js'
+import { CollectorDeniedError, type CollectorDecision } from '../collector-contract.js'
 import { AsyncLocalStorage } from 'node:async_hooks'
 import { createHash, randomUUID } from 'node:crypto'
 import { Pool, type PoolClient } from 'pg'
@@ -24,7 +25,7 @@ const MAX_BATCH_FINDINGS = 1000
 const MAX_PAGE = 100
 const SEVERITIES = new Set<SeverityLevel>(['high', 'medium', 'low'])
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-const DATA_TABLES = ['workspaces', 'events', 'findings', 'cases', 'audit_entries']
+const DATA_TABLES = ['workspaces', 'events', 'findings', 'cases', 'audit_entries', 'collector_credentials']
 
 export class StoreInputError extends Error {
   constructor(message = 'Storage input is invalid') {
@@ -309,7 +310,7 @@ export class PostgresStore implements DataStore {
       return result
     } catch (cause) {
       if (inTransaction) await client.query('ROLLBACK').catch(() => {})
-      if (cause instanceof StoreInputError || cause instanceof StoreNotFoundError || cause instanceof StoreQuotaError || cause instanceof StorageOperationError) throw cause
+      if (cause instanceof StoreInputError || cause instanceof StoreNotFoundError || cause instanceof StoreQuotaError || cause instanceof StorageOperationError || cause instanceof CollectorDeniedError) throw cause
       throw new StorageOperationError()
     } finally {
       client.release()
@@ -397,7 +398,34 @@ export class PostgresStore implements DataStore {
     })
   }
 
+  async authorizeCollector(hash: string): Promise<CollectorDecision> {
+    if (!/^[a-f0-9]{64}$/.test(hash)) throw new StoreInputError()
+    return this.withWorkspace(async client => {
+      const result = await client.query<{ id: string; source: string; request_count: number; retry: number }>(
+        `UPDATE collector_credentials SET
+           request_count = CASE WHEN window_start >= date_trunc('minute', statement_timestamp()) THEN LEAST(request_count + 1, 11) ELSE 1 END,
+           window_start = GREATEST(window_start, date_trunc('minute', statement_timestamp()))
+         WHERE workspace_id=$1 AND token_hash=$2 AND revoked_at IS NULL AND expires_at > statement_timestamp()
+         RETURNING id, source, request_count,
+           LEAST(60, GREATEST(1, CEIL(EXTRACT(EPOCH FROM window_start + interval '1 minute' - statement_timestamp()))))::int AS retry`,
+        [this.workspaceId, hash],
+      )
+      const row = result.rows[0]
+      if (!row) return null
+      return row.request_count > 10 ? { allowed: false, retryAfterSeconds: row.retry } : { allowed: true, id: row.id, source: row.source }
+    })
+  }
+
   async ingest(events: EventInput[], matches: DetectionMatch[][]): Promise<{ accepted: number; duplicates: number; findings: number }> {
+    return this.ingestBatch(events, matches)
+  }
+
+  async ingestFromCollector(hash: string, events: EventInput[], matches: DetectionMatch[][]) {
+    if (!/^[a-f0-9]{64}$/.test(hash)) throw new StoreInputError()
+    return this.ingestBatch(events, matches, hash)
+  }
+
+  private async ingestBatch(events: EventInput[], matches: DetectionMatch[][], collectorHash?: string): Promise<{ accepted: number; duplicates: number; findings: number }> {
     if (!Array.isArray(events) || events.length > MAX_BATCH || !Array.isArray(matches) || matches.length !== events.length) throw new StoreInputError()
     let batchBytes = 0
     let batchFindingCount = 0
@@ -416,6 +444,16 @@ export class PostgresStore implements DataStore {
     if (batchBytes > MAX_BATCH_BYTES || batchFindingCount > MAX_BATCH_FINDINGS) throw new StoreInputError()
     return this.withWorkspace(async (client) => {
       await this.lockWorkspaceWrites(client)
+      let collectorId: string | undefined
+      if (collectorHash) {
+        const credential = (await client.query<{ id: string; source: string }>(
+          `SELECT id, source FROM collector_credentials WHERE workspace_id=$1 AND token_hash=$2
+             AND revoked_at IS NULL AND expires_at > clock_timestamp() FOR SHARE`, [this.workspaceId, collectorHash],
+        )).rows[0]
+        if (!credential) throw new CollectorDeniedError()
+        if (events.some(event => event.source !== credential.source)) throw new StoreInputError()
+        collectorId = credential.id
+      }
       const limits = await this.getWorkspaceLimits(client)
       const usage = await client.query<{ event_count: string; event_bytes: string }>(
         `SELECT count(*) AS event_count, COALESCE(sum(quota_bytes), 0) AS event_bytes FROM events WHERE workspace_id = $1`,
@@ -465,7 +503,7 @@ export class PostgresStore implements DataStore {
           findings += finding.rowCount ?? 0
         }
       }
-      if (accepted > 0) await this.appendAudit(client, 'events.ingested', 'operator-service', null, { accepted, duplicates, findings, bytes: acceptedBytes })
+      if (accepted > 0) await this.appendAudit(client, 'events.ingested', collectorId ? 'collector' : 'operator-service', collectorId ?? null, { accepted, duplicates, findings, bytes: acceptedBytes, ...(collectorId ? { collectorId } : {}) })
       return { accepted, duplicates, findings }
     })
   }

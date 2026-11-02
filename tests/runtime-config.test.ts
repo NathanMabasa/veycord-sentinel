@@ -19,7 +19,7 @@ async function readAt(file: Awaited<ReturnType<typeof open>>, size: number): Pro
 
 test('dedicated runtime rejects migration, restore and encryption credentials',()=>{
   assert.doesNotThrow(()=>assertRuntimeEnvironment({DATABASE_URL:'fixture-runtime-url',SENTINEL_PRIVATE_ENABLED:'false'}))
-  for(const field of ['DATABASE_ADMIN_URL','SENTINEL_APP_PASSWORD','POSTGRES_PASSWORD','RESTORE_DATABASE_ADMIN_URL','SENTINEL_BACKUP_KEY']) assert.throws(()=>assertRuntimeEnvironment({[field]:'synthetic-admin-fixture'}),/Administrative configuration/)
+  for(const field of ['DATABASE_ADMIN_URL','SENTINEL_APP_PASSWORD','POSTGRES_PASSWORD','RESTORE_DATABASE_ADMIN_URL','SENTINEL_BACKUP_KEY','SENTINEL_COLLECTOR_FILE','SENTINEL_COLLECTOR_OUTPUT','SENTINEL_COLLECTOR_CREDENTIAL']) assert.throws(()=>assertRuntimeEnvironment({[field]:'synthetic-admin-fixture'}),/Administrative configuration/)
 })
 
 test('runtime file contains only allowed settings and never overwrites an existing file',async()=>{

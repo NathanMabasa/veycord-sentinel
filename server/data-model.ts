@@ -53,8 +53,8 @@ export type OperationsStatus = {
 export type AuditEntry = {
   id: string
   occurredAt: string
-  action: 'events.ingested' | 'case.created' | 'case.updated' | 'retention.applied' | 'limits.updated'
-  actor: 'operator-service' | 'maintenance' | 'user'
+  action: 'events.ingested' | 'case.created' | 'case.updated' | 'retention.applied' | 'limits.updated' | 'collector.issued' | 'collector.revoked'
+  actor: 'operator-service' | 'maintenance' | 'user' | 'collector'
   resourceId: string | null
   details: Record<string, string | number | boolean | null>
 }

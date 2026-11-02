@@ -21,6 +21,8 @@ Sprint delivery: [[04-Roadmap/Commercial Sprint Plan]] sequences the commercial 
 
 ## How to use this brain
 
+Graylog review (2026-11-02): [[01-Research/Graylog Architecture Review]] maps collection, pipelines, streams, delivery and authored integration packs to the current implementation. [Adoption tickets](../tickets/GRAYLOG-ADOPTION.md) extend the existing commercial backlog. License snapshots distinguish SSPL server/sidecar from Apache-2.0 deployment wrappers; no upstream source was imported.
+
 Treat market findings as dated snapshots, standards as versioned inputs, and product decisions as proposals until accepted. Every implementation requirement should link to a security control, user job, or explicit decision. Revisit the source index before making licensing, legal, or procurement claims.
 
 ## Current recommendation

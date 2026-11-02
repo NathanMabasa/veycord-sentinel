@@ -224,6 +224,8 @@ test('PostgreSQL backup restores a synthetic Sentinel workspace and restricted r
       [workspaceId, 'Synthetic recovery workspace', otherWorkspaceId, 'Separate synthetic workspace'],
     );
     const sourceRuntimeUrl = localUrl('sentinel_app', runtimePassword, port, 'source_db');
+    const restoredCollectorHash = randomBytes(32).toString('hex');
+    await sourceAdmin.query("INSERT INTO collector_credentials (id,workspace_id,source,token_hash,expires_at) VALUES ($1,$2,'recovery-source',$3,now()+interval '1 day')", [randomUUID(), workspaceId, restoredCollectorHash]);
     sourceStore = new PostgresStore({ connectionString: sourceRuntimeUrl, workspaceId, allowLocalInsecure: true });
     await sourceStore.ping();
     const event = {
@@ -291,6 +293,7 @@ test('PostgreSQL backup restores a synthetic Sentinel workspace and restricted r
     const targetRuntimeUrl = localUrl('sentinel_app', runtimePassword, port, 'target_db');
     restoredStore = new PostgresStore({ connectionString: targetRuntimeUrl, workspaceId, allowLocalInsecure: true });
     await restoredStore.ping();
+    assert.equal(await restoredStore.authorizeCollector(restoredCollectorHash), null, 'recovery revokes restored credentials rather than resurrecting old access');
     assert.deepEqual(await restoredStore.summary(), {
       eventCount: 1, findingCount: 1, openCaseCount: 1, latestEventAt: '2026-10-24T08:00:00.000Z',
     });
