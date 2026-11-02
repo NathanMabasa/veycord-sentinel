@@ -77,3 +77,8 @@ The reset continuation found cc48e3d verify40933798032 failed at the quota-messa
 The one-shot resume-sentinel-persistent-account-limits automation was deleted successfully. Keep draft PR16 unmerged and hosting deferred. New source requires exact-head GitHub verify/CodeQL; do not reuse cc48 or4002e93 evidence. No additional dependencies.
 
 Verified batch012 source head978b93edb323a585bc935b06cc3c3515917b33b6 passed verify40943986954 at19:55:34Z and CodeQL40943986961 at19:53:43Z, plus CodeQL. This includes Linux quota/empty-state browser coverage. Later documentation-only heads still need their own required checks; inspect current GitHub head. Local build/48 unit/26 identity results and preserved synthetic v2 lab login/read/logout passed. Keep PR16 draft, public hosting unchanged and independent/production gates open. Resume automation is deleted.
+
+
+## Public collector/preview continuation — 2026-11-02
+
+Owner authorized pushing the latest public-safe version. Branch codex/public-collector-preview is prepared from the already-public PR16 head24d454b, with collector credential/ingestion work, Graylog research and synthetic hero preview. Hosted-only Finance code, route, internal plans and its local commit history are excluded. Product navigation uses /product#finance with truthful in-development availability. docs/audit/PUBLIC-COLLECTOR-PUSH.md records candidate verification. This remains a review branch; PR16's draft/independent release gates still apply. No public Site deployment is part of this request. The original local app and private Finance branch are preserved separately.

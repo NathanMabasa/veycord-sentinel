@@ -25,6 +25,7 @@
     "server/**/*.ts",
     "tests/**/*.test.ts",
     "db/**/*.ts",
+    "scripts/collector-sample.ts",
     "vite.config.ts"
   ]
 }

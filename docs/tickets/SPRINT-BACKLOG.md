@@ -252,4 +252,6 @@ Owner authorized beginning the updates. Codex owns the current implementation wo
 
 ## Ticket completion record
 
+Graylog research follow-up (2026-11-02): [GRAYLOG-ADOPTION.md](GRAYLOG-ADOPTION.md) contains proposed bounded slices mapped to this backlog's collection, processing, investigation, notification and packaging parents. It does not replace their prerequisites or mark implementation complete. Source/license evidence is in the linked brain note.
+
 Append to each implemented ticket: accountable owner; status; linked parent/gate; selected sprint; PR/commit; verification commands/results and limits; UI evidence if applicable; security/license impact; migration/rollback; remaining issues. Do not mark Done from a plan, screenshot or unrun test list.

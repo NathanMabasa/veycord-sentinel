@@ -9,6 +9,7 @@ import { createServer } from 'node:net'
 import { test } from 'node:test'
 import { Pool } from 'pg'
 import { PostgresStore, StoreNotFoundError, StoreQuotaError, StoreInputError } from '../server/storage/postgres-store.js'
+import { exerciseCollectorIntegration } from './collector-integration.js'
 
 const execFile = promisify(execFileCallback)
 
@@ -129,6 +130,7 @@ test('PostgresStore isolates workspaces and persists bounded event, finding, and
       await admin.query('UPDATE workspaces SET max_events = 2, max_event_bytes = 100000, max_cases = 1 WHERE id = $1', [workspaceId])
       await admin.query('UPDATE workspaces SET max_events = 1 WHERE id = $1', [raceWorkspaceId])
       await admin.query('UPDATE workspaces SET max_event_bytes = 1 WHERE id = $1', [byteWorkspaceId])
+      await exerciseCollectorIntegration(admin, runtimeUrl, cliEnv, temp)
 
       const analyticsStore = new PostgresStore({ connectionString: runtimeUrl, workspaceId: analyticsWorkspaceId, allowLocalInsecure: true })
       try {

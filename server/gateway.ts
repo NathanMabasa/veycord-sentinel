@@ -4,6 +4,8 @@ import { createPrivateApi } from './private-api.js'
 import { identityConfig } from './identity/config.js'
 import { identityError, createIdentityService } from './identity/service.js'
 import { PostgresStore } from './storage/postgres-store.js'
+import { createCollectorApi } from './collector-api.js'
+import { COLLECTOR_PREFIX } from './collector-contract.js'
 
 export type ServerEnvironment = Record<string,string | undefined>
 export function createGateway(env: ServerEnvironment = process.env) {
@@ -18,6 +20,9 @@ export function createGateway(env: ServerEnvironment = process.env) {
   let workspaceApp: ReturnType<typeof createPrivateApi> | undefined
   let store: PostgresStore | undefined
   let privateApp: ReturnType<typeof createPrivateApi> | undefined
+  let collectorApp: ReturnType<typeof createCollectorApi> | undefined
+  if (env.SENTINEL_COLLECTOR_ENABLED !== undefined && !['true','false'].includes(env.SENTINEL_COLLECTOR_ENABLED)) throw new Error('Collector configuration is invalid')
+  if (env.SENTINEL_COLLECTOR_ENABLED === 'true' && env.SENTINEL_PRIVATE_ENABLED !== 'true') throw new Error('Collector requires the private workspace')
   if (env.SENTINEL_PRIVATE_ENABLED && !['true','false'].includes(env.SENTINEL_PRIVATE_ENABLED)) throw new Error('Private workspace configuration is invalid')
   if (env.SENTINEL_PRIVATE_ENABLED === 'true') {
     const connectionString = env.DATABASE_URL
@@ -26,6 +31,7 @@ export function createGateway(env: ServerEnvironment = process.env) {
     if (!connectionString || !workspaceId || !token || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(workspaceId) || !/^[A-Za-z0-9_-]{43,128}$/.test(token)) throw new Error('Private workspace configuration is incomplete')
     store = new PostgresStore({connectionString,workspaceId,allowLocalInsecure:env.SENTINEL_ALLOW_LOCAL_DATABASE === 'true'})
     privateApp = createPrivateApi({store,token})
+    if (env.SENTINEL_COLLECTOR_ENABLED === 'true') collectorApp = createCollectorApi(store)
     const dataStore = store
     if (identity) workspaceApp = createPrivateApi({store,token,prefix:'/api/workspace/v1',authenticate:async(c,next)=>{
       try {
@@ -43,6 +49,10 @@ export function createGateway(env: ServerEnvironment = process.env) {
   return {
     async fetch(request: Request): Promise<Response> {
       const path = new URL(request.url).pathname
+      if (path === COLLECTOR_PREFIX || path.startsWith(`${COLLECTOR_PREFIX}/`)) {
+        if (!collectorApp) return identityError(503,'COLLECTOR_DISABLED','Collector ingestion is not configured on this installation')
+        return collectorApp.fetch(request)
+      }
       if (path === '/api/session/v1' || path === '/api/auth' || path.startsWith('/api/auth/')) {
         if (!identity) return identityError(503,'AUTH_DISABLED','Account sign-in is not configured on this installation')
         try { return await (await getIdentity()).handle(request) } catch { return identityError(503,'AUTH_UNAVAILABLE','Authentication is temporarily unavailable') }

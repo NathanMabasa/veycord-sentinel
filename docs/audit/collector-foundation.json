@@ -1,0 +1,80 @@
+{
+  "date": "2026-11-02",
+  "status": "local implementation; in review; not published",
+  "branch": "codex/sentinel-risk-foundation",
+  "scope": "opt-in canonical JSON collector credential/ingestion foundation",
+  "checks": [
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "npm run test:unit",
+      "passed": 52,
+      "failed": 0
+    },
+    {
+      "command": "npm run test:db",
+      "passed": 2,
+      "failed": 0,
+      "scope": "disposable PostgreSQL; real HTTP sample, storage/finding/replay; source/workspace/credential negatives; expiry, persisted quota, revoke after grant, full-audit revoke/idempotence; runtime grants"
+    },
+    {
+      "command": "npm run test:identity",
+      "passed": 25,
+      "failed": 0,
+      "browser": false
+    },
+    {
+      "command": "npm run test:recovery",
+      "passed": 2,
+      "failed": 0,
+      "scope": "encrypted recovery including restored collector revocation"
+    },
+    {
+      "command": "SENTINEL_COLLECTOR_BROWSER_AUDIT=true SENTINEL_TEST_PYTHON=.data/identity-browser/bin/python npm run test:db",
+      "passed": 2,
+      "failed": 0,
+      "additional_browser_checks": 5,
+      "scope": "real disposable DB audit action/actor labels and viewport fit320/1440",
+      "screenshots_visually_inspected": [
+        ".data/collector-audit-320.png",
+        ".data/collector-audit-1440.png"
+      ]
+    }
+  ],
+  "evidence_logs": [
+    ".data/collector-build.log",
+    ".data/collector-unit.log",
+    ".data/collector-db.log",
+    ".data/collector-identity.log",
+    ".data/collector-recovery.log",
+    ".data/collector-db-browser.log"
+  ],
+  "limits": {
+    "bodyBytes": 262144,
+    "batchEvents": 100,
+    "requestsPerCredentialPerDbMinute": 10,
+    "perGatewayInFlight": 8,
+    "bodyReadDeadlineMs": 10000,
+    "lifetimeCredentialRowsPerWorkspace": 32
+  },
+  "preserved": [
+    ".env",
+    ".env.runtime",
+    ".data/postgres",
+    "preserved synthetic auth lab"
+  ],
+  "not_done": [
+    "selected/packaged managed collector",
+    "sender spool and outage accounting",
+    "source-health UI",
+    "GELF/OTLP receiver",
+    "private Finance source/build separation",
+    "independent assessment",
+    "GitHub final-head CI",
+    "public build/deployment"
+  ],
+  "dependencies_added": [],
+  "upstream_source_imported": false
+}
